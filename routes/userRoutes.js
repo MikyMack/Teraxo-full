@@ -1,0 +1,47 @@
+const express = require('express');
+const router = express.Router();
+
+router.get('/', (req, res) => {
+    res.render('home');
+});
+router.get('/company_overview', (req, res) => {
+    res.render('company-overview');
+});
+router.get('/why_choose_us', (req, res) => {
+    res.render('why-choose');
+});
+router.get('/products', (req, res) => {
+    res.render('products');
+});
+router.get('/productDetails/:slug', (req, res) => {
+    res.render('productDetails');
+});
+router.get('/footwear_industry', (req, res) => {
+    res.render('industry-footwear');
+});
+router.get('/industry_signage', (req, res) => {
+    res.render('industry-signage');
+});
+router.get('/industry_furniture', (req, res) => {
+    res.render('industry-furniture');
+});
+router.get('/industry_automotive', (req, res) => {
+    res.render('industry-automotive');
+});
+router.get('/industry_pvc', (req, res) => {
+    res.render('industry-pvc');
+});
+router.get('/industry_packaging', (req, res) => {
+    res.render('industry-packaging');
+});
+router.get('/industry_handicrafts', (req, res) => {
+    res.render('industry-handicrafts');
+});
+router.get('/blogs', (req, res) => {
+    res.render('blogs');
+});
+router.get('/blogDetails/:slug', (req, res) => {
+    res.render('blogDetails');
+});
+
+module.exports = router;
