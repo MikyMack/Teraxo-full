@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Blog = require("../models/Blogs");
+const Blog = require("../models/Blog");
 const slugify = require("../utils/slugify");
 const fs = require("fs");
 const path = require("path");
