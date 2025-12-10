@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const session = require("express-session");
 
 const app = express();
 
@@ -8,6 +9,13 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Session configuration
+app.use(session({
+  secret: process.env.SESSION_SECRET || "admin_secret_key",
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 } // 24 hours
+}));
 
 app.use(express.static("public"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -15,6 +23,9 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Routes
 const userRoutes = require("./routes/userRoutes");
 app.use("/", userRoutes);
+
+const adminRoutes = require("./routes/adminRoutes");
+app.use("/admin", adminRoutes);
 
 
 app.use((req, res, next) => {
