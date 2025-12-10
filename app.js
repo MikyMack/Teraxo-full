@@ -27,6 +27,9 @@ app.use("/", userRoutes);
 const adminRoutes = require("./routes/adminRoutes");
 app.use("/admin", adminRoutes);
 
+const apiRoutes = require("./routes/apiRoutes");
+app.use("/api", apiRoutes); 
+
 
 app.use((req, res, next) => {
   res.status(404);
@@ -47,7 +50,7 @@ app.use((err, req, res, next) => {
       success: false,
       message: err.message || "Internal Server Error",
     });
-  }
+  }  
 
   res.status(statusCode).render("error", {
     message: err.message || "Something went wrong",
