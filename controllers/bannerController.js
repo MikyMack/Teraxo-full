@@ -205,7 +205,9 @@ exports.deleteBanner = async (req, res) => {
     if (!banner)
       return res.status(404).json({ success: false, message: "Banner not found" });
 
-    deleteImage(path.join("uploads", banner.image));
+    // Use absolute path for file operations
+    const imagePath = path.join(__dirname, "..", "uploads", banner.image);
+    deleteImage(imagePath);
 
     await Banner.deleteOne({ _id: id });
 

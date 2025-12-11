@@ -791,6 +791,39 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(255, 107, 147, 0.3);
         }
+        .preview-image {
+        position: relative;
+        display: inline-block;
+        margin: 10px;
+        }
+
+        .preview-image img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        }
+
+        .remove-btn {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        width: 22px;
+        height: 22px;
+        border: none;
+        background: #ff4d4d;
+        color: white;
+        font-size: 16px;
+        border-radius: 50%;
+        cursor: pointer;
+        line-height: 20px;
+        }
+        .preview-new img {
+        border: 2px solid #4caf50;
+        }
+
+
     </style>
 </head>
 
@@ -953,152 +986,7 @@
 
                                     <div class="products-container" id="products-list">
                                         <!-- Static Product Card 1 -->
-                                        <div class="product-card" data-product-id="1">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Premium Hair Shampoo</h3>
-                                                <span class="status-badge active">Active</span>
-                                            </div>
-                                            <div class="card-image">
-                                                <img src="/images/default-product.jpg" alt="Premium Hair Shampoo">
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="detail-grid">
-                                                    <div class="detail-item">
-                                                        <span class="detail-label">Slug:</span>
-                                                        <span class="detail-value">premium-hair-shampoo</span>
-                                                    </div>
-                                                    <div class="detail-item">
-                                                        <span class="detail-label">Chemical Base:</span>
-                                                        <span class="detail-value">Keratin based</span>
-                                                    </div>
-                                                    <div class="detail-item">
-                                                        <span class="detail-label">Shelf Life:</span>
-                                                        <span class="detail-value">24 months</span>
-                                                    </div>
-                                                    <div class="detail-item">
-                                                        <span class="detail-label">Appearance:</span>
-                                                        <span class="detail-value">Clear liquid</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <button class="details-btn" onclick="toggleDetails(this)">
-                                                    View Details <i class="icon-chevron-down"></i>
-                                                </button>
-                                                <div class="card-actions">
-                                                    <button class="item edit" title="Edit Product" onclick="editProduct('1')">
-                                                        <i class="icon-edit-3"></i>
-                                                    </button>
-                                                    <button class="item toggle" title="Toggle Status" onclick="toggleStatus('1')">
-                                                        <i class="icon-toggle-right"></i>
-                                                    </button>
-                                                    <button class="item trash" title="Delete Product" onclick="confirmDelete('1')">
-                                                        <i class="icon-trash-2"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="expanded-details">
-                                                <div class="detail-section">
-                                                    <h4><i class="icon-file-text"></i> Description</h4>
-                                                    <p>Premium hair shampoo with keratin and natural extracts for strong, shiny hair. Suitable for all hair types.</p>
-                                                </div>
-                                                <div class="detail-section">
-                                                    <h4><i class="icon-file-text"></i> Sub Description</h4>
-                                                    <p>Nourishes hair from roots to tips, prevents breakage, and adds natural shine.</p>
-                                                </div>
-                                                <div class="detail-section">
-                                                    <h4><i class="icon-star"></i> Key Features</h4>
-                                                    <ul>
-                                                        <li>Keratin enriched</li>
-                                                        <li>pH balanced</li>
-                                                        <li>Sulfate free</li>
-                                                        <li>For all hair types</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="detail-section">
-                                                    <h4><i class="icon-package"></i> Available Packs</h4>
-                                                    <ul>
-                                                        <li>100ml bottle</li>
-                                                        <li>250ml bottle</li>
-                                                        <li>500ml bottle</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Static Product Card 2 -->
-                                        <div class="product-card" data-product-id="2">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Body Lotion</h3>
-                                                <span class="status-badge active">Active</span>
-                                            </div>
-                                            <div class="card-image">
-                                                <img src="/images/default-product.jpg" alt="Body Lotion">
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="detail-grid">
-                                                    <div class="detail-item">
-                                                        <span class="detail-label">Slug:</span>
-                                                        <span class="detail-value">body-lotion</span>
-                                                    </div>
-                                                    <div class="detail-item">
-                                                        <span class="detail-label">Chemical Base:</span>
-                                                        <span class="detail-value">Aloe vera based</span>
-                                                    </div>
-                                                    <div class="detail-item">
-                                                        <span class="detail-label">Shelf Life:</span>
-                                                        <span class="detail-value">36 months</span>
-                                                    </div>
-                                                    <div class="detail-item">
-                                                        <span class="detail-label">Appearance:</span>
-                                                        <span class="detail-value">White cream</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <button class="details-btn" onclick="toggleDetails(this)">
-                                                    View Details <i class="icon-chevron-down"></i>
-                                                </button>
-                                                <div class="card-actions">
-                                                    <button class="item edit" title="Edit Product" onclick="editProduct('2')">
-                                                        <i class="icon-edit-3"></i>
-                                                    </button>
-                                                    <button class="item toggle" title="Toggle Status" onclick="toggleStatus('2')">
-                                                        <i class="icon-toggle-right"></i>
-                                                    </button>
-                                                    <button class="item trash" title="Delete Product" onclick="confirmDelete('2')">
-                                                        <i class="icon-trash-2"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="expanded-details">
-                                                <div class="detail-section">
-                                                    <h4><i class="icon-file-text"></i> Description</h4>
-                                                    <p>Moisturizing body lotion with aloe vera and vitamin E for soft, hydrated skin all day long.</p>
-                                                </div>
-                                                <div class="detail-section">
-                                                    <h4><i class="icon-file-text"></i> Sub Description</h4>
-                                                    <p>Provides 24-hour hydration, non-greasy formula, suitable for sensitive skin.</p>
-                                                </div>
-                                                <div class="detail-section">
-                                                    <h4><i class="icon-star"></i> Key Features</h4>
-                                                    <ul>
-                                                        <li>Aloe vera enriched</li>
-                                                        <li>Vitamin E</li>
-                                                        <li>Non-greasy</li>
-                                                        <li>Quick absorption</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="detail-section">
-                                                    <h4><i class="icon-package"></i> Available Packs</h4>
-                                                    <ul>
-                                                        <li>200ml tube</li>
-                                                        <li>400ml bottle</li>
-                                                        <li>1L pump bottle</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
+                                       
                                     </div>
                                 </div>
 
@@ -1350,6 +1238,541 @@
     </div>
     <!-- /#wrapper -->
 
+<script>
+  // admin/product.js integration script
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const productsList = document.getElementById('products-list');
+    const productModal = document.getElementById('product-modal');
+    const productForm = document.getElementById('product-form');
+    const productModalTitle = document.getElementById('product-modal-title');
+    const productSubmitBtn = document.getElementById('product-modal-submit-btn');
+    const editIdInput = document.getElementById('edit-id');
+
+    // Dynamic fields
+    const featuresList = document.getElementById('features-list');
+    const keyFeaturesInput = document.getElementById('keyFeatures-input');
+
+    const packsList = document.getElementById('packs-list');
+    const availablePacksInput = document.getElementById('availablePacks-input');
+
+    const qaContainer = document.getElementById('qa-container');
+
+    const seoKeywordsList = document.getElementById('seo-keywords-list');
+    const seoKeywordsInput = document.getElementById('seoKeywords-input');
+
+    const productImagesInput = document.getElementById('product-images');
+    const productImagePreviewGrid = document.getElementById('product-image-preview-grid');
+
+    const confirmDeleteModal = document.getElementById('confirm-delete-modal');
+    const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+
+    let allProducts = [];
+    let editingProduct = null;
+
+    // IMAGE TRACKING
+    // existingImages - filenames already saved on server for the product (when editing)
+    // removedExistingImages - filenames the admin removed from existing images (so we can send remaining)
+    // removedNewFileIndexes - indexes of newly selected files removed before submit
+    let existingImages = [];
+    let removedExistingImages = new Set();
+    let removedNewFileIndexes = new Set();
+
+    // =========================
+    // FETCH PRODUCTS
+    // =========================
+    async function fetchProducts() {
+      try {
+        const res = await fetch('/api/admin-product');
+        const data = await res.json();
+        if (data.success) {
+          allProducts = data.products;
+          renderProducts(allProducts);
+        } else {
+          alert('Failed to fetch products');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Error fetching products');
+      }
+    }
+
+    // =========================
+    // RENDER PRODUCTS
+    // =========================
+
+    // Render products dynamically
+    function renderProducts(products) {
+      console.log(products);
+
+      productsList.innerHTML = ''; // Clear existing
+      products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.dataset.productId = product._id || '';
+
+        // Determine status
+        const statusClass = product.isActive ? 'active' : 'inactive';
+        const isActiveText = product.isActive ? 'Active' : 'Inactive';
+
+        // Safely get image
+        const mainImage = (product.images && product.images.length > 0)
+          ? `/uploads/${product.images[0]}`
+          : '/images/default-product.jpg';
+
+        // Helper for safe text fallback
+        const safeText = (text) => (text ? text : '-');
+
+        productCard.innerHTML = `
+      <div class="card-header">
+        <h3 class="card-title">${safeText(product.title)}</h3>
+        <span class="status-badge ${statusClass}">${isActiveText}</span>
+      </div>
+
+      <div class="card-image">
+        <img src="${mainImage}" alt="${safeText(product.title)}">
+      </div>
+
+      <div class="card-body">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">Slug:</span> <span class="detail-value">${safeText(product.slug)}</span></div>
+          <div class="detail-item"><span class="detail-label">Chemical Base:</span> <span class="detail-value">${safeText(product.chemicalBase)}</span></div>
+          <div class="detail-item"><span class="detail-label">Shelf Life:</span> <span class="detail-value">${safeText(product.shelfLife)}</span></div>
+          <div class="detail-item"><span class="detail-label">Appearance:</span> <span class="detail-value">${safeText(product.appearance)}</span></div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <button class="details-btn" onclick="toggleDetails(this)">View Details <i class="icon-chevron-down"></i></button>
+        <div class="card-actions">
+          <button class="item edit" title="Edit Product" onclick="editProduct('${product._id || ''}')"><i class="icon-edit-3"></i></button>
+          <button class="item toggle" title="Toggle Status" onclick="toggleStatus('${product._id || ''}')"><i class="icon-toggle-right"></i></button>
+          <button class="item trash" title="Delete Product" onclick="confirmDelete('${product._id || ''}')"><i class="icon-trash-2"></i></button>
+        </div>
+      </div>
+
+     <div class="expanded-details">
+  ${product.description ? `
+    <div class="detail-section">
+      <h4><i class="icon-file-text"></i> Description</h4>
+      <p>${product.description}</p>
+    </div>` : ''}
+
+  ${product.subDescription ? `
+    <div class="detail-section">
+      <h4><i class="icon-file-text"></i> Sub Description</h4>
+      <p>${product.subDescription}</p>
+    </div>` : ''}
+
+  ${(product.keyFeatures && product.keyFeatures.length > 0) ? `
+    <div class="detail-section">
+      <h4><i class="icon-star"></i> Key Features</h4>
+      <ul>${product.keyFeatures.map(f => `<li>${f}</li>`).join('')}</ul>
+    </div>` : ''}
+
+  ${(product.availablePacks && product.availablePacks.length > 0) ? `
+    <div class="detail-section">
+      <h4><i class="icon-package"></i> Available Packs</h4>
+      <ul>${product.availablePacks.map(p => `<li>${p}</li>`).join('')}</ul>
+    </div>` : ''}
+</div>
+    `;
+
+        productsList.appendChild(productCard);
+      });
+    }
+
+    // =========================
+    // IMAGE PREVIEW HANDLING
+    // =========================
+
+    // When user selects new files, render previews for them.
+    // Keep track of removed new file indexes (removedNewFileIndexes) so we can exclude them at submit.
+    productImagesInput.addEventListener('change', function (e) {
+      const files = Array.from(this.files);
+      // Clear only NEW previews (keep old previews from editing)
+      productImagePreviewGrid.querySelectorAll('.preview-new').forEach(el => el.remove());
+      removedNewFileIndexes = new Set(); // reset removed new files tracking
+
+      files.forEach((file, idx) => {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          const wrapper = document.createElement('div');
+          wrapper.classList.add('preview-image', 'preview-new');
+          wrapper.dataset.newIndex = idx;
+
+          wrapper.innerHTML = `
+            <img src="${event.target.result}" alt="${file.name}">
+            <button type="button" class="remove-btn remove-new">&times;</button>
+          `;
+
+          wrapper.querySelector('.remove-new').addEventListener('click', () => {
+            // mark this new file index as removed and remove preview
+            removedNewFileIndexes.add(Number(wrapper.dataset.newIndex));
+            wrapper.remove();
+          });
+
+          productImagePreviewGrid.appendChild(wrapper);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    // =========================
+    // OPEN ADD MODAL
+    // =========================
+    document.getElementById('add-product-btn').addEventListener('click', () => {
+      resetForm();
+      editingProduct = null;
+      existingImages = [];
+      removedExistingImages = new Set();
+      productModalTitle.textContent = 'Add New Product';
+      productSubmitBtn.textContent = 'Create Product';
+      openModal('product-modal');
+    });
+
+    // =========================
+    // FORM SUBMIT (ADD/EDIT)
+    // =========================
+    productForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // We'll construct FormData manually to control files included
+      const formData = new FormData();
+
+      // Basic fields from the form (non-file inputs)
+      // We can iterate form elements or pull by id/name explicitly
+      // Use your existing form fields:
+      formData.set('title', document.getElementById('product-title').value);
+      formData.set('slug', document.getElementById('product-slug').value);
+      formData.set('description', document.getElementById('product-description').value);
+      formData.set('subDescription', document.getElementById('product-subDescription').value || '');
+      formData.set('chemicalBase', document.getElementById('product-chemicalBase').value || '');
+      formData.set('appearance', document.getElementById('product-appearance').value || '');
+      formData.set('shelfLife', document.getElementById('product-shelfLife').value || '');
+      formData.set('cureTime', document.getElementById('product-cureTime').value || '');
+      formData.set('applicationTips', document.getElementById('product-applicationTips').value || '');
+      formData.set('seoTitle', document.getElementById('product-seoTitle').value || '');
+      formData.set('seoDescription', document.getElementById('product-seoDescription').value || '');
+
+      // Arrays (send as array values, controller handles arrays vs strings)
+      getListItems(featuresList).forEach(v => formData.append('keyFeatures', v));
+      getListItems(packsList).forEach(v => formData.append('availablePacks', v));
+      getListItems(seoKeywordsList).forEach(v => formData.append('seoKeywords', v));
+
+      // Q&A (JSON string)
+      formData.set('questionsAndAnswers', JSON.stringify(getQAItems()));
+
+      // isActive (send as "true"/"false")
+      formData.set('isActive', document.getElementById('product-isActive').checked ? 'true' : 'false');
+
+      // existingImages: send the filenames that should remain on server (after removals)
+      // existingImages array is maintained in populateForm and when user removes an existing image we update it
+      formData.set('existingImages', JSON.stringify(existingImages));
+
+      formData.set('removedExistingImages', JSON.stringify([...removedExistingImages]));
+
+
+      // NEW files: append only those NOT removed by user
+      const newFiles = Array.from(productImagesInput.files || []);
+      if (newFiles.length > 0) {
+        newFiles.forEach((file, idx) => {
+          if (!removedNewFileIndexes.has(idx)) {
+            formData.append('images', file);
+          }
+        });
+      }
+
+      // For editing mode (appendImages flag preserved)
+      if (editingProduct) {
+        formData.set('appendImages', true);
+      }
+
+      try {
+        const url = editingProduct ? `/api/admin-product/${editingProduct._id}` : `/api/admin-product`;
+        const method = editingProduct ? 'PUT' : 'POST';
+
+        const res = await fetch(url, { method, body: formData });
+        const data = await res.json();
+
+        if (data.success) {
+          alert(data.message);
+          closeModal('product-modal');
+          fetchProducts();
+        } else {
+          alert(data.message || 'Operation failed');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Error submitting form');
+      }
+    });
+
+    // =========================
+    // EDIT PRODUCT
+    // =========================
+    window.editProduct = async (id) => {
+      resetForm();
+      try {
+        const res = await fetch(`/api/admin-product/${id}`);
+        const data = await res.json();
+        if (data.success) {
+          editingProduct = data.product;
+          populateForm(editingProduct);
+          productModalTitle.textContent = 'Edit Product';
+          productSubmitBtn.textContent = 'Update Product';
+          openModal('product-modal');
+        } else {
+          alert('Product not found');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Error fetching product');
+      }
+    };
+
+    // =========================
+    // TOGGLE STATUS
+    // =========================
+    window.toggleStatus = async (id) => {
+      if (!confirm('Are you sure you want to toggle this product status?')) return;
+      try {
+        const res = await fetch(`/api/admin-product/toggle/${id}`, { method: 'PATCH' });
+        const data = await res.json();
+        if (data.success) {
+          alert(data.message);
+          fetchProducts();
+        } else {
+          alert('Failed to toggle status');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Error toggling status');
+      }
+    };
+
+    // =========================
+    // DELETE PRODUCT
+    // =========================
+    let deletingProductId = null;
+    window.confirmDelete = (id) => {
+      deletingProductId = id;
+      openModal('confirm-delete-modal');
+    };
+
+    confirmDeleteBtn.addEventListener('click', async () => {
+      if (!deletingProductId) return;
+      try {
+        const res = await fetch(`/api/admin-product/${deletingProductId}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+          alert(data.message);
+          closeModal('confirm-delete-modal');
+          fetchProducts();
+        } else {
+          alert('Failed to delete product');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Error deleting product');
+      }
+    });
+
+    // =========================
+    // HELPER FUNCTIONS
+    // =========================
+    function getListItems(container) {
+      return Array.from(container.querySelectorAll('.list-item')).map(el => el.textContent);
+    }
+
+    function getQAItems() {
+      const qaItems = [];
+      qaContainer.querySelectorAll('.qa-item').forEach(item => {
+        const question = item.querySelector('.qa-question').value;
+        const answer = item.querySelector('.qa-answer').value;
+        if (question && answer) qaItems.push({ question, answer });
+      });
+      return qaItems;
+    }
+
+    function resetForm() {
+      productForm.reset();
+      editIdInput.value = '';
+      featuresList.innerHTML = '';
+      packsList.innerHTML = '';
+      seoKeywordsList.innerHTML = '';
+      qaContainer.innerHTML = `<div class="no-qa-message"><i class="icon-help-circle"></i><p>No questions added yet. Add common questions and their answers.</p></div>`;
+      productImagePreviewGrid.innerHTML = '';
+      editingProduct = null;
+      existingImages = [];
+      removedExistingImages = new Set();
+      removedNewFileIndexes = new Set();
+    }
+
+    function populateForm(product) {
+      editIdInput.value = product._id;
+      document.getElementById('product-title').value = product.title;
+      document.getElementById('product-slug').value = product.slug;
+      document.getElementById('product-description').value = product.description;
+      document.getElementById('product-subDescription').value = product.subDescription || '';
+      document.getElementById('product-chemicalBase').value = product.chemicalBase || '';
+      document.getElementById('product-appearance').value = product.appearance || '';
+      document.getElementById('product-shelfLife').value = product.shelfLife || '';
+      document.getElementById('product-cureTime').value = product.cureTime || '';
+      document.getElementById('product-applicationTips').value = product.applicationTips || '';
+      document.getElementById('product-seoTitle').value = product.seoTitle || '';
+      document.getElementById('product-seoDescription').value = product.seoDescription || '';
+      document.getElementById('product-isActive').checked = product.isActive;
+
+      // Dynamic lists
+      (product.keyFeatures || []).forEach(f => addKeyFeature(f));
+      (product.availablePacks || []).forEach(p => addPack(p));
+      (product.seoKeywords || []).forEach(k => addSeoKeyword(k));
+
+      // Q&A
+      if (product.questionsAndAnswers && product.questionsAndAnswers.length) {
+        qaContainer.innerHTML = '';
+        product.questionsAndAnswers.forEach(qa => addQA(qa.question, qa.answer));
+      }
+
+      // Image previews (existing images)
+      productImagePreviewGrid.innerHTML = '';
+      existingImages = Array.isArray(product.images) ? [...product.images] : [];
+
+      existingImages.forEach((imgName) => {
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('preview-image', 'preview-old');
+        wrapper.dataset.img = imgName;
+
+        wrapper.innerHTML = `
+          <img src="/uploads/${imgName}" alt="product">
+          <button type="button" class="remove-btn remove-old">&times;</button>
+        `;
+
+        wrapper.querySelector('.remove-old').addEventListener('click', () => {
+          // remove visually and update existingImages array
+          wrapper.remove();
+          existingImages = existingImages.filter(i => i !== imgName);
+          removedExistingImages.add(imgName);
+        });
+
+        productImagePreviewGrid.appendChild(wrapper);
+      });
+    }
+
+    // =========================
+    // INITIAL FETCH
+    // =========================
+    fetchProducts();
+
+    // =========================
+    // EXPOSED FUNCTIONS FOR MODAL/DYNAMIC FIELDS
+    // =========================
+    window.addKeyFeature = (value = '') => {
+      const val = value || document.getElementById('new-feature-input').value.trim();
+      if (!val) return;
+      const item = document.createElement('div');
+      item.classList.add('list-item');
+      item.textContent = val;
+      item.addEventListener('click', () => item.remove());
+      featuresList.appendChild(item);
+      document.getElementById('new-feature-input').value = '';
+    };
+
+    window.addPack = (value = '') => {
+      const val = value || document.getElementById('new-pack-input').value.trim();
+      if (!val) return;
+      const item = document.createElement('div');
+      item.classList.add('list-item');
+      item.textContent = val;
+      item.addEventListener('click', () => item.remove());
+      packsList.appendChild(item);
+      document.getElementById('new-pack-input').value = '';
+    };
+
+    window.addSeoKeyword = (value = '') => {
+      const val = value || document.getElementById('new-seo-keyword-input').value.trim();
+      if (!val) return;
+      const item = document.createElement('div');
+      item.classList.add('list-item');
+      item.textContent = val;
+      item.addEventListener('click', () => item.remove());
+      seoKeywordsList.appendChild(item);
+      document.getElementById('new-seo-keyword-input').value = '';
+    };
+
+    window.addQA = (question = '', answer = '') => {
+      const qaItem = document.createElement('div');
+      qaItem.classList.add('qa-item');
+      qaItem.innerHTML = `
+            <input type="text" class="qa-question" placeholder="Question" value="${question}" required>
+            <input type="text" class="qa-answer" placeholder="Answer" value="${answer}" required>
+            <button type="button" class="remove-btn" onclick="this.parentElement.remove()">&times;</button>
+        `;
+      qaContainer.appendChild(qaItem);
+      qaContainer.querySelector('.no-qa-message')?.remove();
+    };
+
+    // removeExistingImage function removed — handled via event listeners added in populateForm and file-change preview
+
+  });
+
+  // -------------------- MODAL HANDLING --------------------
+  function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) modal.style.display = 'block';
+  }
+
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) modal.style.display = 'none';
+
+    // Reset form if it's the product modal
+    if (modalId === 'product-modal') {
+      document.getElementById('product-form').reset();
+      document.getElementById('features-list').innerHTML = '';
+      document.getElementById('packs-list').innerHTML = '';
+      document.getElementById('qa-container').innerHTML = `<div class="no-qa-message">
+      <i class="icon-help-circle"></i>
+      <p>No questions added yet. Add common questions and their answers.</p>
+    </div>`;
+      document.getElementById('seo-keywords-list').innerHTML = '';
+      document.getElementById('product-image-preview-grid').innerHTML = '';
+      document.getElementById('edit-id').value = '';
+      document.getElementById('product-modal-submit-btn').innerText = 'Create Product';
+      document.getElementById('product-modal-title').innerText = 'Add New Product';
+    }
+  }
+
+  // Close modal when clicking outside
+  window.onclick = function (event) {
+    const productModal = document.getElementById('product-modal');
+    const deleteModal = document.getElementById('confirm-delete-modal');
+    if (event.target === productModal) closeModal('product-modal');
+    if (event.target === deleteModal) closeModal('confirm-delete-modal');
+  };
+
+  // -------------------- TOGGLE DETAILS --------------------
+  function toggleDetails(btn) {
+    const card = btn.closest('.product-card');
+    const details = card.querySelector('.expanded-details');
+    if (!details) return;
+
+    details.classList.toggle('active');
+
+    if (details.classList.contains('active')) {
+      btn.innerHTML = 'Hide Details <i class="icon-chevron-up"></i>';
+    } else {
+      btn.innerHTML = 'View Details <i class="icon-chevron-down"></i>';
+    }
+  }
+</script>
+
+
+
+
+
+
     <!-- Javascript -->
     <script src="/admin-js/jquery.min.js"></script>
     <script src="/admin-js/bootstrap.min.js"></script>
@@ -1359,511 +1782,6 @@
     <script defer src="/admin-js/theme-settings.js"></script>
     <script defer src="/admin-js/main.js"></script>
 
-    <script>
-        // Static product data (for demo purposes)
-        const staticProducts = {
-            '1': {
-                title: 'Premium Hair Shampoo',
-                slug: 'premium-hair-shampoo',
-                description: 'Premium hair shampoo with keratin and natural extracts for strong, shiny hair. Suitable for all hair types.',
-                subDescription: 'Nourishes hair from roots to tips, prevents breakage, and adds natural shine.',
-                chemicalBase: 'Keratin based',
-                appearance: 'Clear liquid',
-                shelfLife: '24 months',
-                cureTime: 'N/A',
-                keyFeatures: ['Keratin enriched', 'pH balanced', 'Sulfate free', 'For all hair types'],
-                availablePacks: ['100ml bottle', '250ml bottle', '500ml bottle'],
-                applicationTips: 'Apply on wet hair, massage gently, rinse thoroughly.',
-                questionsAndAnswers: [
-                    { question: 'Is this shampoo suitable for colored hair?', answer: 'Yes, it is safe for colored and treated hair.' },
-                    { question: 'How often should I use it?', answer: '2-3 times a week for best results.' }
-                ],
-                seoTitle: 'Premium Hair Shampoo - Keratin Enriched',
-                seoDescription: 'Buy premium keratin enriched shampoo for strong, shiny hair. Suitable for all hair types.',
-                seoKeywords: ['shampoo', 'hair care', 'keratin', 'premium'],
-                isActive: true
-            },
-            '2': {
-                title: 'Body Lotion',
-                slug: 'body-lotion',
-                description: 'Moisturizing body lotion with aloe vera and vitamin E for soft, hydrated skin all day long.',
-                subDescription: 'Provides 24-hour hydration, non-greasy formula, suitable for sensitive skin.',
-                chemicalBase: 'Aloe vera based',
-                appearance: 'White cream',
-                shelfLife: '36 months',
-                cureTime: 'N/A',
-                keyFeatures: ['Aloe vera enriched', 'Vitamin E', 'Non-greasy', 'Quick absorption'],
-                availablePacks: ['200ml tube', '400ml bottle', '1L pump bottle'],
-                applicationTips: 'Apply generously on clean skin after bath. Massage until absorbed.',
-                questionsAndAnswers: [
-                    { question: 'Is this lotion suitable for sensitive skin?', answer: 'Yes, it is dermatologically tested and suitable for sensitive skin.' },
-                    { question: 'Can it be used on face?', answer: 'Primarily designed for body use, but can be used on face if suitable for your skin type.' }
-                ],
-                seoTitle: 'Body Lotion - Aloe Vera Moisturizer',
-                seoDescription: 'Hydrating body lotion with aloe vera and vitamin E for soft, smooth skin.',
-                seoKeywords: ['body lotion', 'moisturizer', 'aloe vera', 'skin care'],
-                isActive: true
-            }
-        };
-
-        let currentEditProductId = null;
-        let imageFiles = [];
-        let qaCounter = 0;
-
-        // DOM Ready
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add product button
-            document.getElementById('add-product-btn').addEventListener('click', function() {
-                showAddProductModal();
-            });
-
-            // Form submission
-            const productForm = document.getElementById('product-form');
-            if (productForm) {
-                productForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    handleProductSubmit();
-                });
-            }
-
-            // Delete confirmation
-            const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
-            if (confirmDeleteBtn) {
-                confirmDeleteBtn.addEventListener('click', function() {
-                    handleProductDelete();
-                });
-            }
-
-            // Title to slug conversion
-            const titleInput = document.getElementById('product-title');
-            if (titleInput) {
-                titleInput.addEventListener('blur', function() {
-                    const slugInput = document.getElementById('product-slug');
-                    if (slugInput && !slugInput.value) {
-                        slugInput.value = generateSlug(this.value);
-                    }
-                });
-            }
-
-            // Image preview
-            const imageInput = document.getElementById('product-images');
-            if (imageInput) {
-                imageInput.addEventListener('change', function(e) {
-                    imageFiles = Array.from(e.target.files);
-                    renderImagePreview();
-                });
-            }
-
-            // Setup file upload area drag & drop
-            setupFileUploadArea();
-        });
-
-        // Show add product modal
-        function showAddProductModal() {
-            resetProductForm();
-            document.getElementById('product-modal-title').textContent = 'Add New Product';
-            document.getElementById('product-modal-submit-btn').innerHTML = '<i class="icon-plus"></i> Create Product';
-            showModal('product-modal');
-        }
-
-        // Edit product
-        function editProduct(productId) {
-            const product = staticProducts[productId];
-            if (!product) return;
-
-            currentEditProductId = productId;
-            resetProductForm();
-            
-            // Fill form with product data
-            document.getElementById('product-title').value = product.title;
-            document.getElementById('product-slug').value = product.slug;
-            document.getElementById('product-description').value = product.description;
-            document.getElementById('product-subDescription').value = product.subDescription;
-            document.getElementById('product-chemicalBase').value = product.chemicalBase;
-            document.getElementById('product-appearance').value = product.appearance;
-            document.getElementById('product-shelfLife').value = product.shelfLife;
-            document.getElementById('product-cureTime').value = product.cureTime;
-            document.getElementById('product-applicationTips').value = product.applicationTips;
-            document.getElementById('product-seoTitle').value = product.seoTitle;
-            document.getElementById('product-seoDescription').value = product.seoDescription;
-            document.getElementById('product-isActive').checked = product.isActive;
-
-            // Fill key features
-            if (product.keyFeatures && product.keyFeatures.length) {
-                product.keyFeatures.forEach(feature => {
-                    addListItem('features-list', feature, 'keyFeatures-input');
-                });
-            }
-
-            // Fill available packs
-            if (product.availablePacks && product.availablePacks.length) {
-                product.availablePacks.forEach(pack => {
-                    addListItem('packs-list', pack, 'availablePacks-input');
-                });
-            }
-
-            // Fill SEO keywords
-            if (product.seoKeywords && product.seoKeywords.length) {
-                product.seoKeywords.forEach(keyword => {
-                    addListItem('seo-keywords-list', keyword, 'seoKeywords-input');
-                });
-            }
-
-            // Fill Q&A
-            if (product.questionsAndAnswers && product.questionsAndAnswers.length) {
-                const qaContainer = document.getElementById('qa-container');
-                qaContainer.innerHTML = '';
-                product.questionsAndAnswers.forEach(qa => {
-                    addQAWithData(qa.question, qa.answer);
-                });
-            }
-
-            document.getElementById('product-modal-title').textContent = 'Edit Product';
-            document.getElementById('product-modal-submit-btn').innerHTML = '<i class="icon-edit"></i> Update Product';
-            showModal('product-modal');
-        }
-
-        // Toggle product status
-        function toggleStatus(productId) {
-            const productCard = document.querySelector(`[data-product-id="${productId}"]`);
-            if (!productCard) return;
-
-            const statusBadge = productCard.querySelector('.status-badge');
-            const toggleIcon = productCard.querySelector('.item.toggle i');
-            
-            if (statusBadge.classList.contains('active')) {
-                statusBadge.classList.remove('active');
-                statusBadge.classList.add('inactive');
-                statusBadge.textContent = 'Inactive';
-                toggleIcon.className = 'icon-toggle-left';
-            } else {
-                statusBadge.classList.remove('inactive');
-                statusBadge.classList.add('active');
-                statusBadge.textContent = 'Active';
-                toggleIcon.className = 'icon-toggle-right';
-            }
-
-            alert(`Product ${productId} status toggled successfully!`);
-        }
-
-        // Confirm delete
-        function confirmDelete(productId) {
-            currentEditProductId = productId;
-            showModal('confirm-delete-modal');
-        }
-
-        // Handle product delete
-        function handleProductDelete() {
-            if (!currentEditProductId) return;
-
-            const productCard = document.querySelector(`[data-product-id="${currentEditProductId}"]`);
-            if (productCard) {
-                productCard.remove();
-                alert(`Product ${currentEditProductId} deleted successfully!`);
-            }
-
-            closeModal('confirm-delete-modal');
-            currentEditProductId = null;
-        }
-
-        // Handle product form submission
-        function handleProductSubmit() {
-            const formData = new FormData(document.getElementById('product-form'));
-            const title = formData.get('title');
-            
-            if (currentEditProductId) {
-                alert(`Product "${title}" updated successfully!`);
-            } else {
-                alert(`Product "${title}" created successfully!`);
-            }
-            
-            closeModal('product-modal');
-            resetProductForm();
-        }
-
-        // Reset product form
-        function resetProductForm() {
-            currentEditProductId = null;
-            imageFiles = [];
-            qaCounter = 0;
-            
-            const form = document.getElementById('product-form');
-            if (form) form.reset();
-            
-            document.getElementById('product-image-preview-grid').innerHTML = '';
-            document.getElementById('features-list').innerHTML = '';
-            document.getElementById('packs-list').innerHTML = '';
-            document.getElementById('seo-keywords-list').innerHTML = '';
-            
-            const qaContainer = document.getElementById('qa-container');
-            qaContainer.innerHTML = `
-                <div class="no-qa-message">
-                    <i class="icon-help-circle"></i>
-                    <p>No questions added yet. Add common questions and their answers.</p>
-                </div>
-            `;
-        }
-
-        // Generate slug from title
-        function generateSlug(text) {
-            return text
-                .toLowerCase()
-                .trim()
-                .replace(/[^\w\s-]/g, '')
-                .replace(/[\s_-]+/g, '-')
-                .replace(/^-+|-+$/g, '');
-        }
-
-        // Toggle details
-        function toggleDetails(button) {
-            const card = button.closest('.product-card');
-            if (!card) return;
-            
-            const details = card.querySelector('.expanded-details');
-            if (details) {
-                details.classList.toggle('active');
-                button.innerHTML = details.classList.contains('active')
-                    ? 'Hide Details <i class="icon-chevron-up"></i>'
-                    : 'View Details <i class="icon-chevron-down"></i>';
-            }
-        }
-
-        // Show modal
-        function showModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) modal.style.display = 'block';
-        }
-
-        // Close modal
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) modal.style.display = 'none';
-        }
-
-        // Add key feature
-        function addKeyFeature() {
-            const input = document.getElementById('new-feature-input');
-            const value = input.value.trim();
-            if (value) {
-                addListItem('features-list', value, 'keyFeatures-input');
-                input.value = '';
-            }
-        }
-
-        // Add pack
-        function addPack() {
-            const input = document.getElementById('new-pack-input');
-            const value = input.value.trim();
-            if (value) {
-                addListItem('packs-list', value, 'availablePacks-input');
-                input.value = '';
-            }
-        }
-
-        // Add SEO keyword
-        function addSeoKeyword() {
-            const input = document.getElementById('new-seo-keyword-input');
-            const value = input.value.trim();
-            if (value) {
-                addListItem('seo-keywords-list', value, 'seoKeywords-input');
-                input.value = '';
-            }
-        }
-
-        // Add Q&A
-        function addQA() {
-            const qaContainer = document.getElementById('qa-container');
-            const noQAMessage = qaContainer.querySelector('.no-qa-message');
-            if (noQAMessage) noQAMessage.remove();
-
-            const qaId = `qa-${qaCounter++}`;
-            const qaItem = document.createElement('div');
-            qaItem.className = 'qa-item';
-            qaItem.id = qaId;
-            qaItem.innerHTML = `
-                <div class="qa-header">
-                    <h6>Question & Answer</h6>
-                    <button type="button" class="btn btn-sm btn-text" onclick="removeQA('${qaId}')">
-                        <i class="icon-x"></i>
-                    </button>
-                </div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Question *</label>
-                        <input type="text" name="questionsAndAnswers[${qaId}][question]" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Answer *</label>
-                        <textarea name="questionsAndAnswers[${qaId}][answer]" rows="2" required></textarea>
-                    </div>
-                </div>
-            `;
-            qaContainer.appendChild(qaItem);
-        }
-
-        // Add Q&A with data (for edit)
-        function addQAWithData(question, answer) {
-            const qaContainer = document.getElementById('qa-container');
-            const noQAMessage = qaContainer.querySelector('.no-qa-message');
-            if (noQAMessage) noQAMessage.remove();
-
-            const qaId = `qa-${qaCounter++}`;
-            const qaItem = document.createElement('div');
-            qaItem.className = 'qa-item';
-            qaItem.id = qaId;
-            qaItem.innerHTML = `
-                <div class="qa-header">
-                    <h6>Question & Answer</h6>
-                    <button type="button" class="btn btn-sm btn-text" onclick="removeQA('${qaId}')">
-                        <i class="icon-x"></i>
-                    </button>
-                </div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Question *</label>
-                        <input type="text" name="questionsAndAnswers[${qaId}][question]" value="${question}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Answer *</label>
-                        <textarea name="questionsAndAnswers[${qaId}][answer]" rows="2" required>${answer}</textarea>
-                    </div>
-                </div>
-            `;
-            qaContainer.appendChild(qaItem);
-        }
-
-        // Remove Q&A
-        function removeQA(qaId) {
-            const qaItem = document.getElementById(qaId);
-            if (qaItem) {
-                qaItem.remove();
-                const qaContainer = document.getElementById('qa-container');
-                if (!qaContainer.children.length) {
-                    qaContainer.innerHTML = `
-                        <div class="no-qa-message">
-                            <i class="icon-help-circle"></i>
-                            <p>No questions added yet. Add common questions and their answers.</p>
-                        </div>
-                    `;
-                }
-            }
-        }
-
-        // Add list item
-        function addListItem(listId, value, inputId) {
-            const list = document.getElementById(listId);
-            const itemId = 'item-' + Date.now();
-            const item = document.createElement('div');
-            item.className = 'list-item';
-            item.id = itemId;
-            item.innerHTML = `
-                <span>${value}</span>
-                <button type="button" class="remove-item" onclick="removeListItem('${itemId}', '${inputId}')">
-                    <i class="icon-x"></i>
-                </button>
-                <input type="hidden" name="${inputId}[]" value="${value}">
-            `;
-            if (list) list.appendChild(item);
-        }
-
-        // Remove list item
-        function removeListItem(itemId, inputId) {
-            const item = document.getElementById(itemId);
-            if (item) item.remove();
-        }
-
-        // Setup file upload area
-        function setupFileUploadArea() {
-            const fileUploadArea = document.getElementById('product-file-upload-area');
-            const fileInput = document.getElementById('product-images');
-            
-            if (!fileUploadArea || !fileInput) return;
-            
-            ['dragenter', 'dragover'].forEach(eventName => {
-                fileUploadArea.addEventListener(eventName, highlight, false);
-            });
-            
-            ['dragleave', 'drop'].forEach(eventName => {
-                fileUploadArea.addEventListener(eventName, unhighlight, false);
-            });
-            
-            fileUploadArea.addEventListener('drop', handleDrop, false);
-            
-            function highlight() {
-                fileUploadArea.classList.add('highlight');
-            }
-            
-            function unhighlight() {
-                fileUploadArea.classList.remove('highlight');
-            }
-            
-            function handleDrop(e) {
-                e.preventDefault();
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                if (files.length > 0) {
-                    imageFiles = Array.from(files);
-                    renderImagePreview();
-                    fileInput.files = files;
-                }
-            }
-        }
-
-        // Render image preview
-        function renderImagePreview() {
-            const grid = document.getElementById('product-image-preview-grid');
-            if (!grid) return;
-            
-            grid.innerHTML = '';
-            
-            if (!imageFiles.length) {
-                grid.innerHTML = '<div class="no-images-message">No images selected</div>';
-                return;
-            }
-            
-            imageFiles.forEach((file, idx) => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const imgContainer = document.createElement('div');
-                    imgContainer.className = 'preview-image';
-                    imgContainer.innerHTML = `
-                        <div class="image-wrapper">
-                            <img src="${e.target.result}" alt="Preview ${idx + 1}" />
-                            <div class="image-overlay">
-                                <span class="img-position">${idx + 1}</span>
-                            </div>
-                        </div>
-                        <div class="preview-controls">
-                            <button type="button" class="move-btn" disabled>
-                                <i class="icon-chevron-left"></i>
-                            </button>
-                            <button type="button" class="move-btn" disabled>
-                                <i class="icon-chevron-right"></i>
-                            </button>
-                            <button type="button" class="remove-preview" onclick="removeImagePreview(${idx})">
-                                <i class="icon-x"></i>
-                            </button>
-                        </div>
-                    `;
-                    grid.appendChild(imgContainer);
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
-        // Remove image preview
-        function removeImagePreview(idx) {
-            if (confirm('Are you sure you want to remove this image?')) {
-                imageFiles.splice(idx, 1);
-                renderImagePreview();
-                
-                // Update file input
-                const dataTransfer = new DataTransfer();
-                imageFiles.forEach(file => dataTransfer.items.add(file));
-                document.getElementById('product-images').files = dataTransfer.files;
-            }
-        }
-    </script>
 </body>
 
 </html>
