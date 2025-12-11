@@ -93,9 +93,33 @@ router.get('/banner', isAdmin, (req, res) => {
     res.render('admin/admin_banner', { banners: [], posters: [] });
 });
 
-// Admin Testimonials - Protected route (UI only, no database integration)
-router.get('/testimonials', isAdmin, (req, res) => {
-    res.render('admin/admin_testimonials', { testimonials: [] });
+// Admin Testimonials - Protected route with database integration
+router.get('/testimonials', isAdmin, async (req, res) => {
+    try {
+        const testimonialController = require("../controllers/testimonialController");
+        // Create a mock request/response to use the controller method
+        const mockReq = { params: {} };
+        const mockRes = {
+            status: (code) => ({
+                json: (data) => {
+                    if (data.success) {
+                        // Render the template with testimonials data
+                        res.render('admin/admin_testimonials', { testimonials: data.testimonials });
+                    } else {
+                        // If there's an error, render with empty testimonials
+                        res.render('admin/admin_testimonials', { testimonials: [] });
+                    }
+                }
+            })
+        };
+        
+        // Call the controller method
+        await testimonialController.getAllTestimonials(mockReq, mockRes);
+    } catch (error) {
+        console.error('Error loading testimonials:', error);
+        // If there's an error, render with empty testimonials
+        res.render('admin/admin_testimonials', { testimonials: [] });
+    }
 });
 
 // Admin Logout
