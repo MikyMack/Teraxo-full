@@ -954,7 +954,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="rs-portfolio-slider-wrapper">
-                    <div class="swiper has-space" data-clone-slides="false" data-loop="true" data-speed="1500"
+                    <div class="swiper has-space" data-clone-slides="false" data-loop="false" data-speed="1500"
                         data-autoplay="true" data-dots-dynamic="false" data-hover-pause="true"
                         data-effect="false" data-delay="2500" data-item="4" data-item-xl="3" data-item-lg="3"
                         data-item-md="2" data-item-sm="2" data-item-xs="1" data-item-mobile="1" data-margin="30">
@@ -967,7 +967,7 @@
                                 <div class="rs-portfolio-item">
 
                                     <div class="rs-portfolio-thumb">
-                                        <img src="/uploads/<%= product.images[0] %>" alt="<%= product.title %>">
+                                        <img src="/uploads/<%= product.images[0] %>" alt="<%= product.title %>" style="height: 400px; object-fit: cover; border-radius: 15px;">
                                     </div>
 
                                     <div class="rs-portfolio-content">
