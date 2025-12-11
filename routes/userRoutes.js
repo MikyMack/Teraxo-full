@@ -86,6 +86,9 @@ router.get('/industry_signage', (req, res) => {
 router.get('/industry_furniture', (req, res) => {
     res.render('industry-furniture');
 });
+router.get('/industry_interiors', (req, res) => {
+    res.render('industry-interiors');
+});
 router.get('/industry_automotive', (req, res) => {
     res.render('industry-automotive');
 });
@@ -140,5 +143,8 @@ router.get('/contact', (req, res) => {
 });
 router.get('/privacy', (req, res) => {
     res.render('privacy');
+});
+router.get('/terms', (req, res) => {
+    res.render('terms');
 });
 module.exports = router;
