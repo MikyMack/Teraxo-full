@@ -29,7 +29,7 @@ router.post('/login', (req, res) => {
 router.get('/dashboard', isAdmin, (req, res) => {
     res.render('admin/admin_dashboard');
 });
-
+// products 
 
 router.get('/products', isAdmin, (req, res) => {
     const query = req.query || {};
