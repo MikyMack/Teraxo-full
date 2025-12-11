@@ -24,8 +24,8 @@ router.patch("/admin-product/toggle/:id", isAdmin, productController.toggleProdu
 // ---------------------------
 // BLOG ROUTES
 // ---------------------------
-router.post("/admin-blog", isAdmin, upload.array("images"), blogController.createBlog);
-router.get("/admin-blog", isAdmin, blogController.getAllBlogs);
+router.post("/admin-blog-create", isAdmin, upload.array("images"), blogController.createBlog);
+router.get("/admin-blog-list", isAdmin, blogController.getAllBlogs);
 router.get("/admin-blog/:id", isAdmin, blogController.getBlogById);
 router.put("/admin-blog/:id", isAdmin, upload.array("images"), blogController.updateBlog);
 router.delete("/admin-blog/:id", isAdmin, blogController.deleteBlog);
@@ -33,8 +33,8 @@ router.delete("/admin-blog/:id", isAdmin, blogController.deleteBlog);
 // ---------------------------
 // TESTIMONIAL ROUTES
 // ---------------------------
-router.post("/admin-testimonial", isAdmin, testimonialController.createTestimonial);
-router.get("/admin-testimonial", isAdmin, testimonialController.getAllTestimonials);
+router.post("/admin-testimonial-create", isAdmin, testimonialController.createTestimonial);
+router.get("/admin-testimonial-list", isAdmin, testimonialController.getAllTestimonials);
 router.get("/admin-testimonial/:id", isAdmin, testimonialController.getTestimonialById);
 router.put("/admin-testimonial/:id", isAdmin, testimonialController.updateTestimonial);
 router.delete("/admin-testimonial/:id", isAdmin, testimonialController.deleteTestimonial);
