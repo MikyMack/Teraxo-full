@@ -23,18 +23,59 @@ router.get('/', async (req, res) => {
         console.error("Error loading home page:", err);
         res.status(500).send("Internal Server Error");
     }
-});
-router.get('/company_overview', (req, res) => {
-    res.render('company-overview');
+});  
+router.get('/company_overview', async (req, res) => {
+    try {
+        const testimonials = await Testimonial.find().sort({ createdAt: -1 }).limit(8);
+        res.render('company-overview', { testimonials });
+    } catch (err) {
+        console.error("Error loading company overview page:", err);
+        res.status(500).send("Internal Server Error");
+    }
 });
 router.get('/why_choose_us', (req, res) => {
     res.render('why-choose');
 });
-router.get('/products', (req, res) => {
-    res.render('products');
+router.get('/products', async (req, res) => {
+    try {
+        let page = parseInt(req.query.page, 10) || 1;
+        let limit = parseInt(req.query.limit, 12) || 12;
+        if (page < 1) page = 1;
+
+        const filter = { isActive: true };
+        const totalProducts = await Product.countDocuments(filter);
+
+        const totalPages = Math.ceil(totalProducts / limit);
+
+        const products = await Product.find(filter)
+            .sort({ createdAt: -1 })
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        res.render('products', {
+            products,
+            page,
+            totalPages,
+            limit,
+            totalProducts
+        });
+    } catch (err) {
+        console.error("Error fetching products list:", err);
+        res.status(500).send("Internal Server Error");
+    }
 });
-router.get('/productDetails/:slug', (req, res) => {
-    res.render('productDetails');
+router.get('/productDetails/:slug', async (req, res) => {
+    try {
+        const slug = req.params.slug;
+        const product = await Product.findOne({ slug, isActive: true });
+        if (!product) {
+            return res.status(404).render('404', { message: 'Product not found' });
+        }
+        res.render('productDetails', { product });
+    } catch (err) {
+        console.error("Error fetching product details:", err);
+        res.status(500).send("Internal Server Error");
+    }
 });
 router.get('/footwear_industry', (req, res) => {
     res.render('industry-footwear');
@@ -57,11 +98,47 @@ router.get('/industry_packaging', (req, res) => {
 router.get('/industry_handicrafts', (req, res) => {
     res.render('industry-handicrafts');
 });
-router.get('/blogs', (req, res) => {
-    res.render('blogs');
-});
-router.get('/blogDetails/:slug', (req, res) => {
-    res.render('blogDetails');
-});
+router.get('/blogs', async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 6;
 
+        const totalBlogs = await Blog.countDocuments({ isActive: true });
+        const totalPages = Math.ceil(totalBlogs / limit);
+
+        const blogs = await Blog.find({ isActive: true })
+            .sort({ createdAt: -1 })
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        res.render('blogs', {
+            blogs,
+            page,
+            totalPages,
+            limit,
+            totalBlogs
+        });
+    } catch (err) {
+        console.error("Error fetching blogs:", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+router.get('/blogDetails/:slug', async (req, res) => {
+    try {
+        const blog = await Blog.findOne({ slug: req.params.slug, isActive: true });
+        if (!blog) {
+            return res.status(404).send("Blog not found");
+        }
+        res.render('blogDetails', { blog });
+    } catch (err) {
+        console.error("Error fetching blog details:", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+router.get('/contact', (req, res) => {
+    res.render('contact');
+});
+router.get('/privacy', (req, res) => {
+    res.render('privacy');
+});
 module.exports = router;

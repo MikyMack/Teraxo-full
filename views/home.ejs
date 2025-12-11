@@ -120,7 +120,7 @@
                       
                         <!-- search area end -->
                         <div class="rs-header-btn">
-                            <a class="rs-btn has-theme-orange has-icon has-bg" href="/contact">Get In Touch
+                            <a class="rs-btn has-theme-orange has-icon has-bg" href="tel:+918105077170">Get In Touch
                                 <span class="icon-box">
                                     <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                                         <path
@@ -912,7 +912,7 @@
                         </div>
                 <div class="rs-about-btn">
                                         <a class="rs-btn has-theme-light-green has-icon has-bg"
-                                            href="about.html">Explore More
+                                            href="/company_overview">Explore More
                                             <span class="icon-box">
                                                 <svg class="icon-first" xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 32 32">
@@ -974,24 +974,33 @@
                         data-effect="false" data-delay="2500" data-item="4" data-item-xl="3" data-item-lg="3"
                         data-item-md="2" data-item-sm="2" data-item-xs="1" data-item-mobile="1" data-margin="30">
 
-                        <div class="swiper-wrapper">
+                       <div class="swiper-wrapper">
 
-                            <!-- Product F40 -->
+                    <% if (products && products.length > 0) { %>
+                        <% products.forEach(product => { %>
                             <div class="swiper-slide">
                                 <div class="rs-portfolio-item">
+
                                     <div class="rs-portfolio-thumb">
-                                        <img src="/images/teraxo/prd-2.webp" alt="F40 Product">
+                                        <img src="/uploads/<%= product.images[0] %>" alt="<%= product.title %>">
                                     </div>
+
                                     <div class="rs-portfolio-content">
                                         <h5 class="rs-portfolio-title underline has-white">
-                                            <a href="/productDetails/:slug">F40</a>
+                                            <a href="/productDetails/<%= product.slug %>"><%= product.title %></a>
                                         </h5>
+
                                         <div class="rs-portfolio-tag">
-                                            <a href="/productDetails/:slug">Footwear Manufacturing</a>
+                                            <a href="/productDetails/<%= product.slug %>">
+                                                <%= product.subDescription ? product.subDescription.substring(0, 40) : "Product" %>
+                                            </a>
                                         </div>
                                     </div>
+
                                     <div class="rs-portfolio-btn">
-                                        <a class="rs-btn has-theme-light-green has-circle has-icon" href="/productDetails/:slug">
+                                        <a class="rs-btn has-theme-light-green has-circle has-icon" 
+                                        href="/productDetails/<%= product.slug %>">
+
                                             <span class="icon-box">
                                                 <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                                                     <path d="M31.71,15.29l-10-10L20.29,6.71,28.59,15H0v2H28.59l-8.29,8.29,1.41,1.41,10-10A1,1,0,0,0,31.71,15.29Z"></path>
@@ -1000,128 +1009,21 @@
                                                     <path d="M31.71,15.29l-10-10L20.29,6.71,28.59,15H0v2H28.59l-8.29,8.29,1.41,1.41,10-10A1,1,0,0,0,31.71,15.29Z"></path>
                                                 </svg>
                                             </span>
+
                                         </a>
                                     </div>
+
                                 </div>
                             </div>
-
-                            <!-- Product R40 -->
-                            <div class="swiper-slide">
-                                <div class="rs-portfolio-item">
-                                    <div class="rs-portfolio-thumb">
-                                        <img src="/images/teraxo/prd-2.webp" alt="R40 Product">
-                                    </div>
-                                    <div class="rs-portfolio-content">
-                                        <h5 class="rs-portfolio-title underline has-white">
-                                            <a href="/productDetails/:slug">R40</a>
-                                        </h5>
-                                        <div class="rs-portfolio-tag">
-                                            <a href="/productDetails/:slug">Signage & Flex Board</a>
-                                        </div>
-                                    </div>
-                                    <div class="rs-portfolio-btn">
-                                        <a class="rs-btn has-theme-light-green has-circle has-icon" href="/productDetails/:slug">
-                                            <span class="icon-box">
-                                                <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-                                                    <path d="M31.71,15.29l-10-10L20.29,6.71,28.59,15H0v2H28.59l-8.29,8.29,1.41,1.41,10-10A1,1,0,0,0,31.71,15.29Z"></path>
-                                                </svg>
-                                                <svg class="icon-second" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-                                                    <path d="M31.71,15.29l-10-10L20.29,6.71,28.59,15H0v2H28.59l-8.29,8.29,1.41,1.41,10-10A1,1,0,0,0,31.71,15.29Z"></path>
-                                                </svg>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Product FX40 -->
-                            <div class="swiper-slide">
-                                <div class="rs-portfolio-item">
-                                    <div class="rs-portfolio-thumb">
-                                        <img src="/images/teraxo/prd-2.webp" alt="FX40 Product">
-                                    </div>
-                                    <div class="rs-portfolio-content">
-                                        <h5 class="rs-portfolio-title underline has-white">
-                                            <a href="/productDetails/:slug">FX40</a>
-                                        </h5>
-                                        <div class="rs-portfolio-tag">
-                                            <a href="/productDetails/:slug">Furniture & Woodworking</a>
-                                        </div>
-                                    </div>
-                                    <div class="rs-portfolio-btn">
-                                        <a class="rs-btn has-theme-light-green has-circle has-icon" href="/productDetails/:slug">
-                                            <span class="icon-box">
-                                                <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-                                                    <path d="M31.71,15.29l-10-10L20.29,6.71,28.59,15H0v2H28.59l-8.29,8.29,1.41,1.41,10-10A1,1,0,0,0,31.71,15.29Z"></path>
-                                                </svg>
-                                                <svg class="icon-second" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-                                                    <path d="M31.71,15.29l-10-10L20.29,6.71,28.59,15H0v2H28.59l-8.29,8.29,1.41,1.41,10-10A1,1,0,0,0,31.71,15.29Z"></path>
-                                                </svg>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Product W40 -->
-                            <div class="swiper-slide">
-                                <div class="rs-portfolio-item">
-                                    <div class="rs-portfolio-thumb">
-                                        <img src="/images/teraxo/prd-2.webp" alt="W40 Product">
-                                    </div>
-                                    <div class="rs-portfolio-content">
-                                        <h5 class="rs-portfolio-title underline has-white">
-                                            <a href="/productDetails/:slug">W40</a>
-                                        </h5>
-                                        <div class="rs-portfolio-tag">
-                                            <a href="/productDetails/:slug">Interiors & Kitchens</a>
-                                        </div>
-                                    </div>
-                                    <div class="rs-portfolio-btn">
-                                        <a class="rs-btn has-theme-light-green has-circle has-icon" href="/productDetails/:slug">
-                                            <span class="icon-box">
-                                                <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-                                                    <path d="M31.71,15.29l-10-10L20.29,6.71,28.59,15H0v2H28.59l-8.29,8.29,1.41,1.41,10-10A1,1,0,0,0,31.71,15.29Z"></path>
-                                                </svg>
-                                                <svg class="icon-second" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-                                                    <path d="M31.71,15.29l-10-10L20.29,6.71,28.59,15H0v2H28.59l-8.29,8.29,1.41,1.41,10-10A1,1,0,0,0,31.71,15.29Z"></path>
-                                                </svg>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Product G40 -->
-                            <div class="swiper-slide">
-                                <div class="rs-portfolio-item">
-                                    <div class="rs-portfolio-thumb">
-                                        <img src="/images/teraxo/prd-2.webp" alt="G40 Product">
-                                    </div>
-                                    <div class="rs-portfolio-content">
-                                        <h5 class="rs-portfolio-title underline has-white">
-                                            <a href="/productDetails/:slug">G40</a>
-                                        </h5>
-                                        <div class="rs-portfolio-tag">
-                                            <a href="/productDetails/:slug">Automotive Aftermarket</a>
-                                        </div>
-                                    </div>
-                                    <div class="rs-portfolio-btn">
-                                        <a class="rs-btn has-theme-light-green has-circle has-icon" href="/productDetails/:slug">
-                                            <span class="icon-box">
-                                                <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-                                                    <path d="M31.71,15.29l-10-10L20.29,6.71,28.59,15H0v2H28.59l-8.29,8.29,1.41,1.41,10-10A1,1,0,0,0,31.71,15.29Z"></path>
-                                                </svg>
-                                                <svg class="icon-second" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-                                                    <path d="M31.71,15.29l-10-10L20.29,6.71,28.59,15H0v2H28.59l-8.29,8.29,1.41,1.41,10-10A1,1,0,0,0,31.71,15.29Z"></path>
-                                                </svg>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
+                        <% }); %>
+                    <% } else { %>
+                        <div class="swiper-slide">
+                            <p class="text-center text-white">No products available</p>
                         </div>
+                    <% } %>
+
+                </div>
+
 
                         <!-- Pagination -->
                         <div class="rs-portfolio-pagination">
@@ -1789,7 +1691,7 @@
                                 <div class="rs-footer-widget-links has-theme-green">
                                     <ul>
                                             <li><a href="/">Home</a></li>
-                                        <li><a href="about.html">About Us</a></li>
+                                        <li><a href="/company_overview">About Us</a></li>
                                         <li><a href="/products">Products</a></li>
                                         <li><a href="industries.html">Industries</a></li>
                                         <li><a href="/blogs">Blog</a></li>
@@ -1812,9 +1714,8 @@
 
                                     <div class="rs-footer-widget-address">
                                         <a target="_blank" class="text-white" href="https://maps.google.com">
-                                            Teraxo Adhesives<br>
-                                            Chennai, Tamil Nadu<br>
-                                            India
+                                         Teraxo 
+Door No 4,  Survey No 310, Ground Floor, Opp: Global Furnitures, Hulimangala Road, Hulimangala Post, Jigani Hobli, Anekal Taluk, Bengaluru, Karnataka 560105
                                         </a>
                                     </div>
 
@@ -1822,8 +1723,8 @@
                              
 
                                     <div class="rs-footer-widget-email">
-                                        <a class="text-white" href="mailto:business@teraxo.co.in">
-                                            business@teraxo.co.in
+                                        <a class="text-white" target="_blank" href="mailto:Business@teraxo.co.in">
+                                         Business@teraxo.co.in
                                         </a>
                                     </div>
 
@@ -1840,8 +1741,8 @@
                             <div class="rs-footer-widget-content">
                                 <div class="rs-footer-widget-contact-info">
                                     <div class="rs-footer-widget-number">
-                                        <span><a class="text-white" href="tel:+919876543210">+91 98765 43210</a></span>
-                                        <span><a class="text-white" href="tel:+919556677889">+91 95566 77889</a></span>
+                                        <span><a class="text-white" target="_blank" href="tel:+918105077170">+91 81050 77170</a></span>
+                                        <span><a class="text-white" target="_blank" href="tel:+918019186121">+91 80191 86121</a></span>
                                     </div>
                                 </div>
 
@@ -1849,10 +1750,10 @@
 
                                 <div class="rs-footer-widget-social">
                                     <div class="rs-theme-social has-theme-green">
-                                        <a href="#"><i class="ri-facebook-fill"></i></a>
-                                        <a href="#"><i class="ri-instagram-line"></i></a>
-                                        <a href="#"><i class="ri-linkedin-fill"></i></a>
-                                        <a href="#"><i class="ri-youtube-line"></i></a>
+                                        <a href="https://www.facebook.com/profile.php?id=61572408505004"><i class="ri-facebook-fill"></i></a>
+                                        <a target="_blank" href="https://www.instagram.com/teraxoadhesive?igsh=MWM2ZmJoYThscmg3eg=="><i class="ri-instagram-line"></i></a>
+                                        <a target="_blank" href="https://www.linkedin.com/in/teraxo-adhesive-7701ba347?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i class="ri-linkedin-fill"></i></a>
+                                        <a target="_blank" href="https://youtube.com/@teraxoadhesive?si=sgscILyhuL_CdbCO"><i class="ri-youtube-line"></i></a>
                                     </div>
                                 </div>
 
