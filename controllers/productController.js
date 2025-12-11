@@ -388,6 +388,38 @@ exports.updateProduct = async (req, res) => {
     // -----------------------------
     // Image handling
     // -----------------------------
+    // -----------------------------
+// REMOVE EXISTING IMAGES FROM SERVER
+// -----------------------------
+if (req.body.removedExistingImages) {
+  let removedImages;
+  try {
+    removedImages = typeof req.body.removedExistingImages === 'string'
+      ? JSON.parse(req.body.removedExistingImages)
+      : req.body.removedExistingImages;
+  } catch (err) {
+    removedImages = [];
+  }
+
+  if (Array.isArray(removedImages) && removedImages.length > 0) {
+    const fs = require('fs');
+    const path = require('path');
+    const uploadPath = path.join(__dirname, '..', 'uploads'); // adjust if your upload folder is different
+
+    removedImages.forEach((imgName) => {
+      const filePath = path.join(uploadPath, imgName);
+      if (fs.existsSync(filePath)) {
+        fs.unlink(filePath, (err) => {
+          if (err) console.error('Failed to delete image:', imgName, err);
+        });
+      }
+    });
+
+    // Remove from product.images array
+    updateData.images = (product.images || []).filter(i => !removedImages.includes(i));
+  }
+}
+
     if (req.files?.length > 0) {
       const newImages = req.files.map(f => f.filename);
 

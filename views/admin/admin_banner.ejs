@@ -1076,22 +1076,7 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- Status -->
-                                                <div class="form-section">
-                                                    <div class="section-header">
-                                                        <h4><i class="icon-toggle-right"></i> Status</h4>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="add-banner-status">Active Status</label>
-                                                        <div class="status-toggle">
-                                                            <input type="checkbox" id="add-banner-status" name="isActive" checked>
-                                                            <label for="add-banner-status" class="toggle-label">
-                                                                <span class="toggle-text">Active</span>
-                                                                <span class="toggle-slider"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            
 
                                                 <!-- Form Actions -->
                                                 <div class="form-actions">
@@ -1175,22 +1160,7 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- Status -->
-                                                <div class="form-section">
-                                                    <div class="section-header">
-                                                        <h4><i class="icon-toggle-right"></i> Status</h4>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="edit-banner-status">Active Status</label>
-                                                        <div class="status-toggle">
-                                                            <input type="checkbox" id="edit-banner-status" name="isActive">
-                                                            <label for="edit-banner-status" class="toggle-label">
-                                                                <span class="toggle-text">Active</span>
-                                                                <span class="toggle-slider"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                           
 
                                                 <!-- Form Actions -->
                                                 <div class="form-actions">
@@ -1289,6 +1259,15 @@
         let banners = [];
         let itemToDelete = null;
 
+        const apiRoutes = {
+            list:   (query = '') => `/api/admin-banner${query ? '?' + query : ''}`,
+            create:              '/api/admin-banner',
+            update: (bannerId)  => `/api/admin-banner/${bannerId}`,
+            toggle: (bannerId)  => `/api/admin-banner/toggle/${bannerId}`,
+            delete: (bannerId)  => `/api/admin-banner/${bannerId}`,
+        };
+
+
         document.addEventListener('DOMContentLoaded', function () {
             fetchBanners();
 
@@ -1335,54 +1314,63 @@
             // Image preview setup
             setupImagePreview('add-banner-image', 'add-banner-image-preview-grid');
             setupImagePreview('edit-banner-image', 'edit-banner-image-preview-grid');
-
             setupFileUploadArea('add-banner-file-upload-area', 'add-banner-image');
             setupFileUploadArea('edit-banner-file-upload-area', 'edit-banner-image');
         });
 
-        // Setup image preview
         function setupImagePreview(inputId, previewGridId) {
             const input = document.getElementById(inputId);
             const previewGrid = document.getElementById(previewGridId);
-            
+
+            input.onchange = null;
+
             input.addEventListener('change', function (e) {
-                const files = e.target.files;
+
                 previewGrid.innerHTML = '';
-                
-                for (let file of files) {
-                    if (file && file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            const previewItem = document.createElement('div');
-                            previewItem.className = 'image-preview-item';
-                            
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            img.alt = 'Preview';
-                            
-                            const removeBtn = document.createElement('button');
-                            removeBtn.type = 'button';
-                            removeBtn.className = 'remove-preview';
-                            removeBtn.innerHTML = '<i class="icon-x"></i>';
-                            removeBtn.onclick = function () {
-                                previewItem.remove();
-                                input.value = '';
-                            };
-                            
-                            previewItem.appendChild(img);
-                            previewItem.appendChild(removeBtn);
-                            previewGrid.appendChild(previewItem);
+                if (input.files && input.files[0] && input.files[0].type.startsWith('image/')) {
+                    const file = input.files[0];
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        const previewItem = document.createElement('div');
+                        previewItem.className = 'image-preview-item';
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        img.alt = 'Preview';
+
+                        const removeBtn = document.createElement('button');
+                        removeBtn.type = 'button';
+                        removeBtn.className = 'remove-preview';
+                        removeBtn.innerHTML = '<i class="icon-x"></i>';
+                        removeBtn.onclick = function () {
+                            previewItem.remove();
+                            input.value = '';
                         };
-                        reader.readAsDataURL(file);
-                    }
+
+                        previewItem.appendChild(img);
+                        previewItem.appendChild(removeBtn);
+                        previewGrid.appendChild(previewItem);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            input.addEventListener('click', function () {
+                if (input.value) {
+                   
+                    input.value = '';
+                    previewGrid.innerHTML = '';
                 }
             });
         }
 
-        // Setup file upload area
         function setupFileUploadArea(uploadAreaId, inputId) {
             const uploadArea = document.getElementById(uploadAreaId);
             const fileInput = document.getElementById(inputId);
+
+            uploadArea.onclick = null;
+            uploadArea.ondragover = null;
+            uploadArea.ondragleave = null;
+            uploadArea.ondrop = null;
 
             uploadArea.addEventListener('click', function () {
                 fileInput.click();
@@ -1392,7 +1380,6 @@
                 e.preventDefault();
                 uploadArea.classList.add('dragover');
             });
-
             uploadArea.addEventListener('dragleave', function () {
                 uploadArea.classList.remove('dragover');
             });
@@ -1400,10 +1387,14 @@
             uploadArea.addEventListener('drop', function (e) {
                 e.preventDefault();
                 uploadArea.classList.remove('dragover');
-                const files = e.dataTransfer.files;
+            
+                const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
                 if (files.length > 0) {
-                    fileInput.files = files;
-                    fileInput.dispatchEvent(new Event('change'));
+                
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(files[0]);
+                    fileInput.files = dataTransfer.files;
+                    fileInput.dispatchEvent(new Event('change', {bubbles: true}));
                 }
             });
         }
@@ -1426,7 +1417,6 @@
                     headers: headers,
                     ...options
                 });
-                
                 if (!response.ok) {
                     let errorMessage = `HTTP error! status: ${response.status}`;
                     try {
@@ -1437,7 +1427,6 @@
                     }
                     throw new Error(errorMessage);
                 }
-                
                 return await response.json();
             } catch (error) {
                 console.error('API call failed:', error);
@@ -1533,7 +1522,7 @@
         function renderBanners(banners) {
             const bannersList = document.getElementById('banners-list');
             bannersList.innerHTML = '';
-            
+
             if (!banners.length) {
                 bannersList.innerHTML = `
                     <tr>
@@ -1548,7 +1537,7 @@
                 `;
                 return;
             }
-            
+
             banners.forEach(banner => {
                 const bannerRow = document.createElement('tr');
                 bannerRow.id = `banner-${banner._id || banner.id}`;
@@ -1560,11 +1549,11 @@
                 }
                 
                 const createdAt = new Date(banner.createdAt || banner.created_date).toLocaleDateString('en-US', {
-                    year: 'numeric', 
-                    month: 'short', 
+                    year: 'numeric',
+                    month: 'short',
                     day: 'numeric'
                 });
-                
+
                 bannerRow.innerHTML = `
                     <td>
                         <img src="${bannerImage}" alt="${banner.title || ''}" 
@@ -1609,7 +1598,7 @@
                         </div>
                     </td>
                 `;
-                
+
                 bannersList.appendChild(bannerRow);
             });
         }
@@ -1618,36 +1607,36 @@
         function showAddBannerModal() {
             const form = document.getElementById('add-banner-form');
             const previewGrid = document.getElementById('add-banner-image-preview-grid');
-            const statusCheck = document.getElementById('add-banner-status');
-            
+            // Remove status checkbox reference & logic
             form.reset();
             previewGrid.innerHTML = '';
-            statusCheck.checked = true;
-            
+            // Also clear the file input if retained
+            const fileInput = document.getElementById('add-banner-image');
+            if (fileInput) fileInput.value = '';
             showModal('add-banner-modal');
         }
 
         // Show edit banner modal
         function showEditBannerModal(bannerId) {
             const banner = banners.find(b => (b._id || b.id) == bannerId);
-            
+
             if (!banner) {
                 showNotification('Banner not found!', 'error');
                 return;
             }
-            
-            // Populate form fields
+
+            // Populate form fields (no status/isActive)
             document.getElementById('edit-banner-id').value = banner._id || banner.id || '';
             document.getElementById('edit-banner-title').value = banner.title || '';
             document.getElementById('edit-banner-subtitle').value = banner.subtitle || '';
             document.getElementById('edit-banner-description').value = banner.description || '';
             document.getElementById('edit-banner-link').value = banner.link || '';
-            document.getElementById('edit-banner-status').checked = !!banner.isActive;
-            
+            // No status field
+
             // Show current image
             const imageContainer = document.getElementById('edit-banner-current-image');
             imageContainer.innerHTML = '';
-            
+
             if (banner.image) {
                 // Ensure image path is correct
                 let imageUrl = banner.image;
@@ -1663,10 +1652,12 @@
                 `;
                 imageContainer.appendChild(imgDiv);
             }
-            
-            // Clear preview grid
+
+            // Clear preview grid & file input for fresh upload
             document.getElementById('edit-banner-image-preview-grid').innerHTML = '';
-            
+            const fileInput = document.getElementById('edit-banner-image');
+            if (fileInput) fileInput.value = '';
+
             showModal('edit-banner-modal');
         }
 
@@ -1735,14 +1726,13 @@
                     method: 'POST',
                     body: formData
                 });
-                
+
                 showNotification('Banner added successfully!', 'success');
                 closeModal('add-banner-modal');
                 // Reset form
                 form.reset();
                 document.getElementById('add-banner-image-preview-grid').innerHTML = '';
                 fetchBanners();
-                
             } catch (error) {
                 console.error('Error adding banner:', error);
                 const errorMsg = error.message || 'Failed to add banner. Please try again.';
@@ -1758,6 +1748,15 @@
             const form = document.getElementById('edit-banner-form');
             const fileInput = document.getElementById('edit-banner-image');
             const bannerId = document.getElementById('edit-banner-id').value;
+
+            // Remove status/isActive field if present in the form data
+            if (formData.has('isActive')) {
+                formData.delete('isActive');
+            }
+            if (formData.has('status')) {
+                formData.delete('status');
+            }
+
             const submitBtn = form.querySelector('button[type="submit"]');
             
             const formData = new FormData(form);
@@ -1798,11 +1797,10 @@
                     method: 'PUT',
                     body: formData
                 });
-                
+
                 showNotification('Banner updated successfully!', 'success');
                 closeModal('edit-banner-modal');
                 fetchBanners();
-                
             } catch (error) {
                 console.error('Error updating banner:', error);
                 const errorMsg = error.message || 'Failed to update banner. Please try again.';
@@ -1820,10 +1818,9 @@
                 
                 const banner = banners.find(b => (b._id || b.id) === bannerId);
                 const newStatus = banner ? !banner.isActive : false;
-                
+
                 showNotification(`Banner ${newStatus ? 'activated' : 'deactivated'} successfully!`, 'success');
                 fetchBanners();
-                
             } catch (error) {
                 console.error('Error toggling banner:', error);
                 showNotification('Failed to update banner status. Please try again.', 'error');
@@ -1844,7 +1841,6 @@
                 showNotification('Banner deleted successfully!', 'success');
                 closeModal('delete-confirm-modal');
                 fetchBanners();
-                
             } catch (error) {
                 console.error('Error deleting banner:', error);
                 showNotification('Failed to delete banner. Please try again.', 'error');
@@ -1855,24 +1851,24 @@
         function renderPagination(totalPages, currentPage) {
             const paginationContainer = document.getElementById('banner-pagination');
             paginationContainer.innerHTML = '';
-            
+
             if (totalPages <= 1) {
                 return;
             }
-            
+
             // Previous button
             if (currentPage > 1) {
                 addPaginationButton(paginationContainer, 'prev', 'Previous', currentPage - 1);
             }
-            
+
             // Page numbers
             const startPage = Math.max(1, currentPage - 2);
             const endPage = Math.min(totalPages, currentPage + 2);
-            
+
             for (let i = startPage; i <= endPage; i++) {
                 addPaginationButton(paginationContainer, i.toString(), i.toString(), i, i === currentPage);
             }
-            
+
             // Next button
             if (currentPage < totalPages) {
                 addPaginationButton(paginationContainer, 'next', 'Next', currentPage + 1);
@@ -1882,7 +1878,7 @@
         function addPaginationButton(container, key, text, pageNumber, isActive = false) {
             const li = document.createElement('li');
             if (isActive) li.className = 'active';
-            
+
             const a = document.createElement('a');
             a.href = '#';
             a.innerHTML = text;
@@ -1891,7 +1887,7 @@
                 bannerCurrentPage = pageNumber;
                 fetchBanners();
             };
-            
+
             li.appendChild(a);
             container.appendChild(li);
         }
@@ -1901,7 +1897,7 @@
             // Remove existing notifications
             const existingNotifications = document.querySelectorAll('.notification');
             existingNotifications.forEach(n => n.remove());
-            
+
             // Create new notification
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
@@ -1914,9 +1910,9 @@
                     <i class="icon-x"></i>
                 </button>
             `;
-            
+
             document.body.appendChild(notification);
-            
+
             // Auto remove after 5 seconds
             setTimeout(() => {
                 if (notification.parentElement) {

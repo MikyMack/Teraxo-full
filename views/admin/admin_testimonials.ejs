@@ -414,7 +414,6 @@
                                         </li>
                                     </ul>
                                 </div>
-
                                 <!-- Testimonial Management -->
                                 <div class="wg-box">
                                     <div class="flex items-center justify-between gap10 flex-wrap mb-30">
@@ -424,38 +423,12 @@
                                             </a>
                                         </div>
                                     </div>
-
                                     <div id="testimonial-list" class="testimonial-grid">
-                                        <% if (testimonials && testimonials.length > 0) { %>
-                                            <% testimonials.forEach(function(testimonial) { %>
-                                                <% const stars = '★'.repeat(testimonial.rating || 0) + '☆'.repeat(5 - (testimonial.rating || 0)); %>
-                                                <% const date = new Date(testimonial.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); %>
-                                                
-                                                <div class="testimonial-card">
-                                                    <div class="testimonial-title"><%= testimonial.title || 'No Title' %></div>
-                                                    <div class="testimonial-name"><%= testimonial.name || 'Anonymous' %></div>
-                                                    <div class="testimonial-designation"><%= testimonial.designation || 'Not Specified' %></div>
-                                                    <div class="star-rating" title="<%= testimonial.rating || 0 %> stars"><%= stars %></div>
-                                                    <div class="testimonial-content"><%= testimonial.content || 'No content provided' %></div>
-                                                    <div class="text-tiny text-gray-500 mb-15">Added: <%= date %></div>
-                                                    <div class="card-actions">
-                                                        <button class="tf-button style-5 btn-small" onclick="editTestimonial('<%= testimonial._id %>')" title="Edit">
-                                                            <i class="icon-edit"></i> Edit
-                                                        </button>
-                                                        <button class="tf-button style-6 btn-small" onclick="deleteTestimonial('<%= testimonial._id %>')" title="Delete">
-                                                            <i class="icon-trash-2"></i> Delete
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            <% }); %>
-                                        <% } else { %>
-                                            <div class="empty-state">No testimonials found. Add your first testimonial!</div>
-                                        <% } %>
+                                        <!-- Testimonials will be loaded here dynamically -->
+                                        <div id="loading-testimonials">Loading testimonials...</div>
                                     </div>
-
                                     <div class="divider"></div>
                                 </div>
-
                                 <!-- Add Testimonial Modal -->
                                 <div id="addTestimonialModal" class="modal">
                                     <div class="modal-content">
@@ -499,7 +472,6 @@
                                         </form>
                                     </div>
                                 </div>
-
                                 <!-- Edit Testimonial Modal -->
                                 <div id="editTestimonialModal" class="modal">
                                     <div class="modal-content">
@@ -547,33 +519,54 @@
                             </div>
                             <!-- /main-content-wrap -->
                         </div>
-                        
+
                         <!-- JavaScript Section -->
                         <script>
                             // Store testimonials globally for edit functionality
-                            let allTestimonials = <%- JSON.stringify(testimonials) %> || [];
+                            let allTestimonials = [];
 
-                            // Load Testimonials
+                            // Load Testimonials from API
                             async function loadTestimonials() {
                                 const testimonialList = document.getElementById('testimonial-list');
                                 testimonialList.innerHTML = '<div id="loading-testimonials">Loading testimonials...</div>';
 
                                 try {
-                                    const response = await fetch('/api/admin-testimonial');
-                                    
-                                    if (!response.ok) {
-                                        throw new Error('Failed to load testimonials');
-                                    }
-
+                                    const response = await fetch('/api/admin-testimonial-list');
+                                    if (!response.ok) throw new Error('Failed to load testimonials');
                                     const result = await response.json();
+                                    if (!result.success || !Array.isArray(result.testimonials)) throw new Error(result.message || 'Failed to load testimonials');
 
-                                    if (!result.success) {
-                                        throw new Error(result.message || 'Failed to load testimonials');
+                                    allTestimonials = result.testimonials;
+                                    testimonialList.innerHTML = '';
+
+                                    if (allTestimonials.length > 0) {
+                                        for (let i = 0; i < allTestimonials.length; i++) {
+                                            const t = allTestimonials[i];
+                                            const stars = '★'.repeat(t.rating || 0) + '☆'.repeat(5 - (t.rating || 0));
+                                            const date = t.created_at ? new Date(t.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+                                            const card = document.createElement('div');
+                                            card.className = 'testimonial-card';
+                                            card.innerHTML = `
+                                                <div class="testimonial-title">${t.title || 'No Title'}</div>
+                                                <div class="testimonial-name">${t.name || 'Anonymous'}</div>
+                                                <div class="testimonial-designation">${t.designation || 'Not Specified'}</div>
+                                                <div class="star-rating" title="${t.rating || 0} stars">${stars}</div>
+                                                <div class="testimonial-content">${t.content || 'No content provided'}</div>
+                                                <div class="text-tiny text-gray-500 mb-15">Added: ${date}</div>
+                                                <div class="card-actions">
+                                                    <button class="tf-button style-5 btn-small" onclick="editTestimonial('${t._id}')" title="Edit">
+                                                        <i class="icon-edit"></i> Edit
+                                                    </button>
+                                                    <button class="tf-button style-6 btn-small" onclick="deleteTestimonial('${t._id}')" title="Delete">
+                                                        <i class="icon-trash-2"></i> Delete
+                                                    </button>
+                                                </div>
+                                            `;
+                                            testimonialList.appendChild(card);
+                                        }
+                                    } else {
+                                        testimonialList.innerHTML = '<div class="empty-state">No testimonials found. Add your first testimonial!</div>';
                                     }
-
-                                    allTestimonials = result.testimonials || [];
-                                    // Reload the page to show updated testimonials
-                                    window.location.reload();
                                 } catch (error) {
                                     console.error('Error loading testimonials:', error);
                                     showToast('Error loading testimonials: ' + error.message, 'error');
@@ -581,12 +574,9 @@
                                 }
                             }
 
-
-
                             // Add Testimonial
                             document.getElementById('addTestimonialForm').addEventListener('submit', async function (e) {
                                 e.preventDefault();
-                                
                                 const submitBtn = this.querySelector('button[type="submit"]');
                                 const originalText = submitBtn.textContent;
                                 submitBtn.textContent = 'Creating...';
@@ -601,11 +591,9 @@
                                 };
 
                                 try {
-                                    const response = await fetch('/api/admin-testimonial', {
+                                    const response = await fetch('/api/admin-testimonial-create', {
                                         method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
+                                        headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify(formData)
                                     });
 
@@ -614,8 +602,8 @@
                                     if (response.ok && result.success) {
                                         closeModal('addTestimonialModal');
                                         this.reset();
-                                        loadTestimonials();
                                         showToast(result.message || 'Testimonial added successfully!', 'success');
+                                        loadTestimonials();
                                     } else {
                                         showToast(result.message || 'Error adding testimonial', 'error');
                                     }
@@ -628,12 +616,12 @@
                                 }
                             });
 
-                            // Edit Testimonial
+                            // Edit Testimonial Modal Fill
                             function editTestimonial(id) {
-                                const testimonial = allTestimonials.find(t => t._id === id);
-                                
+                                const testimonial = allTestimonials.find(t => t._id == id);
+
                                 if (!testimonial) {
-                                    showToast('Testimonial not found. Please refresh the page.', 'error');
+                                    showToast('Testimonial not found. Please refresh.', 'error');
                                     return;
                                 }
 
@@ -650,7 +638,6 @@
                             // Update Testimonial
                             document.getElementById('editTestimonialForm').addEventListener('submit', async function (e) {
                                 e.preventDefault();
-                                
                                 const submitBtn = this.querySelector('button[type="submit"]');
                                 const originalText = submitBtn.textContent;
                                 submitBtn.textContent = 'Updating...';
@@ -668,9 +655,7 @@
                                 try {
                                     const response = await fetch(`/api/admin-testimonial/${id}`, {
                                         method: 'PUT',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
+                                        headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify(formData)
                                     });
 
@@ -678,8 +663,8 @@
 
                                     if (response.ok && result.success) {
                                         closeModal('editTestimonialModal');
-                                        loadTestimonials();
                                         showToast(result.message || 'Testimonial updated successfully!', 'success');
+                                        loadTestimonials();
                                     } else {
                                         showToast(result.message || 'Error updating testimonial', 'error');
                                     }
@@ -697,17 +682,14 @@
                                 if (!confirm('Are you sure you want to delete this testimonial? This action cannot be undone.')) {
                                     return;
                                 }
-
                                 try {
                                     const response = await fetch(`/api/admin-testimonial/${id}`, {
                                         method: 'DELETE'
                                     });
-
                                     const result = await response.json();
-
                                     if (response.ok && result.success) {
-                                        loadTestimonials();
                                         showToast(result.message || 'Testimonial deleted successfully!', 'success');
+                                        loadTestimonials();
                                     } else {
                                         showToast(result.message || 'Error deleting testimonial', 'error');
                                     }
@@ -721,17 +703,14 @@
                             function showAddTestimonialModal() {
                                 showModal('addTestimonialModal');
                             }
-
                             function showModal(modalId) {
                                 document.getElementById(modalId).style.display = 'block';
                                 document.body.style.overflow = 'hidden';
                             }
-
                             function closeModal(modalId) {
                                 document.getElementById(modalId).style.display = 'none';
                                 document.body.style.overflow = 'auto';
                             }
-
                             // Close modals when clicking outside
                             window.onclick = function (event) {
                                 document.querySelectorAll('.modal').forEach(modal => {
@@ -740,7 +719,6 @@
                                     }
                                 });
                             };
-
                             // Toast Notification
                             function showToast(message, type = 'success') {
                                 const toast = document.createElement('div');
@@ -760,8 +738,10 @@
                                 }, 3000);
                             }
 
-                            // Initialize on page load
-                            // No need to load testimonials on DOMContentLoaded as they are rendered server-side
+                            // On page load, fetch and render testimonials
+                            document.addEventListener('DOMContentLoaded', function() {
+                                loadTestimonials();
+                            });
                         </script>
 
                         <!-- bottom-page -->

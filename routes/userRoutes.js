@@ -1,8 +1,28 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.render('home');
+const Product = require("../models/Product");
+const Blog = require("../models/Blog");
+const Testimonial = require("../models/Testimonial");
+const Banner = require("../models/Banner");
+
+router.get('/', async (req, res) => {
+    try {
+        const testimonials = await Testimonial.find().sort({ createdAt: -1 }).limit(10);
+        const blogs = await Blog.find().sort({ createdAt: -1 }).limit(3);
+        const banners = await Banner.find({ isActive: true }).sort({ createdAt: -1 }).limit(4);
+        const products = await Product.find({ isActive: true }).sort({ createdAt: -1 }).limit(12);
+
+        res.render('home', {
+            testimonials,
+            blogs,
+            banners,
+            products
+        });
+    } catch (err) {
+        console.error("Error loading home page:", err);
+        res.status(500).send("Internal Server Error");
+    }
 });
 router.get('/company_overview', (req, res) => {
     res.render('company-overview');

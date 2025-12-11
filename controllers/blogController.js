@@ -43,7 +43,34 @@ exports.createBlog = async (req, res) => {
 
     const slug = slugify(title);
 
-    const images = req.files ? req.files.map((file) => file.filename) : [];
+  
+    let images = [];
+    if (req.files && req.files.length > 0) {
+      images = req.files.map((file) => {
+        const ext = path.extname(file.originalname || file.filename);
+
+        const seoFileName = `${slug}${ext}`;
+  
+        const oldPath = file.path;
+        const newPath = path.join(path.dirname(file.path), seoFileName);
+        fs.renameSync(oldPath, newPath);
+        return seoFileName;
+      });
+    }
+
+    function cleanArrayField(field) {
+      if (!field) return [];
+      if (Array.isArray(field)) return field;
+      if (typeof field === 'string') {
+        try {
+  
+          if (field.trim().startsWith('[')) return JSON.parse(field);
+        } catch (e) { }
+
+        return field.split(',').map(el => el.trim()).filter(Boolean);
+      }
+      return [];
+    }
 
     const blog = new Blog({
       title,
@@ -54,14 +81,14 @@ exports.createBlog = async (req, res) => {
       quoteOfTheDay,
       subTitle,
       subDescription,
-      tags: tags ? tags.split(",") : [],
-      extraPoints: extraPoints ? extraPoints.split(",") : [],
+      tags: cleanArrayField(tags),
+      extraPoints: cleanArrayField(extraPoints),
       extraTitle,
       slug,
       images,
       seoTitle,
       seoDescription,
-      seoKeywords: seoKeywords ? seoKeywords.split(",") : []
+      seoKeywords: cleanArrayField(seoKeywords)
     });
 
     await blog.save();
@@ -81,6 +108,102 @@ exports.createBlog = async (req, res) => {
   }
 };
 
+exports.updateBlog = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(400).json({ success: false, message: "Invalid blog ID" });
+
+    const blog = await Blog.findById(id);
+    if (!blog)
+      return res.status(404).json({ success: false, message: "Blog not found" });
+
+    const {
+      title,
+      createdBy,
+      date,
+      description,
+      moreDescription,
+      quoteOfTheDay,
+      subTitle,
+      subDescription,
+      tags,
+      extraPoints,
+      extraTitle,
+      seoTitle,
+      seoDescription,
+      seoKeywords
+    } = req.body;
+
+    function cleanArrayField(field) {
+      if (!field) return undefined;
+      if (Array.isArray(field)) return field;
+      if (typeof field === 'string') {
+        try {
+          if (field.trim().startsWith('[')) return JSON.parse(field);
+        } catch (e) { }
+        return field.split(',').map(el => el.trim()).filter(Boolean);
+      }
+      return undefined;
+    }
+
+    if (title) {
+      blog.title = title;
+      blog.slug = slugify(title);
+    }
+
+    blog.createdBy = createdBy !== undefined ? createdBy : blog.createdBy;
+    blog.date = date !== undefined ? date : blog.date;
+    blog.description = description !== undefined ? description : blog.description;
+    blog.moreDescription = moreDescription !== undefined ? moreDescription : blog.moreDescription;
+    blog.quoteOfTheDay = quoteOfTheDay !== undefined ? quoteOfTheDay : blog.quoteOfTheDay;
+    blog.subTitle = subTitle !== undefined ? subTitle : blog.subTitle;
+    blog.subDescription = subDescription !== undefined ? subDescription : blog.subDescription;
+
+    if (tags !== undefined) blog.tags = cleanArrayField(tags);
+    if (extraPoints !== undefined) blog.extraPoints = cleanArrayField(extraPoints);
+    blog.extraTitle = extraTitle !== undefined ? extraTitle : blog.extraTitle;
+
+    blog.seoTitle = seoTitle !== undefined ? seoTitle : blog.seoTitle;
+    blog.seoDescription = seoDescription !== undefined ? seoDescription : blog.seoDescription;
+    if (seoKeywords !== undefined) blog.seoKeywords = cleanArrayField(seoKeywords);
+
+    // Handle new images
+    if (req.files && req.files.length > 0) {
+      // Delete old images
+      blog.images.forEach((img) => {
+        deleteImage(path.join("uploads", img));
+      });
+
+      // SEO friendly renaming - NO TIMESTAMP IN IMAGE NAME
+      const slugName = blog.slug || (title ? slugify(title) : 'blog');
+      blog.images = req.files.map((file, index) => {
+        const ext = path.extname(file.originalname || file.filename);
+        const seoFileName = `${slugName}-${index + 1}${ext}`;
+        const oldPath = file.path;
+        const newPath = path.join(path.dirname(file.path), seoFileName);
+        fs.renameSync(oldPath, newPath);
+        return seoFileName;
+      });
+    }
+
+    await blog.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Blog updated successfully",
+      blog,
+    });
+  } catch (error) {
+    console.error("Update Blog Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating blog",
+      error: error.message,
+    });
+  }
+};
 // =============================
 // GET ALL BLOGS
 // =============================
@@ -124,78 +247,7 @@ exports.getBlogById = async (req, res) => {
 // =============================
 // UPDATE BLOG
 // =============================
-exports.updateBlog = async (req, res) => {
-  try {
-    const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id))
-      return res.status(400).json({ success: false, message: "Invalid blog ID" });
-
-    const blog = await Blog.findById(id);
-    if (!blog)
-      return res.status(404).json({ success: false, message: "Blog not found" });
-
-    const {
-      title,
-      createdBy,
-      date,
-      description,
-      moreDescription,
-      quoteOfTheDay,
-      subTitle,
-      subDescription,
-      tags,
-      extraPoints,
-      extraTitle,
-      seoTitle,
-      seoDescription,
-      seoKeywords
-    } = req.body;
-
-    if (title) blog.title = title;
-    if (title) blog.slug = slugify(title);
-
-    blog.createdBy = createdBy || blog.createdBy;
-    blog.date = date || blog.date;
-    blog.description = description || blog.description;
-    blog.moreDescription = moreDescription || blog.moreDescription;
-    blog.quoteOfTheDay = quoteOfTheDay || blog.quoteOfTheDay;
-    blog.subTitle = subTitle || blog.subTitle;
-    blog.subDescription = subDescription || blog.subDescription;
-
-    if (tags) blog.tags = tags.split(",");
-    if (extraPoints) blog.extraPoints = extraPoints.split(",");
-    blog.extraTitle = extraTitle || blog.extraTitle;
-
-    blog.seoTitle = seoTitle || blog.seoTitle;
-    blog.seoDescription = seoDescription || blog.seoDescription;
-    if (seoKeywords) blog.seoKeywords = seoKeywords.split(",");
-
-    // Handle new images
-    if (req.files && req.files.length > 0) {
-      blog.images.forEach((img) => {
-        deleteImage(path.join("uploads", img));
-      });
-
-      blog.images = req.files.map((file) => file.filename);
-    }
-
-    await blog.save();
-
-    return res.status(200).json({
-      success: true,
-      message: "Blog updated successfully",
-      blog,
-    });
-  } catch (error) {
-    console.error("Update Blog Error:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Error updating blog",
-      error: error.message,
-    });
-  }
-};
 
 // =============================
 // DELETE BLOG
