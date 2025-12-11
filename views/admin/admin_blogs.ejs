@@ -661,11 +661,18 @@
                         }
 
                         function showAddBlogModal() {
+                            console.log("showAddBlogModal called"); // Debug line
                             const form = document.getElementById("addBlogForm");
                             if (form) form.reset();
                             const categorySelect = document.getElementById("blogCategory");
                             if (categorySelect) categorySelect.value = "";
-                            document.getElementById("addBlogModal").style.display = "block";
+                            const modal = document.getElementById("addBlogModal");
+                            if (modal) {
+                                modal.style.display = "block";
+                                console.log("Modal should now be visible");
+                            } else {
+                                console.error("Modal not found");
+                            }
                         }
 
                         function showEditBlogModal(id) {

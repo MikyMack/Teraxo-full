@@ -1229,7 +1229,24 @@
     <script src="/admin-js/jquery.min.js"></script>
     <script src="/admin-js/bootstrap.min.js"></script>
     <script src="/admin-js/bootstrap-select.min.js"></script>
-    <script src="/admin-js/zoom.js"></script>
+    <script>
+        // Prevent zoom.js errors by patching addEventListener before zoom.js loads
+        (function() {
+            var originalAddEventListener = Element.prototype.addEventListener;
+            Element.prototype.addEventListener = function(type, listener, options) {
+                if (this === null || this === undefined) {
+                    console.warn('Attempted to addEventListener on null/undefined element');
+                    return;
+                }
+                try {
+                    return originalAddEventListener.call(this, type, listener, options);
+                } catch(e) {
+                    console.warn('addEventListener error prevented:', e);
+                }
+            };
+        })();
+    </script>
+    <script src="/admin-js/zoom.js" defer onerror="console.log('Zoom.js failed to load, continuing...')"></script>
     <script src="/admin-js/switcher.js"></script>
     <script defer src="/admin-js/theme-settings.js"></script>
     <script defer src="/admin-js/main.js"></script>
@@ -1385,15 +1402,30 @@
         // API call helper
         async function apiCall(url, options = {}) {
             try {
+                // Don't set Content-Type for FormData, browser will set it with boundary
+                const headers = {
+                    'Accept': 'application/json',
+                    ...options.headers
+                };
+                
+                // Remove Content-Type header if FormData is being sent
+                if (options.body && options.body instanceof FormData) {
+                    delete headers['Content-Type'];
+                }
+                
                 const response = await fetch(url, {
-                    headers: {
-                        'Accept': 'application/json',
-                        ...options.headers
-                    },
+                    headers: headers,
                     ...options
                 });
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    let errorMessage = `HTTP error! status: ${response.status}`;
+                    try {
+                        const errorData = await response.json();
+                        errorMessage = errorData.message || errorData.error || errorMessage;
+                    } catch(e) {
+                        // If response is not JSON, use default message
+                    }
+                    throw new Error(errorMessage);
                 }
                 return await response.json();
             } catch (error) {
@@ -1406,24 +1438,52 @@
         async function fetchBanners() {
             try {
                 showLoader('banners-list');
-                const params = new URLSearchParams({
-                    page: bannerCurrentPage,
-                    limit: bannerLimit,
-                    ...(bannerSearchQuery && { search: bannerSearchQuery })
-                }).toString();
-
-                const data = await apiCall(apiRoutes.list(params));
-
-                // Handle different response formats (array or object)
-                banners = Array.isArray(data.banners) ? data.banners : (data.data || data || []);
-                const totalCount = data.totalCount || data.total || banners.length;
-
+                
+                // Fetch all banners from API
+                const data = await apiCall('/api/admin-banner');
+                
+                // Handle case where API returns error or invalid data
+                if (!data || !data.success) {
+                    throw new Error(data?.message || 'Failed to fetch banners');
+                }
+                
+                // Handle response format from bannerController (returns all banners)
+                let allBanners = Array.isArray(data.banners) ? data.banners : [];
+                
+                // Client-side search filtering
+                if (bannerSearchQuery) {
+                    const searchLower = bannerSearchQuery.toLowerCase();
+                    allBanners = allBanners.filter(banner => 
+                        (banner.title || '').toLowerCase().includes(searchLower) ||
+                        (banner.subtitle || '').toLowerCase().includes(searchLower) ||
+                        (banner.description || '').toLowerCase().includes(searchLower)
+                    );
+                }
+                
+                const totalCount = allBanners.length;
+                
+                // Client-side pagination
+                const startIndex = (bannerCurrentPage - 1) * bannerLimit;
+                const endIndex = startIndex + bannerLimit;
+                banners = allBanners.slice(startIndex, endIndex);
+                
+                // Add /uploads/ prefix to image paths if not already present
+                banners = banners.map(banner => ({
+                    ...banner,
+                    image: banner.image && !banner.image.startsWith('http') && !banner.image.startsWith('/') 
+                        ? `/uploads/${banner.image}` 
+                        : banner.image || '/images/placeholder-banner.jpg'
+                }));
+                
                 renderBanners(banners);
-                renderPagination(Math.ceil(totalCount / bannerLimit), bannerCurrentPage);
-
-                const showingCount = Math.min(banners.length, bannerLimit);
-                document.getElementById('banner-showing-entries').textContent =
-                    `Showing ${showingCount} of ${totalCount} entries`;
+                const totalPages = Math.ceil(totalCount / bannerLimit) || 1;
+                renderPagination(totalPages, bannerCurrentPage);
+                
+                const startCount = totalCount > 0 ? startIndex + 1 : 0;
+                const endCount = Math.min(startIndex + banners.length, totalCount);
+                document.getElementById('banner-showing-entries').textContent = 
+                    totalCount > 0 ? `Showing ${startCount} to ${endCount} of ${totalCount} entries` : 'No entries found';
+                    
             } catch (error) {
                 console.error('Error fetching banners:', error);
                 showError('banners-list', 'Failed to load banners. Please try again later.');
@@ -1481,20 +1541,13 @@
             banners.forEach(banner => {
                 const bannerRow = document.createElement('tr');
                 bannerRow.id = `banner-${banner._id || banner.id}`;
-
-                let bannerImage = '/images/teraxo/banner-3.jpg';
-                if (banner.image) {
-                    if (
-                        typeof banner.image === 'string' &&
-                        !banner.image.startsWith('/') &&
-                        !banner.image.startsWith('http')
-                    ) {
-                        bannerImage = '/uploads/' + banner.image;
-                    } else {
-                        bannerImage = banner.image;
-                    }
+                
+                // Ensure image path is correct
+                let bannerImage = banner.image || '/images/teraxo/logo.png';
+                if (bannerImage && !bannerImage.startsWith('http') && !bannerImage.startsWith('/')) {
+                    bannerImage = `/uploads/${bannerImage}`;
                 }
-
+                
                 const createdAt = new Date(banner.createdAt || banner.created_date).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'short',
@@ -1505,7 +1558,7 @@
                     <td>
                         <img src="${bannerImage}" alt="${banner.title || ''}" 
                              class="banner-image" 
-                             onerror="this.src='/images/teraxo/banner-3.jpg'">
+                             onerror="this.src='/images/teraxo/logo.png'">
                     </td>
                     <td>
                         <div class="banner-name">${banner.title || ''}</div>
@@ -1585,10 +1638,16 @@
             imageContainer.innerHTML = '';
 
             if (banner.image) {
+                // Ensure image path is correct
+                let imageUrl = banner.image;
+                if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('/')) {
+                    imageUrl = `/uploads/${imageUrl}`;
+                }
+                
                 const imgDiv = document.createElement('div');
                 imgDiv.className = 'current-image';
                 imgDiv.innerHTML = `
-                    <img src="${banner.image}" alt="Current Banner" onerror="this.src='/images/teraxo/banner-3.jpg'">
+                    <img src="${imageUrl}" alt="Current Banner" onerror="this.src='/images/placeholder-banner.jpg'">
                     <div class="image-overlay">Current Image</div>
                 `;
                 imageContainer.appendChild(imgDiv);
@@ -1625,33 +1684,59 @@
         // Add banner
         async function addBanner() {
             const form = document.getElementById('add-banner-form');
-            const formData = new FormData(form);
-
-            // Remove status/isActive field if present in the form data
-            if (formData.has('isActive')) {
-                formData.delete('isActive');
-            }
-            if (formData.has('status')) {
-                formData.delete('status');
-            }
-
+            const fileInput = document.getElementById('add-banner-image');
             const submitBtn = form.querySelector('button[type="submit"]');
-
+            
+            // Validate file is selected
+            if (!fileInput.files || fileInput.files.length === 0) {
+                showNotification('Please select a banner image to upload.', 'error');
+                return;
+            }
+            
+            // Validate file size (e.g., max 10MB)
+            const file = fileInput.files[0];
+            const maxSize = 10 * 1024 * 1024; // 10MB
+            if (file.size > maxSize) {
+                showNotification('Image file size must be less than 10MB.', 'error');
+                return;
+            }
+            
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                showNotification('Please select a valid image file.', 'error');
+                return;
+            }
+            
+            // Create FormData from form (includes file automatically)
+            const formData = new FormData(form);
+            
+            // Ensure file is explicitly in FormData (replace if needed)
+            formData.delete('image');
+            formData.append('image', file);
+            
+            // Ensure isActive checkbox value is properly set
+            const isActiveCheckbox = document.getElementById('add-banner-status');
+            formData.set('isActive', isActiveCheckbox.checked ? 'true' : 'false');
+            
             try {
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<i class="icon-loader"></i> Adding...';
-
-                await apiCall(apiRoutes.create, {
+                
+                const response = await apiCall('/api/admin-banner', {
                     method: 'POST',
                     body: formData
                 });
 
                 showNotification('Banner added successfully!', 'success');
                 closeModal('add-banner-modal');
+                // Reset form
+                form.reset();
+                document.getElementById('add-banner-image-preview-grid').innerHTML = '';
                 fetchBanners();
             } catch (error) {
                 console.error('Error adding banner:', error);
-                showNotification('Failed to add banner. Please try again.', 'error');
+                const errorMsg = error.message || 'Failed to add banner. Please try again.';
+                showNotification(errorMsg, 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="icon-save"></i> Add Banner';
@@ -1661,7 +1746,7 @@
         // Update banner
         async function updateBanner() {
             const form = document.getElementById('edit-banner-form');
-            const formData = new FormData(form);
+            const fileInput = document.getElementById('edit-banner-image');
             const bannerId = document.getElementById('edit-banner-id').value;
 
             // Remove status/isActive field if present in the form data
@@ -1673,12 +1758,42 @@
             }
 
             const submitBtn = form.querySelector('button[type="submit"]');
-
+            
+            const formData = new FormData(form);
+            
+            // Only validate file if a new one is selected
+            if (fileInput.files && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const maxSize = 10 * 1024 * 1024; // 10MB
+                
+                if (file.size > maxSize) {
+                    showNotification('Image file size must be less than 10MB.', 'error');
+                    return;
+                }
+                
+                if (!file.type.startsWith('image/')) {
+                    showNotification('Please select a valid image file.', 'error');
+                    return;
+                }
+                
+                // Ensure file is in FormData
+                if (!formData.has('image')) {
+                    formData.append('image', file);
+                }
+            } else {
+                // Remove image from FormData if no new file selected (keep existing)
+                formData.delete('image');
+            }
+            
+            // Ensure isActive checkbox value is properly set
+            const isActiveCheckbox = document.getElementById('edit-banner-status');
+            formData.set('isActive', isActiveCheckbox.checked ? 'true' : 'false');
+            
             try {
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<i class="icon-loader"></i> Updating...';
-
-                await apiCall(apiRoutes.update(bannerId), {
+                
+                const response = await apiCall(`/api/admin-banner/${bannerId}`, {
                     method: 'PUT',
                     body: formData
                 });
@@ -1688,7 +1803,8 @@
                 fetchBanners();
             } catch (error) {
                 console.error('Error updating banner:', error);
-                showNotification('Failed to update banner. Please try again.', 'error');
+                const errorMsg = error.message || 'Failed to update banner. Please try again.';
+                showNotification(errorMsg, 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="icon-save"></i> Update Banner';
@@ -1698,8 +1814,8 @@
         // Toggle banner status
         async function toggleBanner(bannerId) {
             try {
-                await apiCall(apiRoutes.toggle(bannerId), { method: 'PATCH' });
-
+                await apiCall(`/api/admin-banner/toggle/${bannerId}`, { method: 'PATCH' });
+                
                 const banner = banners.find(b => (b._id || b.id) === bannerId);
                 const newStatus = banner ? !banner.isActive : false;
 
@@ -1720,8 +1836,8 @@
         // Delete banner
         async function deleteBanner(bannerId) {
             try {
-                await apiCall(apiRoutes.delete(bannerId), { method: 'DELETE' });
-
+                await apiCall(`/api/admin-banner/${bannerId}`, { method: 'DELETE' });
+                
                 showNotification('Banner deleted successfully!', 'success');
                 closeModal('delete-confirm-modal');
                 fetchBanners();
