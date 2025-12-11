@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-const express = require('express');
-const router = express.Router();
-const isAdmin = require("../middleware/isAdmin");
-=======
 
 const express = require('express');
 const router = express.Router();
@@ -65,7 +60,6 @@ router.get('/logout', (req, res) => {
 
 module.exports = router;
 
->>>>>>> 6709a98 (have issue)
 
 
 router.get('/login', (req, res) => {
