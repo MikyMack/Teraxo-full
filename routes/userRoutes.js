@@ -27,7 +27,8 @@ router.get('/', async (req, res) => {
 router.get('/company_overview', async (req, res) => {
     try {
         const testimonials = await Testimonial.find().sort({ createdAt: -1 }).limit(8);
-        res.render('company-overview', { testimonials });
+        const blogs = await Blog.find().sort({ createdAt: -1 }).limit(3);
+        res.render('company-overview', { testimonials, blogs });
     } catch (err) {
         console.error("Error loading company overview page:", err);
         res.status(500).send("Internal Server Error");
