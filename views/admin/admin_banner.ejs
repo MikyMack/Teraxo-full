@@ -1210,7 +1210,7 @@
                         
                         <!-- bottom-page -->
                         <div class="bottom-page">
-                            <div class="body-text">Copyright © 2025 <a href="">Blushelys</a>.
+                            <div class="body-text">Copyright © 2025 <a href="">Teraxo</a>.
                                 Design by Trivlogic Private Limited All rights reserved</div>
                         </div>
                         <!-- /bottom-page -->
@@ -1715,8 +1715,8 @@
             formData.append('image', file);
             
             // Ensure isActive checkbox value is properly set
-            const isActiveCheckbox = document.getElementById('add-banner-status');
-            formData.set('isActive', isActiveCheckbox.checked ? 'true' : 'false');
+            // const isActiveCheckbox = document.getElementById('add-banner-status');
+            // formData.set('isActive', isActiveCheckbox.checked ? 'true' : 'false');
             
             try {
                 submitBtn.disabled = true;
@@ -1749,6 +1749,8 @@
             const fileInput = document.getElementById('edit-banner-image');
             const bannerId = document.getElementById('edit-banner-id').value;
 
+
+            const formData = new FormData(form);
             // Remove status/isActive field if present in the form data
             if (formData.has('isActive')) {
                 formData.delete('isActive');
@@ -1759,7 +1761,6 @@
 
             const submitBtn = form.querySelector('button[type="submit"]');
             
-            const formData = new FormData(form);
             
             // Only validate file if a new one is selected
             if (fileInput.files && fileInput.files.length > 0) {
@@ -1786,8 +1787,8 @@
             }
             
             // Ensure isActive checkbox value is properly set
-            const isActiveCheckbox = document.getElementById('edit-banner-status');
-            formData.set('isActive', isActiveCheckbox.checked ? 'true' : 'false');
+            // const isActiveCheckbox = document.getElementById('edit-banner-status');
+            // formData.set('isActive', isActiveCheckbox.checked ? 'true' : 'false');
             
             try {
                 submitBtn.disabled = true;

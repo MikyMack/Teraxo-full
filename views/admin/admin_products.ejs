@@ -1223,7 +1223,7 @@
                         
                         <!-- bottom-page -->
                         <div class="bottom-page">
-                            <div class="body-text">Copyright © 2025 <a href="">Blushley</a>.
+                            <div class="body-text">Copyright © 2025 <a href="">Teraxo</a>.
                                 Design by Trivlogic Private Limited All rights reserved</div>
                         </div>
                         <!-- /bottom-page -->
@@ -1239,8 +1239,6 @@
     <!-- /#wrapper -->
 
 <script>
-  // admin/product.js integration script
-
   document.addEventListener('DOMContentLoaded', () => {
     const productsList = document.getElementById('products-list');
     const productModal = document.getElementById('product-modal');
@@ -1248,39 +1246,23 @@
     const productModalTitle = document.getElementById('product-modal-title');
     const productSubmitBtn = document.getElementById('product-modal-submit-btn');
     const editIdInput = document.getElementById('edit-id');
-
-    // Dynamic fields
     const featuresList = document.getElementById('features-list');
     const keyFeaturesInput = document.getElementById('keyFeatures-input');
-
     const packsList = document.getElementById('packs-list');
     const availablePacksInput = document.getElementById('availablePacks-input');
-
     const qaContainer = document.getElementById('qa-container');
-
     const seoKeywordsList = document.getElementById('seo-keywords-list');
     const seoKeywordsInput = document.getElementById('seoKeywords-input');
-
     const productImagesInput = document.getElementById('product-images');
     const productImagePreviewGrid = document.getElementById('product-image-preview-grid');
-
     const confirmDeleteModal = document.getElementById('confirm-delete-modal');
     const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
-
     let allProducts = [];
     let editingProduct = null;
-
-    // IMAGE TRACKING
-    // existingImages - filenames already saved on server for the product (when editing)
-    // removedExistingImages - filenames the admin removed from existing images (so we can send remaining)
-    // removedNewFileIndexes - indexes of newly selected files removed before submit
     let existingImages = [];
     let removedExistingImages = new Set();
     let removedNewFileIndexes = new Set();
 
-    // =========================
-    // FETCH PRODUCTS
-    // =========================
     async function fetchProducts() {
       try {
         const res = await fetch('/api/admin-product');
@@ -1297,42 +1279,43 @@
       }
     }
 
-    // =========================
-    // RENDER PRODUCTS
-    // =========================
-
-    // Render products dynamically
     function renderProducts(products) {
-      console.log(products);
-
-      productsList.innerHTML = ''; // Clear existing
+      productsList.innerHTML = '';
       products.forEach(product => {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
         productCard.dataset.productId = product._id || '';
-
-        // Determine status
         const statusClass = product.isActive ? 'active' : 'inactive';
         const isActiveText = product.isActive ? 'Active' : 'Inactive';
-
-        // Safely get image
-        const mainImage = (product.images && product.images.length > 0)
-          ? `/uploads/${product.images[0]}`
-          : '/images/default-product.jpg';
-
-        // Helper for safe text fallback
         const safeText = (text) => (text ? text : '-');
-
+        let imagesHtml = "";
+        if (Array.isArray(product.images) && product.images.length > 0) {
+          imagesHtml = `
+            <div class="card-images-multi" style="display: flex; gap: 6px; flex-wrap: wrap;">
+              ${product.images.map(img =>
+                `<img 
+                  src="${img.startsWith('/') ? img : `/uploads/${img}`}" 
+                  alt="${safeText(product.title)}"
+                  class="card-product-img"
+                  style="width:64px; height:64px; object-fit:cover; border-radius:6px; border:1px solid #e3e3e3; background:#f6f6f6"
+                  onerror="this.onerror=null;this.src='/images/default-product.jpg';"
+                >`
+              ).join('')}
+            </div>
+          `;
+        } else {
+          imagesHtml = `
+            <div class="card-images-multi">
+              <img src="/images/default-product.jpg" alt="No Image" class="card-product-img" style="width:64px; height:64px; object-fit:cover; border-radius:6px; border:1px solid #e3e3e3; background:#f6f6f6">
+            </div>
+          `;
+        }
         productCard.innerHTML = `
       <div class="card-header">
         <h3 class="card-title">${safeText(product.title)}</h3>
         <span class="status-badge ${statusClass}">${isActiveText}</span>
       </div>
-
-      <div class="card-image">
-        <img src="${mainImage}" alt="${safeText(product.title)}">
-      </div>
-
+      ${imagesHtml}
       <div class="card-body">
         <div class="detail-grid">
           <div class="detail-item"><span class="detail-label">Slug:</span> <span class="detail-value">${safeText(product.slug)}</span></div>
@@ -1341,7 +1324,6 @@
           <div class="detail-item"><span class="detail-label">Appearance:</span> <span class="detail-value">${safeText(product.appearance)}</span></div>
         </div>
       </div>
-
       <div class="card-footer">
         <button class="details-btn" onclick="toggleDetails(this)">View Details <i class="icon-chevron-down"></i></button>
         <div class="card-actions">
@@ -1350,77 +1332,57 @@
           <button class="item trash" title="Delete Product" onclick="confirmDelete('${product._id || ''}')"><i class="icon-trash-2"></i></button>
         </div>
       </div>
-
-     <div class="expanded-details">
-  ${product.description ? `
-    <div class="detail-section">
-      <h4><i class="icon-file-text"></i> Description</h4>
-      <p>${product.description}</p>
-    </div>` : ''}
-
-  ${product.subDescription ? `
-    <div class="detail-section">
-      <h4><i class="icon-file-text"></i> Sub Description</h4>
-      <p>${product.subDescription}</p>
-    </div>` : ''}
-
-  ${(product.keyFeatures && product.keyFeatures.length > 0) ? `
-    <div class="detail-section">
-      <h4><i class="icon-star"></i> Key Features</h4>
-      <ul>${product.keyFeatures.map(f => `<li>${f}</li>`).join('')}</ul>
-    </div>` : ''}
-
-  ${(product.availablePacks && product.availablePacks.length > 0) ? `
-    <div class="detail-section">
-      <h4><i class="icon-package"></i> Available Packs</h4>
-      <ul>${product.availablePacks.map(p => `<li>${p}</li>`).join('')}</ul>
-    </div>` : ''}
-</div>
-    `;
-
+      <div class="expanded-details">
+        ${product.description ? `
+          <div class="detail-section">
+            <h4><i class="icon-file-text"></i> Description</h4>
+            <p>${product.description}</p>
+          </div>` : ''}
+        ${product.subDescription ? `
+          <div class="detail-section">
+            <h4><i class="icon-file-text"></i> Sub Description</h4>
+            <p>${product.subDescription}</p>
+          </div>` : ''}
+        ${(product.keyFeatures && product.keyFeatures.length > 0) ? `
+          <div class="detail-section">
+            <h4><i class="icon-star"></i> Key Features</h4>
+            <ul>${product.keyFeatures.map(f => `<li>${f}</li>`).join('')}</ul>
+          </div>` : ''}
+        ${(product.availablePacks && product.availablePacks.length > 0) ? `
+          <div class="detail-section">
+            <h4><i class="icon-package"></i> Available Packs</h4>
+            <ul>${product.availablePacks.map(p => `<li>${p}</li>`).join('')}</ul>
+          </div>` : ''}
+      </div>
+        `;
         productsList.appendChild(productCard);
       });
     }
 
-    // =========================
-    // IMAGE PREVIEW HANDLING
-    // =========================
-
-    // When user selects new files, render previews for them.
-    // Keep track of removed new file indexes (removedNewFileIndexes) so we can exclude them at submit.
-    productImagesInput.addEventListener('change', function (e) {
+    productImagesInput.addEventListener('change', function () {
       const files = Array.from(this.files);
-      // Clear only NEW previews (keep old previews from editing)
       productImagePreviewGrid.querySelectorAll('.preview-new').forEach(el => el.remove());
-      removedNewFileIndexes = new Set(); // reset removed new files tracking
-
+      removedNewFileIndexes = new Set();
       files.forEach((file, idx) => {
         const reader = new FileReader();
         reader.onload = function (event) {
           const wrapper = document.createElement('div');
           wrapper.classList.add('preview-image', 'preview-new');
           wrapper.dataset.newIndex = idx;
-
           wrapper.innerHTML = `
             <img src="${event.target.result}" alt="${file.name}">
             <button type="button" class="remove-btn remove-new">&times;</button>
           `;
-
           wrapper.querySelector('.remove-new').addEventListener('click', () => {
-            // mark this new file index as removed and remove preview
             removedNewFileIndexes.add(Number(wrapper.dataset.newIndex));
             wrapper.remove();
           });
-
           productImagePreviewGrid.appendChild(wrapper);
         };
         reader.readAsDataURL(file);
       });
     });
 
-    // =========================
-    // OPEN ADD MODAL
-    // =========================
     document.getElementById('add-product-btn').addEventListener('click', () => {
       resetForm();
       editingProduct = null;
@@ -1431,18 +1393,9 @@
       openModal('product-modal');
     });
 
-    // =========================
-    // FORM SUBMIT (ADD/EDIT)
-    // =========================
     productForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      // We'll construct FormData manually to control files included
       const formData = new FormData();
-
-      // Basic fields from the form (non-file inputs)
-      // We can iterate form elements or pull by id/name explicitly
-      // Use your existing form fields:
       formData.set('title', document.getElementById('product-title').value);
       formData.set('slug', document.getElementById('product-slug').value);
       formData.set('description', document.getElementById('product-description').value);
@@ -1454,26 +1407,13 @@
       formData.set('applicationTips', document.getElementById('product-applicationTips').value || '');
       formData.set('seoTitle', document.getElementById('product-seoTitle').value || '');
       formData.set('seoDescription', document.getElementById('product-seoDescription').value || '');
-
-      // Arrays (send as array values, controller handles arrays vs strings)
       getListItems(featuresList).forEach(v => formData.append('keyFeatures', v));
       getListItems(packsList).forEach(v => formData.append('availablePacks', v));
       getListItems(seoKeywordsList).forEach(v => formData.append('seoKeywords', v));
-
-      // Q&A (JSON string)
       formData.set('questionsAndAnswers', JSON.stringify(getQAItems()));
-
-      // isActive (send as "true"/"false")
       formData.set('isActive', document.getElementById('product-isActive').checked ? 'true' : 'false');
-
-      // existingImages: send the filenames that should remain on server (after removals)
-      // existingImages array is maintained in populateForm and when user removes an existing image we update it
       formData.set('existingImages', JSON.stringify(existingImages));
-
       formData.set('removedExistingImages', JSON.stringify([...removedExistingImages]));
-
-
-      // NEW files: append only those NOT removed by user
       const newFiles = Array.from(productImagesInput.files || []);
       if (newFiles.length > 0) {
         newFiles.forEach((file, idx) => {
@@ -1482,19 +1422,14 @@
           }
         });
       }
-
-      // For editing mode (appendImages flag preserved)
       if (editingProduct) {
         formData.set('appendImages', true);
       }
-
       try {
         const url = editingProduct ? `/api/admin-product/${editingProduct._id}` : `/api/admin-product`;
         const method = editingProduct ? 'PUT' : 'POST';
-
         const res = await fetch(url, { method, body: formData });
         const data = await res.json();
-
         if (data.success) {
           alert(data.message);
           closeModal('product-modal');
@@ -1508,9 +1443,6 @@
       }
     });
 
-    // =========================
-    // EDIT PRODUCT
-    // =========================
     window.editProduct = async (id) => {
       resetForm();
       try {
@@ -1531,9 +1463,6 @@
       }
     };
 
-    // =========================
-    // TOGGLE STATUS
-    // =========================
     window.toggleStatus = async (id) => {
       if (!confirm('Are you sure you want to toggle this product status?')) return;
       try {
@@ -1551,9 +1480,6 @@
       }
     };
 
-    // =========================
-    // DELETE PRODUCT
-    // =========================
     let deletingProductId = null;
     window.confirmDelete = (id) => {
       deletingProductId = id;
@@ -1578,9 +1504,6 @@
       }
     });
 
-    // =========================
-    // HELPER FUNCTIONS
-    // =========================
     function getListItems(container) {
       return Array.from(container.querySelectorAll('.list-item')).map(el => el.textContent);
     }
@@ -1623,51 +1546,34 @@
       document.getElementById('product-seoTitle').value = product.seoTitle || '';
       document.getElementById('product-seoDescription').value = product.seoDescription || '';
       document.getElementById('product-isActive').checked = product.isActive;
-
-      // Dynamic lists
       (product.keyFeatures || []).forEach(f => addKeyFeature(f));
       (product.availablePacks || []).forEach(p => addPack(p));
       (product.seoKeywords || []).forEach(k => addSeoKeyword(k));
-
-      // Q&A
       if (product.questionsAndAnswers && product.questionsAndAnswers.length) {
         qaContainer.innerHTML = '';
         product.questionsAndAnswers.forEach(qa => addQA(qa.question, qa.answer));
       }
-
-      // Image previews (existing images)
       productImagePreviewGrid.innerHTML = '';
       existingImages = Array.isArray(product.images) ? [...product.images] : [];
-
       existingImages.forEach((imgName) => {
         const wrapper = document.createElement('div');
         wrapper.classList.add('preview-image', 'preview-old');
         wrapper.dataset.img = imgName;
-
         wrapper.innerHTML = `
-          <img src="/uploads/${imgName}" alt="product">
+          <img src="${imgName.startsWith('/') ? imgName : `/uploads/${imgName}`}" alt="product">
           <button type="button" class="remove-btn remove-old">&times;</button>
         `;
-
         wrapper.querySelector('.remove-old').addEventListener('click', () => {
-          // remove visually and update existingImages array
           wrapper.remove();
           existingImages = existingImages.filter(i => i !== imgName);
           removedExistingImages.add(imgName);
         });
-
         productImagePreviewGrid.appendChild(wrapper);
       });
     }
 
-    // =========================
-    // INITIAL FETCH
-    // =========================
     fetchProducts();
 
-    // =========================
-    // EXPOSED FUNCTIONS FOR MODAL/DYNAMIC FIELDS
-    // =========================
     window.addKeyFeature = (value = '') => {
       const val = value || document.getElementById('new-feature-input').value.trim();
       if (!val) return;
@@ -1712,12 +1618,8 @@
       qaContainer.appendChild(qaItem);
       qaContainer.querySelector('.no-qa-message')?.remove();
     };
-
-    // removeExistingImage function removed — handled via event listeners added in populateForm and file-change preview
-
   });
 
-  // -------------------- MODAL HANDLING --------------------
   function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) modal.style.display = 'block';
@@ -1726,8 +1628,6 @@
   function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) modal.style.display = 'none';
-
-    // Reset form if it's the product modal
     if (modalId === 'product-modal') {
       document.getElementById('product-form').reset();
       document.getElementById('features-list').innerHTML = '';
@@ -1744,7 +1644,6 @@
     }
   }
 
-  // Close modal when clicking outside
   window.onclick = function (event) {
     const productModal = document.getElementById('product-modal');
     const deleteModal = document.getElementById('confirm-delete-modal');
@@ -1752,14 +1651,11 @@
     if (event.target === deleteModal) closeModal('confirm-delete-modal');
   };
 
-  // -------------------- TOGGLE DETAILS --------------------
   function toggleDetails(btn) {
     const card = btn.closest('.product-card');
     const details = card.querySelector('.expanded-details');
     if (!details) return;
-
     details.classList.toggle('active');
-
     if (details.classList.contains('active')) {
       btn.innerHTML = 'Hide Details <i class="icon-chevron-up"></i>';
     } else {
