@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
         console.error("Error loading home page:", err);
         res.status(500).send("Internal Server Error");
     }
-});
+});  
 router.get('/company_overview', async (req, res) => {
     try {
         const testimonials = await Testimonial.find().sort({ createdAt: -1 }).limit(8);
