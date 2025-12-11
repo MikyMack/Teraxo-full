@@ -10,10 +10,6 @@ const isAdmin = require("../middleware/isAdmin");
 const upload = require("../middleware/upload");
 
 
-
-
-
-
 // ---------------------------
 // PRODUCT ROUTES
 // ---------------------------

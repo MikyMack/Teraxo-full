@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Banner = require("../models/Banner");
 const fs = require("fs");
 const path = require("path");
+const slugify = require('slugify');
 
 // Helper to delete old images
 const deleteImage = (imagePath) => {
@@ -17,6 +18,8 @@ const deleteImage = (imagePath) => {
 // =============================
 // CREATE BANNER
 // =============================
+
+
 exports.createBanner = async (req, res) => {
   try {
     const { title, subtitle, description, link, isActive } = req.body;
@@ -29,7 +32,19 @@ exports.createBanner = async (req, res) => {
       return res.status(400).json({ success: false, message: "Banner image is required" });
     }
 
-    const image = req.file.filename;
+
+    const ext = path.extname(req.file.originalname);
+    const seoName = slugify(title, { lower: true, strict: true });
+    const imageFilename = `${seoName}${ext}`;
+    const uploadPath = path.join(req.file.destination, imageFilename);
+
+    if (fs.existsSync(uploadPath)) {
+      fs.unlinkSync(uploadPath);
+    }
+  
+    fs.renameSync(req.file.path, uploadPath);
+
+    const image = imageFilename;
 
     const banner = new Banner({
       title,
@@ -123,10 +138,39 @@ exports.updateBanner = async (req, res) => {
     banner.link = link || banner.link;
     banner.isActive = isActive !== undefined ? isActive : banner.isActive;
 
-    // Replace image if new one uploaded
     if (req.file) {
-      deleteImage(path.join("uploads", banner.image));
-      banner.image = req.file.filename;
+      if (banner.image) {
+        deleteImage(path.join("uploads", banner.image));
+      }
+
+      const ext = path.extname(req.file.originalname);
+      const updatedTitle = title || banner.title || "banner";
+
+      let seoName;
+      if (typeof slugify === 'function') {
+        seoName = slugify(updatedTitle, { lower: true, strict: true });
+      } else {
+        // fallback: 
+        seoName = updatedTitle
+          .toString()
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, '-')       
+          .replace(/_+/g, '-')        
+          .replace(/[^a-z0-9\-\.]+/g, '')
+          .replace(/\-+/g, '-')     
+          .replace(/^\-+|\-+$/g, '');
+      }
+      // Remove timestamp from filename (stop numbers)
+      const imageFilename = `${seoName}${ext}`;
+      const uploadPath = path.join(req.file.destination, imageFilename);
+
+      if (fs.existsSync(uploadPath)) {
+        fs.unlinkSync(uploadPath);
+      }
+      fs.renameSync(req.file.path, uploadPath);
+
+      banner.image = imageFilename;
     }
 
     await banner.save();
