@@ -22,7 +22,7 @@ router.post('/login', (req, res) => {
             return res.redirect('/admin/dashboard');
         });
         return;
-    }
+    }  
     res.render('admin/admin_login', { error: 'Invalid credentials. Please check your email and password.' });
 });
 
