@@ -27,6 +27,9 @@ app.use("/", userRoutes);
 const adminRoutes = require("./routes/adminRoutes");
 app.use("/admin", adminRoutes);
 
+const apiRoutes = require("./routes/apiRoutes");
+app.use("/api", apiRoutes); 
+
 
 app.use((req, res, next) => {
   res.status(404);
