@@ -63,5 +63,10 @@ router.get('/blogs', (req, res) => {
 router.get('/blogDetails/:slug', (req, res) => {
     res.render('blogDetails');
 });
-
+router.get('/contact', (req, res) => {
+    res.render('contact');
+});
+router.get('/privacy', (req, res) => {
+    res.render('privacy');
+});
 module.exports = router;

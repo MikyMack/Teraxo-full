@@ -2,16 +2,16 @@
 <html class="no-js" lang="zxx">
 
 
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="template-version" content="1.0.3">
-    <title>TERAXO | PRODUCTS</title>
+    <title>Teraxo Adhesives - Terms & Conditions</title>
+
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Place favicon.ico in the root directory -->
-    <link rel="shortcut icon" type="image/x-icon" href="/images/teraxo/logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png">
     <!-- CSS here -->
     <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
     <link rel="stylesheet" href="/css/vendor/animate.min.css">
@@ -24,9 +24,422 @@
     <link rel="stylesheet" href="/css/vendor/spacing.css">
     <link rel="stylesheet" href="/css/vendor/remixicon.css">
     <link rel="stylesheet" href="/css/main.css">
-        <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/custom.css">
+        <link rel="stylesheet" href="/css/custom.css">
     <link rel="stylesheet" href="/css/floating-buttons.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <style>
+        /* CSS Variables for Theme Colors */
+        :root {
+            --primary-red: #d32f2f; /* Adjusted red for better contrast */
+            --primary-blue: #3B82F6;
+            --dark-blue: #1e40af;
+            --light-blue: #dbeafe;
+            --light-red: #ffebee;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --background: #f8fafc;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.08);
+            --shadow-hover: rgba(0, 0, 0, 0.12);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles - Assuming you have your own header */
+        .header-placeholder {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-blue) 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .header-placeholder h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header-placeholder p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Main Content */
+        .terms-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .page-title h2 {
+            font-size: 2.2rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .page-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-red), var(--primary-blue));
+            border-radius: 2px;
+        }
+
+        .page-title p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Content Box */
+        .content-box {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 6px 15px var(--shadow);
+            padding: 40px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-box:hover {
+            box-shadow: 0 10px 25px var(--shadow-hover);
+        }
+
+        /* Section Styles */
+        .terms-section {
+            margin-bottom: 40px;
+            scroll-margin-top: 20px;
+        }
+
+        .terms-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary-red), var(--primary-blue));
+        }
+
+        .section-title i {
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 1.8rem;
+            margin-right: 15px;
+            width: 40px;
+            text-align: center;
+        }
+
+        .section-title h3 {
+            font-size: 1.6rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .section-content {
+            padding-left: 55px;
+        }
+
+        .section-content p {
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .section-content ul, .section-content ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .section-content li {
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            position: relative;
+            padding-left: 5px;
+        }
+
+        .highlight-box {
+            background: var(--light-blue);
+            border-left: 4px solid var(--primary-blue);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: var(--light-red);
+            border-left: 4px solid var(--primary-red);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-box h4, .warning-box h4 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .highlight-box h4 i {
+            color: var(--primary-blue);
+            margin-right: 10px;
+        }
+
+        .warning-box h4 i {
+            color: var(--primary-red);
+            margin-right: 10px;
+        }
+
+        /* Product Reference Section */
+        .product-reference {
+            background: linear-gradient(135deg, #f0f9ff 0%, #fef2f2 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 1px solid var(--border);
+        }
+
+        .product-reference h4 {
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .product-reference h4 i {
+            margin-right: 10px;
+        }
+
+        .product-reference p {
+            color: var(--text-dark);
+        }
+
+        /* Navigation Tabs for Quick Access */
+        .quick-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .nav-tab {
+            background: var(--white);
+            padding: 12px 20px;
+            border-radius: 50px;
+            box-shadow: 0 3px 8px var(--shadow);
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-tab i {
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+
+        .nav-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px var(--shadow-hover);
+            color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+
+        .nav-tab.red:hover {
+            color: var(--primary-red);
+            border-color: var(--primary-red);
+        }
+
+        /* Important Notice */
+        .important-notice {
+            background: linear-gradient(135deg, var(--primary-red) 0%, #b91c1c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(211, 47, 47, 0.2);
+        }
+
+        .important-notice h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .important-notice h3 i {
+            margin-right: 10px;
+        }
+
+        /* Footer Styles - Assuming you have your own footer */
+        .footer-placeholder {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 60px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .footer-placeholder p {
+            margin-bottom: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            color: var(--light-blue);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .content-box {
+                padding: 30px;
+            }
+            
+            .section-content {
+                padding-left: 0;
+            }
+            
+            .section-title {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .section-title i {
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-placeholder h1 {
+                font-size: 2rem;
+            }
+            
+            .page-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .content-box {
+                padding: 25px 20px;
+            }
+            
+            .section-title h3 {
+                font-size: 1.4rem;
+            }
+            
+            .quick-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-tab {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-placeholder {
+                padding: 20px 0;
+            }
+            
+            .header-placeholder h1 {
+                font-size: 1.7rem;
+            }
+            
+            .page-title h2 {
+                font-size: 1.5rem;
+            }
+            
+            .section-title h3 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .quick-nav, .header-placeholder, .footer-placeholder {
+                display: none;
+            }
+            
+            .content-box {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
 </head>
 
 <body class="rs-smoother-yes rtl">
@@ -64,7 +477,7 @@
                     <div class="rs-header-menu">
                      
                         <nav id="mobile-menu" class="main-menu">
-                         <ul class="multipage-menu">
+                             <ul class="multipage-menu">
                                 <li >
                                     <a href="/">Home</a>
                                  
@@ -191,7 +604,7 @@
                                 </li>
                                 <!-- elements menu -->
                                <li class="menu-item-has-children">
-                                    <a href="industries.html">Industries</a>
+                                    <a href="products.html">Industries</a>
                                     <ul class="submenu last-children">
                                         <li><a href="industry-footwear.html">Footwear Manufacturing</a></li>
                                     <li><a href="industry-signage.html">Signage & Flex Board</a></li>
@@ -365,216 +778,210 @@
     <!-- Body main wrapper start -->
     <main>
 
-        <!-- breadcrumb area start -->
-        <section class="rs-breadcrumb-area rs-breadcrumb-one p-relative">
-            <div class="rs-breadcrumb-bg" data-background="/images/teraxo/bnr-6.jpg"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-xxl-6 col-xl-8 col-lg-8">
-                        <div class="rs-breadcrumb-content-wrapper">
-                            <div class="rs-breadcrumb-title-wrapper">
-                                <h1 class="rs-breadcrumb-title">Products</h1>
-                            </div>
-                            <div class="rs-breadcrumb-menu">
-                                <nav>
-                                    <ul>
-                                        <li><span><a href="/">Home</a></span></li>
-                                        <li><span>Products </span></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- breadcrumb area end -->
 
-        <!-- portfolio area start -->
-<section class="rs-portfolio-area rs-portfolio-six section-space has-theme-orange">
     <div class="container">
-        <div class="row g-5 process-counts">
-
-            <!-- Product 1 - FX40 -->
-            <div class="col-xl-4 col-lg-6 col-md-6">
-                <div class="rs-portfolio-item wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
-                    <div class="rs-portfolio-thumb" data-background="/images/teraxo/prd-2.webp"></div>
-                    <div class="rs-portfolio-content">
-                        <h5 class="rs-portfolio-title"><a href="/productDetails/:slug">FX40 – Premium Instant Adhesive</a></h5>
-                        <div class="rs-portfolio-tag"><a href="/productDetails/:slug">PVC / UPVC | Acrylic | Signage</a></div>
-                        <div class="rs-services-btn-wrapper">
-                            <div class="rs-portfolio-text-btn">
-                                <a class="rs-text-btn" href="/productDetails/:slug">View Details</a>
-                            </div>
-                            <a class="rs-square-btn has-icon" href="/productDetails/:slug">
-                               <span class="icon-box"> <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> <svg class="icon-second" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+        <div class="terms-wrapper">
+            <!-- Page Title -->
+            <div class="page-title">
+                <h2>Terms & Conditions</h2>
+                <p>Please read these terms carefully before using our products or services. By accessing or using Teraxo Adhesives products, you agree to be bound by these Terms & Conditions.</p>
             </div>
 
-            <!-- Product 2 - R40 -->
-            <div class="col-xl-4 col-lg-6 col-md-6">
-                <div class="rs-portfolio-item wow fadeInUp" data-wow-delay=".4s" data-wow-duration="1s">
-                    <div class="rs-portfolio-thumb" data-background="/images/teraxo/prd-2.webp"></div>
-                    <div class="rs-portfolio-content">
-                        <h5 class="rs-portfolio-title"><a href="/productDetails/:slug">R40 – Hardware & General Purpose</a></h5>
-                        <div class="rs-portfolio-tag"><a href="/productDetails/:slug">Metal | Plastic | Household</a></div>
-                        <div class="rs-services-btn-wrapper">
-                            <div class="rs-portfolio-text-btn">
-                                <a class="rs-text-btn" href="/productDetails/:slug">View Details</a>
-                            </div>
-                            <a class="rs-square-btn has-icon" href="/productDetails/:slug">
-                             <span class="icon-box"> <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> <svg class="icon-second" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <!-- Quick Navigation Tabs -->
+            <div class="quick-nav">
+                <a href="#introduction" class="nav-tab"><i class="fas fa-file-contract"></i> Introduction</a>
+                <a href="#products" class="nav-tab"><i class="fas fa-flask"></i> Product Info</a>
+                <a href="#orders" class="nav-tab red"><i class="fas fa-shopping-cart"></i> Orders & Payment</a>
+                <a href="#shipping" class="nav-tab"><i class="fas fa-shipping-fast"></i> Shipping</a>
+                <a href="#warranty" class="nav-tab red"><i class="fas fa-shield-alt"></i> Warranty & Liability</a>
+                <a href="#oem" class="nav-tab"><i class="fas fa-tags"></i> OEM Services</a>
+                <a href="#general" class="nav-tab"><i class="fas fa-gavel"></i> General Terms</a>
             </div>
 
-            <!-- Product 3 - W40 -->
-            <div class="col-xl-4 col-lg-6 col-md-6">
-                <div class="rs-portfolio-item wow fadeInUp" data-wow-delay=".5s" data-wow-duration="1s">
-                    <div class="rs-portfolio-thumb" data-background="/images/teraxo/prd-2.webp"></div>
-                    <div class="rs-portfolio-content">
-                        <h5 class="rs-portfolio-title"><a href="/productDetails/:slug">W40 – Premium Wood Grade Adhesive</a></h5>
-                        <div class="rs-portfolio-tag"><a href="/productDetails/:slug">Furniture | Interior | Carpentry</a></div>
-                        <div class="rs-services-btn-wrapper">
-                            <div class="rs-portfolio-text-btn">
-                                <a class="rs-text-btn" href="/productDetails/:slug">View Details</a>
-                            </div>
-                            <a class="rs-square-btn has-icon" href="/productDetails/:slug">
-                                <span class="icon-box"> <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> <svg class="icon-second" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <!-- Important Notice -->
+            <div class="important-notice">
+                <h3><i class="fas fa-exclamation-triangle"></i> Important Safety Notice</h3>
+                <p>Teraxo Adhesives are industrial-grade chemical products. Always read product specifications, follow application guidelines, and use appropriate safety equipment. Keep out of reach of children.</p>
             </div>
 
-            <!-- Product 4 - Wood Bond -->
-            <div class="col-xl-4 col-lg-6 col-md-6">
-                <div class="rs-portfolio-item wow fadeInUp" data-wow-delay=".6s" data-wow-duration="1s">
-                    <div class="rs-portfolio-thumb" data-background="/images/teraxo/prd-2.webp"></div>
-                    <div class="rs-portfolio-content">
-                        <h5 class="rs-portfolio-title"><a href="/productDetails/:slug">Wood Bond – Instant Wood Adhesive</a></h5>
-                        <div class="rs-portfolio-tag"><a href="/productDetails/:slug">Carpentry | Repairs | Interiors</a></div>
-                        <div class="rs-services-btn-wrapper">
-                            <div class="rs-portfolio-text-btn">
-                                <a class="rs-text-btn" href="/productDetails/:slug">View Details</a>
-                            </div>
-                            <a class="rs-square-btn has-icon" href="/productDetails/:slug">
-              <span class="icon-box"> <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> <svg class="icon-second" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> </span>
-                            </a>
+            <!-- Main Content -->
+            <div class="content-box">
+                <!-- Section 1: Introduction -->
+                <section id="introduction" class="terms-section">
+                    <div class="section-title">
+                        <i class="fas fa-file-contract"></i>
+                        <h3>1. Introduction and Agreement</h3>
+                    </div>
+                    <div class="section-content">
+                        <p>Welcome to Teraxo Adhesives. These Terms and Conditions ("Terms") govern your access to our business communications, website (if applicable), and all purchases of our adhesive products ("Products"). By contacting us, placing an order, or using our Products, you ("Customer," "you") agree to be bound by these Terms.</p>
+                        <p>These Terms constitute a legally binding agreement between you and Teraxo Adhesives ("we," "us," or "our"). If you are acting on behalf of a company, you represent that you have the authority to bind that entity.</p>
+                        <div class="highlight-box">
+                            <h4><i class="fas fa-info-circle"></i> Note for Business Customers</h4>
+                            <p>Most Teraxo customers are B2B entities including manufacturers, wholesalers, and distributors. These terms are specifically tailored for commercial and industrial use of our products.</p>
                         </div>
                     </div>
-                </div>
-            </div>
+                </section>
 
-            <!-- Product 5 - Elite40 -->
-            <div class="col-xl-4 col-lg-6 col-md-6">
-                <div class="rs-portfolio-item wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1s">
-                    <div class="rs-portfolio-thumb" data-background="/images/teraxo/prd-2.webp"></div>
-                    <div class="rs-portfolio-content">
-                        <h5 class="rs-portfolio-title"><a href="/productDetails/:slug">Elite40 – Premium Footwear Grade</a></h5>
-                        <div class="rs-portfolio-tag"><a href="/productDetails/:slug">Footwear | PU Sole | Slippers</a></div>
-                        <div class="rs-services-btn-wrapper">
-                            <div class="rs-portfolio-text-btn">
-                                <a class="rs-text-btn" href="/productDetails/:slug">View Details</a>
-                            </div>
-                            <a class="rs-square-btn has-icon" href="/productDetails/:slug">
-                          <span class="icon-box"> <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> <svg class="icon-second" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> </span>
-                            </a>
+                <!-- Section 2: Product Information -->
+                <section id="products" class="terms-section">
+                    <div class="section-title">
+                        <i class="fas fa-flask"></i>
+                        <h3>2. Product Information & Technical Specifications</h3>
+                    </div>
+                    <div class="section-content">
+                        <p><strong>2.1.</strong> The Products, including FX40, R40, W40, Wood Bond, Elite40, F40, G40, AS40, and Glue Stick, are described on our technical datasheets, packaging, and marketing materials. We reserve the right to update formulations, packaging, or specifications to improve performance while maintaining core functionality.</p>
+                        
+                        <div class="product-reference">
+                            <h4><i class="fas fa-boxes"></i> Referenced Products</h4>
+                            <p>This agreement covers all Teraxo adhesive products including but not limited to: FX40 (Premium Grade), R40 (Hardware Grade), W40 (Premium Wood Grade), Wood Bond, Elite40 (Footwear Grade), F40 (Footwear Grade), G40 (High Viscosity Gel), AS40 (Activator Spray), and Glue Stick (Hot Melt Adhesive).</p>
+                        </div>
+                        
+                        <p><strong>2.2.</strong> Shelf life estimates (ranging from 35 days to 12 months depending on product) are based on proper storage conditions: cool, dry place, tightly sealed, away from direct sunlight and heat sources. Products used beyond their shelf life may exhibit reduced performance.</p>
+                        
+                        <p><strong>2.3.</strong> Cure times specified (1-15 seconds depending on product) are approximate and can vary based on substrate materials, ambient temperature, humidity, application thickness, and use of AS40 Activator Spray.</p>
+                        
+                        <div class="warning-box">
+                            <h4><i class="fas fa-exclamation-circle"></i> Critical Safety Information</h4>
+                            <p>Teraxo adhesives are cyanoacrylate-based chemicals. Avoid contact with skin, eyes, and mucous membranes. Use in well-ventilated areas. Read Safety Data Sheets (SDS) before use. If adhesive contacts skin, do not pull apart; gently wash with warm soapy water or use acetone.</p>
                         </div>
                     </div>
-                </div>
-            </div>
+                </section>
 
-            <!-- Product 6 - F40 -->
-            <div class="col-xl-4 col-lg-6 col-md-6">
-                <div class="rs-portfolio-item wow fadeInUp" data-wow-delay=".8s" data-wow-duration="1s">
-                    <div class="rs-portfolio-thumb" data-background="/images/teraxo/prd-2.webp"></div>
-                    <div class="rs-portfolio-content">
-                        <h5 class="rs-portfolio-title"><a href="/productDetails/:slug">F40 – Footwear Manufacturing Adhesive</a></h5>
-                        <div class="rs-portfolio-tag"><a href="/productDetails/:slug">Shoes | Sandals | EVA/PU Units</a></div>
-                        <div class="rs-services-btn-wrapper">
-                            <div class="rs-portfolio-text-btn">
-                                <a class="rs-text-btn" href="/productDetails/:slug">View Details</a>
-                            </div>
-                            <a class="rs-square-btn has-icon" href="/productDetails/:slug">
-                          <span class="icon-box"> <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> <svg class="icon-second" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> </span>
-                            </a>
+                <!-- Section 3: Orders & Payment -->
+                <section id="orders" class="terms-section">
+                    <div class="section-title">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>3. Orders, Pricing & Payment Terms</h3>
+                    </div>
+                    <div class="section-content">
+                        <p><strong>3.1.</strong> All orders are subject to acceptance and product availability. We reserve the right to refuse or limit any order.</p>
+                        
+                        <p><strong>3.2.</strong> Prices are quoted in Indian Rupees (₹) and are exclusive of GST, shipping, and other applicable taxes unless otherwise stated. We reserve the right to adjust prices due to changes in raw material costs, market conditions, or regulatory changes.</p>
+                        
+                        <p><strong>3.3.</strong> Payment Terms:</p>
+                        <ul>
+                            <li>New customers: 100% advance payment may be required for first order</li>
+                            <li>Established customers: Credit terms may be offered as per separate written agreement</li>
+                            <li>Large quantity/OEM orders: Special payment schedules may be arranged</li>
+                            <li>Accepted payment methods: Bank transfer, UPI, and other approved business payment channels</li>
+                        </ul>
+                        
+                        <p><strong>3.4.</strong> Customized OEM/Private Label orders require a minimum order quantity (MOQ) and deposit as specified in the individual OEM agreement.</p>
+                    </div>
+                </section>
+
+                <!-- Section 4: Shipping & Delivery -->
+                <section id="shipping" class="terms-section">
+                    <div class="section-title">
+                        <i class="fas fa-shipping-fast"></i>
+                        <h3>4. Shipping, Delivery & Risk</h3>
+                    </div>
+                    <div class="section-content">
+                        <p><strong>4.1.</strong> Shipping costs and estimated delivery times are provided at checkout or in order confirmation. While we strive to meet delivery estimates, they are not guaranteed and depend on courier partners and destination.</p>
+                        
+                        <p><strong>4.2.</strong> Risk of loss or damage to Products passes to you upon our delivery to the carrier. You must inspect shipments upon receipt and notify us and the carrier within 48 hours of any visible damage or shortage.</p>
+                        
+                        <p><strong>4.3.</strong> We are not liable for delays caused by factors beyond our reasonable control including but not limited to: transportation delays, weather, customs, regulatory actions, or force majeure events.</p>
+                        
+                        <div class="highlight-box">
+                            <h4><i class="fas fa-truck-loading"></i> Shipping Note for Chemical Products</h4>
+                            <p>As chemical products, Teraxo adhesives are shipped with appropriate labeling and in compliance with transportation regulations. Some carriers may have restrictions on quantities or require special handling.</p>
                         </div>
                     </div>
-                </div>
-            </div>
+                </section>
 
-            <!-- Product 7 - G40 -->
-            <div class="col-xl-4 col-lg-6 col-md-6">
-                <div class="rs-portfolio-item wow fadeInUp" data-wow-delay=".9s" data-wow-duration="1s">
-                    <div class="rs-portfolio-thumb" data-background="/images/teraxo/prd-2.webp"></div>
-                    <div class="rs-portfolio-content">
-                        <h5 class="rs-portfolio-title"><a href="/productDetails/:slug">G40 – High Viscosity Gel Adhesive</a></h5>
-                        <div class="rs-portfolio-tag"><a href="/productDetails/:slug">Vertical | Gap Filling | Stone</a></div>
-                        <div class="rs-services-btn-wrapper">
-                            <div class="rs-portfolio-text-btn">
-                                <a class="rs-text-btn" href="/productDetails/:slug">View Details</a>
-                            </div>
-                            <a class="rs-square-btn has-icon" href="/productDetails/:slug">
-                         <span class="icon-box"> <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> <svg class="icon-second" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> </span>
-                            </a>
+                <!-- Section 5: Warranty & Liability -->
+                <section id="warranty" class="terms-section">
+                    <div class="section-title">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>5. Limited Warranty & Liability</h3>
+                    </div>
+                    <div class="section-content">
+                        <p><strong>5.1.</strong> Teraxo warrants that its Products will conform to their published specifications when stored and used as directed. This warranty is limited to replacement of defective Products or refund of purchase price at our discretion.</p>
+                        
+                        <p><strong>5.2.</strong> This warranty does not cover:</p>
+                        <ul>
+                            <li>Products used beyond their shelf life</li>
+                            <li>Improper storage or handling</li>
+                            <li>Use contrary to instructions or for unintended applications</li>
+                            <li>Failure due to substrate incompatibility or contamination</li>
+                            <li>Normal wear and tear or cosmetic issues not affecting performance</li>
+                        </ul>
+                        
+                        <p><strong>5.3.</strong> Limitation of Liability: To the maximum extent permitted by law, Teraxo's total liability for any claim related to these Terms or Products is limited to the purchase price paid for the specific Product giving rise to the claim. We are not liable for any indirect, incidental, special, or consequential damages.</p>
+                        
+                        <p><strong>5.4.</strong> Products are industrial chemicals intended for professional use. You assume all risk and responsibility for determining the suitability of Products for your specific application, including testing on sample materials before full-scale use.</p>
+                    </div>
+                </section>
+
+                <!-- Section 6: OEM Services -->
+                <section id="oem" class="terms-section">
+                    <div class="section-title">
+                        <i class="fas fa-tags"></i>
+                        <h3>6. OEM & Private Label Manufacturing</h3>
+                    </div>
+                    <div class="section-content">
+                        <p><strong>6.1.</strong> Teraxo provides OEM (Original Equipment Manufacturing) and Private Label services where Products are manufactured and packaged under your brand name with no Teraxo branding visible.</p>
+                        
+                        <p><strong>6.2.</strong> OEM arrangements require a separate written agreement specifying:</p>
+                        <ul>
+                            <li>Minimum Order Quantities (MOQs)</li>
+                            <li>Custom formulation requirements (if any)</li>
+                            <li>Packaging specifications and branding guidelines</li>
+                            <li>Pricing, payment terms, and delivery schedules</li>
+                            <li>Confidentiality and intellectual property provisions</li>
+                        </ul>
+                        
+                        <p><strong>6.3.</strong> Lead times for OEM orders are typically longer than standard products due to custom formulation, labeling, and production scheduling requirements.</p>
+                        
+                        <p><strong>6.4.</strong> Teraxo retains all intellectual property rights to its base formulations, manufacturing processes, and know-how. OEM customers own rights to their specific brand names, logos, and label designs provided for the project.</p>
+                        
+                        <div class="highlight-box">
+                            <h4><i class="fas fa-industry"></i> OEM Capabilities</h4>
+                            <p>Teraxo can customize cyanoacrylate adhesives for specific industry needs (footwear, wood, signage, etc.), adjust viscosity (low, medium, high, gel), modify cure times, and tailor shelf life (30 days to 9 months) based on your requirements.</p>
                         </div>
                     </div>
-                </div>
-            </div>
+                </section>
 
-            <!-- Product 8 - AS40 -->
-            <div class="col-xl-4 col-lg-6 col-md-6">
-                <div class="rs-portfolio-item wow fadeInUp" data-wow-delay="1s" data-wow-duration="1s">
-                    <div class="rs-portfolio-thumb" data-background="/images/teraxo/prd-2.webp"></div>
-                    <div class="rs-portfolio-content">
-                        <h5 class="rs-portfolio-title"><a href="/productDetails/:slug">AS40 – Activator Spray</a></h5>
-                        <div class="rs-portfolio-tag"><a href="/productDetails/:slug">Fast Curing | Anti-Whitening</a></div>
-                        <div class="rs-services-btn-wrapper">
-                            <div class="rs-portfolio-text-btn">
-                                <a class="rs-text-btn" href="/productDetails/:slug">View Details</a>
-                            </div>
-                            <a class="rs-square-btn has-icon" href="/productDetails/:slug">
-<span class="icon-box"> <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> <svg class="icon-second" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> </span>
-                            </a>
+                <!-- Section 7: General Terms -->
+                <section id="general" class="terms-section">
+                    <div class="section-title">
+                        <i class="fas fa-gavel"></i>
+                        <h3>7. General Terms</h3>
+                    </div>
+                    <div class="section-content">
+                        <p><strong>7.1.</strong> Governing Law: These Terms are governed by Indian law, specifically the laws of the state where Teraxo's principal place of business is located.</p>
+                        
+                        <p><strong>7.2.</strong> Dispute Resolution: Any disputes shall first attempt to be resolved through good-faith negotiation. If unresolved, parties may pursue mediation or legal action in courts having jurisdiction over Teraxo's principal place of business.</p>
+                        
+                        <p><strong>7.3.</strong> Changes to Terms: We may update these Terms periodically. Continued use of Products after changes constitutes acceptance of updated Terms.</p>
+                        
+                        <p><strong>7.4.</strong> Severability: If any provision of these Terms is found invalid or unenforceable, the remaining provisions will continue in full force.</p>
+                        
+                        <p><strong>7.5.</strong> Entire Agreement: These Terms, along with any product-specific documentation and OEM agreements, constitute the entire agreement between parties regarding the Products.</p>
+                        
+                        <p><strong>7.6.</strong> Contact Information: For questions about these Terms or Teraxo Products, contact:</p>
+                        <ul>
+                            <li>Email: business@teraxo.co.in</li>
+                            <li>WhatsApp Business: As provided on current marketing materials</li>
+                            <li>Website: teraxo.co.in (if applicable)</li>
+                        </ul>
+                        
+                        <div class="warning-box">
+                            <h4><i class="fas fa-calendar-alt"></i> Effective Date</h4>
+                            <p>These Terms & Conditions are effective as of December 11, 2025, and supersede all previous versions. Customers with existing written agreements continue to be governed by those agreements until renewal or amendment.</p>
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
-
-            <!-- Product 9 - Glue Stick -->
-            <div class="col-xl-4 col-lg-6 col-md-6">
-                <div class="rs-portfolio-item wow fadeInUp" data-wow-delay="1.1s" data-wow-duration="1s">
-                    <div class="rs-portfolio-thumb" data-background="/images/teraxo/prd-2.webp"></div>
-                    <div class="rs-portfolio-content">
-                        <h5 class="rs-portfolio-title"><a href="/productDetails/:slug">Glue Stick – Hot Melt Adhesive</a></h5>
-                        <div class="rs-portfolio-tag"><a href="/productDetails/:slug">Craft | Packaging | Electronics</a></div>
-                        <div class="rs-services-btn-wrapper">
-                            <div class="rs-portfolio-text-btn">
-                                <a class="rs-text-btn" href="/productDetails/:slug">View Details</a>
-                            </div>
-                            <a class="rs-square-btn has-icon" href="/productDetails/:slug">
-                     <span class="icon-box"> <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> <svg class="icon-second" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 4.60551 0.319797 4.28571 0.714286 4.28571L8.98985 4.28571L5.92349 1.21936C5.64455 0.940417 5.64455 0.488155 5.92349 0.209209C6.20244 -0.0697365 6.6547 -0.0697365 6.93365 0.209209L11.2194 4.49492C11.4983 4.77387 11.4983 5.22613 11.2194 5.50508L6.93365 9.79079C6.6547 10.0697 6.20244 10.0697 5.92349 9.79079C5.64455 9.51184 5.64455 9.05958 5.92349 8.78064L8.98985 5.71429L0.714286 5.71429C0.319797 5.71429 0 5.39449 0 5Z" fill="#616161"></path> </svg> </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
-</section>
 
-        <!-- portfolio area end -->
+
 
     </main>
     <!-- Body main wrapper end -->
-    <!-- footer area start -->
+
   <footer class="footer-bg">
     <div style="padding-bottom: 0!important;" class="rs-footer-area pb-0 rs-footer-two has-space has-theme-green has-bg-thumb">
 
@@ -717,7 +1124,97 @@ Door No 4,  Survey No 310, Ground Floor, Opp: Global Furnitures, Hulimangala Roa
         </svg>
     </div>
     <!-- Backtotop end -->
-
+ <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-tab').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Highlight current section when scrolling
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.terms-section');
+            const navTabs = document.querySelectorAll('.nav-tab');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                const sectionHeight = section.clientHeight;
+                
+                if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                    currentSection = '#' + section.getAttribute('id');
+                }
+            });
+            
+            navTabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('href') === currentSection) {
+                    tab.classList.add('active');
+                    // Add active styling
+                    tab.style.background = 'linear-gradient(135deg, var(--primary-blue), var(--primary-red))';
+                    tab.style.color = 'white';
+                    tab.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+                } else {
+                    tab.style.background = '';
+                    tab.style.color = '';
+                    tab.style.boxShadow = '';
+                }
+            });
+        });
+        
+        // Add print button functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const printButton = document.createElement('button');
+            printButton.innerHTML = '<i class="fas fa-print"></i> Print Terms';
+            printButton.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                background: linear-gradient(135deg, var(--primary-red), var(--primary-blue));
+                color: white;
+                border: none;
+                border-radius: 50px;
+                padding: 15px 25px;
+                font-weight: bold;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 100;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                transition: transform 0.3s;
+            `;
+            
+            printButton.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            
+            printButton.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+            
+            printButton.addEventListener('click', function() {
+                window.print();
+            });
+            
+            document.body.appendChild(printButton);
+            
+            // Add last updated date
+            const lastUpdated = document.createElement('div');
+            lastUpdated.innerHTML = '<p style="text-align: center; color: var(--text-light); font-size: 0.9rem; margin-top: 20px;"><i class="fas fa-sync-alt"></i> Last Updated: December 11, 2025</p>';
+            document.querySelector('.content-box').appendChild(lastUpdated);
+        });
+    </script>
     <!-- JS here -->
     <script src="/js/vendor/jquery-3.7.1.min.js"></script>
     <script src="/js/plugins/waypoints.min.js"></script>
@@ -749,5 +1246,6 @@ Door No 4,  Survey No 310, Ground Floor, Opp: Global Furnitures, Hulimangala Roa
     <script src="/js/main.js"></script>
     <script src="/js/floating-buttons.js"></script>
 </body>
+
 
 </html>

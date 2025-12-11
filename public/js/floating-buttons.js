@@ -6,11 +6,11 @@
         // Create floating buttons HTML
         const floatingButtonsHTML = `
             <div class="floating-buttons">
-                <a href="https://wa.me/919876543210" class="floating-button whatsapp-button" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/918105077170" class="floating-button whatsapp-button" target="_blank" rel="noopener noreferrer">
                     <i class="fa-brands fa-whatsapp"></i>
                     <span class="tooltip">Chat on WhatsApp</span>
                 </a>
-                <a href="tel:+919876543210" class="floating-button call-button">
+                <a href="tel:+918105077170" class="floating-button call-button">
                     <i class="fa-solid fa-phone"></i>
                     <span class="tooltip">Call Us Now</span>
                 </a>
