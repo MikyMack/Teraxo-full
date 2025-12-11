@@ -21,8 +21,7 @@ const storage = multer.diskStorage({
     const ext = path.extname(file.originalname);
     const baseName = path.basename(file.originalname, ext);
     const slugified = slugify(baseName);
-    const timestamp = Date.now();
-    const seoName = `${slugified}-${timestamp}${ext}`;
+    const seoName = `${slugified}${ext}`;
     cb(null, seoName);
   },
 });

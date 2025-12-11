@@ -27,9 +27,7 @@ router.get('/', async (req, res) => {
 router.get('/company_overview', async (req, res) => {
     try {
         const testimonials = await Testimonial.find().sort({ createdAt: -1 }).limit(8);
-        const blogs = await Blog.find().sort({ createdAt: -1 }).limit(3);
-
-        res.render('company-overview', { testimonials, blogs });
+        res.render('company-overview', { testimonials });
     } catch (err) {
         console.error("Error loading company overview page:", err);
         res.status(500).send("Internal Server Error");
@@ -88,6 +86,9 @@ router.get('/industry_signage', (req, res) => {
 router.get('/industry_furniture', (req, res) => {
     res.render('industry-furniture');
 });
+router.get('/industry_interiors', (req, res) => {
+    res.render('industry-interiors');
+});
 router.get('/industry_automotive', (req, res) => {
     res.render('industry-automotive');
 });
@@ -127,7 +128,7 @@ router.get('/blogs', async (req, res) => {
 });
 router.get('/blogDetails/:slug', async (req, res) => {
     try {
-        const blog = await Blog.findOne({ slug: req.params.slug});
+        const blog = await Blog.findOne({ slug: req.params.slug });
         if (!blog) {
             return res.status(404).send("Blog not found");
         }
@@ -143,4 +144,7 @@ router.get('/contact', (req, res) => {
 router.get('/privacy', (req, res) => {
     res.render('privacy');
 });
-module.exports = router;
+router.get('/terms', (req, res) => {
+    res.render('terms');
+});
+module.exports = router;
