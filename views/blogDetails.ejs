@@ -390,118 +390,119 @@
         <!-- breadcrumb area end -->
 
         <!-- postbox area start -->
-   <section class="rs-postbox-area section-space">
+<section class="rs-postbox-area section-space">
     <div class="container">
         <div class="row g-5">
             <div class="col-xl-12 col-lg-8">
                 <div class="rs-postbox-details-wrapper">
 
+                    <!-- Blog Title -->
                     <h3 class="rs-postbox-details-title">
-                        How Modern Adhesive Technology is Transforming Manufacturing in India
+                        <%= blog.title %>
                     </h3>
 
+                    <!-- Blog Main Image -->
                     <div class="rs-postbox-details-thumb">
-                        <img class="blog-details-img" src="/images/teraxo/blog-1.jpg" alt="image">
+                        <img class="blog-details-img" 
+                             src="/uploads/<%= blog.images && blog.images.length > 0 ? blog.images[0] : 'default.jpg' %>" 
+                             alt="<%= blog.title %>">
                     </div>
 
+                    <!-- Meta -->
                     <div class="rs-postbox-content">
                         <div class="rs-postbox-meta-list">
                             <div class="rs-postbox-meta-item">
                                 <span class="rs-meta-text">By 
-                                    <a class="meta-author" href="blog-details.html">Teraxo Adhesives</a>
+                                    <a class="meta-author" href="#">
+                                        <%= blog.createdBy || "Teraxo Team" %>
+                                    </a>
                                 </span>
                             </div>
                             <div class="rs-postbox-meta-item">
-                                <span class="rs-postbox-meta-text">February 8, 2025</span>
+                                <span class="rs-postbox-meta-text">
+                                    <%= blog.date ? blog.date.toDateString() : blog.createdAt.toDateString() %>
+                                </span>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Blog Content -->
                     <div class="rs-postbox-details-content">
 
-                        <p>
-                            Over the last decade, India’s manufacturing industry has undergone a rapid transformation.
-                            With increasing demand for faster production, stronger bonding, and cleaner finishing,
-                            adhesive technology has become a crucial part of industries including footwear, furniture,
-                            signage, automotive, and interior fabrication.
-                        </p>
+                        <!-- Description -->
+                        <% if (blog.description) { %>
+                            <p><%= blog.description %></p>
+                        <% } %>
 
-                        <p>
-                            At Teraxo, we have closely worked with manufacturers to develop high-performance cyanoacrylate
-                            adhesives that reduce curing time, improve product quality, and support large-scale production 
-                            efficiency. Our instant bonding solutions are engineered to meet real-world challenges across 
-                            multiple industries.
-                        </p>
+                        <% if (blog.moreDescription) { %>
+                            <p><%= blog.moreDescription %></p>
+                        <% } %>
 
+                        <!-- Quote -->
+                        <% if (blog.quoteOfTheDay) { %>
                         <div class="rs-postbox-quote quote-two">
                             <blockquote>
-                                <p>
-                                    “In today’s fast-moving manufacturing environment, the right adhesive can reduce 
-                                    production time by up to 50% and significantly improve product durability.”
-                                </p>
-                                <cite>Teraxo Technical Team</cite>
+                                <p>"<%= blog.quoteOfTheDay %>"</p>
+                                <cite><%= blog.createdBy || "Teraxo Technical Team" %></cite>
                             </blockquote>
                         </div>
+                        <% } %>
 
+                        <!-- Sub Title -->
+                        <% if (blog.subTitle) { %>
                         <h3 class="rs-postbox-details-feature-title mb-20">
-                            The Rise of Instant Adhesives in Indian Manufacturing
+                            <%= blog.subTitle %>
                         </h3>
+                        <% } %>
 
-                        <p>
-                            Traditional bonding methods—such as screws, nails, and slow-curing glues—are no longer
-                            practical for modern production lines. Industries now require clean bonding, fast
-                            application, and strong adhesion within seconds. This is where cyanoacrylate adhesives
-                            like FX40, R40, and W40 have revolutionized workflow.
-                        </p>
+                        <% if (blog.subDescription) { %>
+                            <p><%= blog.subDescription %></p>
+                        <% } %>
 
+                        <!-- Extra Images -->
                         <div class="rs-postbox-details-thumb-wrapper mb-30">
                             <div class="row g-5">
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                    <div class="rs-postbox-details-thumb">
-                                        <img src="/images/teraxo/bnr-3.jpg" alt="image">
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                    <div class="rs-postbox-details-thumb">
-                                        <img src="/images/teraxo/bnr-4.jpg" alt="image">
-                                    </div>
-                                </div>
+
+                                <% if (blog.images && blog.images.length > 1) { %>
+                                    <% blog.images.slice(1).forEach(img => { %>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                            <div class="rs-postbox-details-thumb">
+                                                <img src="/uploads/<%= img %>" alt="image">
+                                            </div>
+                                        </div>
+                                    <% }) %>
+                                <% } %>
+
                             </div>
                         </div>
 
+                        <!-- Extra Title -->
+                        <% if (blog.extraTitle) { %>
                         <h3 class="rs-postbox-details-feature-title mb-20">
-                            Why Cyanoacrylate Adhesives Are the Future
+                            <%= blog.extraTitle %>
                         </h3>
+                        <% } %>
 
-                        <p>
-                            Instant adhesives offer unmatched speed and versatility. Whether it’s bonding wood,
-                            PVC, acrylic, rubber, leather, metal, or stone, CA adhesives provide reliable performance
-                            with a clean, professional finish. This makes them perfect for industries where precision,
-                            speed, and strength are essential.
-                        </p>
-
+                        <!-- Extra Points -->
+                        <% if (blog.extraPoints && blog.extraPoints.length > 0) { %>
                         <div class="rs-postbox-details-feature">
                             <ul>
-                                <li>Fast curing time reduces production delays</li>
-                                <li>Extremely strong bonding performance</li>
-                                <li>Compatible with multi-material manufacturing</li>
+                                <% blog.extraPoints.forEach(point => { %>
+                                    <li><%= point %></li>
+                                <% }) %>
                             </ul>
                         </div>
+                        <% } %>
 
-                        <p>
-                            As customer expectations rise and manufacturing continues to evolve, industries are shifting 
-                            towards adhesives that provide efficiency, consistency, and cost-effective performance. 
-                            Teraxo is committed to supporting this transformation with high-quality products and 
-                            industry-specific adhesive solutions.
-                        </p>
-
+                        <!-- Tags -->
+                        <% if (blog.tags && blog.tags.length > 0) { %>
                         <div class="rs-postbox-details-tags tagcloud">
                             <span>Tags:</span>
-                            <a href="#">Manufacturing</a>
-                            <a href="#">Adhesives</a>
-                            <a href="#">Industry Trends</a>
-                            <a href="#">Teraxo</a>
+                            <% blog.tags.forEach(tag => { %>
+                                <a href="#"><%= tag %></a>
+                            <% }) %>
                         </div>
+                        <% } %>
 
                     </div>
 
@@ -510,6 +511,7 @@
         </div>
     </div>
 </section>
+
 
         <!-- rs-postbox area end -->
 
