@@ -1137,9 +1137,10 @@
                                                                 <p>Drag & drop images here or click to browse</p>
                                                                 <span class="file-types">JPG, PNG, WEBP (Max 5MB each)</span>
                                                             </div>
-                                                            <input type="file" id="product-images" name="images" multiple accept="image/*" required>
+                                                            <input type="file" id="product-images" name="images" multiple accept="image/*">
                                                         </div>
                                                         <div class="image-preview-grid" id="product-image-preview-grid"></div>
+                                                        <input type="hidden" id="existingImages" name="existingImages">
                                                     </div>
                                                 </div>
 
@@ -1392,56 +1393,72 @@
       productSubmitBtn.textContent = 'Create Product';
       openModal('product-modal');
     });
+// ------------------ Submit Product Form ------------------
+productForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-    productForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData();
-      formData.set('title', document.getElementById('product-title').value);
-      formData.set('slug', document.getElementById('product-slug').value);
-      formData.set('description', document.getElementById('product-description').value);
-      formData.set('subDescription', document.getElementById('product-subDescription').value || '');
-      formData.set('chemicalBase', document.getElementById('product-chemicalBase').value || '');
-      formData.set('appearance', document.getElementById('product-appearance').value || '');
-      formData.set('shelfLife', document.getElementById('product-shelfLife').value || '');
-      formData.set('cureTime', document.getElementById('product-cureTime').value || '');
-      formData.set('applicationTips', document.getElementById('product-applicationTips').value || '');
-      formData.set('seoTitle', document.getElementById('product-seoTitle').value || '');
-      formData.set('seoDescription', document.getElementById('product-seoDescription').value || '');
-      getListItems(featuresList).forEach(v => formData.append('keyFeatures', v));
-      getListItems(packsList).forEach(v => formData.append('availablePacks', v));
-      getListItems(seoKeywordsList).forEach(v => formData.append('seoKeywords', v));
-      formData.set('questionsAndAnswers', JSON.stringify(getQAItems()));
-      formData.set('isActive', document.getElementById('product-isActive').checked ? 'true' : 'false');
-      formData.set('existingImages', JSON.stringify(existingImages));
-      formData.set('removedExistingImages', JSON.stringify([...removedExistingImages]));
-      const newFiles = Array.from(productImagesInput.files || []);
-      if (newFiles.length > 0) {
-        newFiles.forEach((file, idx) => {
-          if (!removedNewFileIndexes.has(idx)) {
-            formData.append('images', file);
-          }
-        });
-      }
-      if (editingProduct) {
-        formData.set('appendImages', true);
-      }
-      try {
-        const url = editingProduct ? `/api/admin-product/${editingProduct._id}` : `/api/admin-product`;
-        const method = editingProduct ? 'PUT' : 'POST';
-        const res = await fetch(url, { method, body: formData });
-        const data = await res.json();
-        if (data.success) {
-          alert(data.message);
-          closeModal('product-modal');
-          fetchProducts();
-        } else {
-          alert(data.message || 'Operation failed');
-        }
-      } catch (err) {
-        console.error(err);
-        alert('Error submitting form');
-      }
-    });
+  const formData = new FormData();
+  formData.set('title', document.getElementById('product-title').value);
+  formData.set('slug', document.getElementById('product-slug').value);
+  formData.set('description', document.getElementById('product-description').value);
+  formData.set('subDescription', document.getElementById('product-subDescription').value || '');
+  formData.set('chemicalBase', document.getElementById('product-chemicalBase').value || '');
+  formData.set('appearance', document.getElementById('product-appearance').value || '');
+  formData.set('shelfLife', document.getElementById('product-shelfLife').value || '');
+  formData.set('cureTime', document.getElementById('product-cureTime').value || '');
+  formData.set('applicationTips', document.getElementById('product-applicationTips').value || '');
+  formData.set('seoTitle', document.getElementById('product-seoTitle').value || '');
+  formData.set('seoDescription', document.getElementById('product-seoDescription').value || '');
+  getListItems(featuresList).forEach(v => formData.append('keyFeatures', v));
+  getListItems(packsList).forEach(v => formData.append('availablePacks', v));
+  getListItems(seoKeywordsList).forEach(v => formData.append('seoKeywords', v));
+  formData.set('questionsAndAnswers', JSON.stringify(getQAItems()));
+  formData.set('isActive', document.getElementById('product-isActive').checked ? 'true' : 'false');
+
+  // ----------------------------
+  // IMAGES LOGIC
+  // ----------------------------
+
+  // Filter out removed existing images
+  const remainingExistingImages = existingImages.filter(img => !removedExistingImages.has(img));
+  formData.set('existingImages', JSON.stringify(remainingExistingImages));
+  formData.set('removedExistingImages', JSON.stringify([...removedExistingImages]));
+
+  // Append new files (skipping removed ones)
+  const newFiles = Array.from(productImagesInput.files || []);
+  const newFilesToUpload = newFiles.filter((_, idx) => !removedNewFileIndexes.has(idx));
+  newFilesToUpload.forEach(file => formData.append('images', file));
+
+  // --- IMAGE VALIDATION ---
+  const totalImagesCount = remainingExistingImages.length + newFilesToUpload.length;
+  
+
+  if (totalImagesCount === 0) {
+    alert("At least one product image is required.");
+    return;
+  }
+
+  // Only append appendImages flag for editing
+  if (editingProduct) formData.set('appendImages', true);
+
+  try {
+    const url = editingProduct ? `/api/admin-product/${editingProduct._id}` : `/api/admin-product`;
+    const method = editingProduct ? 'PUT' : 'POST';
+    const res = await fetch(url, { method, body: formData });
+    const data = await res.json();
+
+    if (data.success) {
+      alert(data.message);
+      closeModal('product-modal');
+      fetchProducts();
+    } else {
+      alert(data.message || 'Operation failed');
+    }
+  } catch (err) {
+    console.error(err);
+    alert('Error submitting form');
+  }
+});
 
     window.editProduct = async (id) => {
       resetForm();
@@ -1553,6 +1570,7 @@
         qaContainer.innerHTML = '';
         product.questionsAndAnswers.forEach(qa => addQA(qa.question, qa.answer));
       }
+      
       productImagePreviewGrid.innerHTML = '';
       existingImages = Array.isArray(product.images) ? [...product.images] : [];
       existingImages.forEach((imgName) => {
@@ -1620,36 +1638,44 @@
     };
   });
 
-  function openModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) modal.style.display = 'block';
+// -------------------------------
+// Modal Open / Close (Refactored)
+// -------------------------------
+function openModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (!modal) return;
+
+  modal.style.display = "block";
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal(modalId, reset = false) {
+  const modal = document.getElementById(modalId);
+  if (!modal) return;
+
+  modal.style.display = "none";
+  document.body.style.overflow = "";
+
+  if (reset && modalId === 'product-modal') {
+    resetForm();
+  }
+}
+
+// -----------------------------------------------
+// Backdrop Click — close ONLY if clicking outside
+// -----------------------------------------------
+window.addEventListener("click", (e) => {
+  const productModal = document.getElementById("product-modal");
+  if (e.target === productModal) {
+    closeModal("product-modal", true);
   }
 
-  function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) modal.style.display = 'none';
-    if (modalId === 'product-modal') {
-      document.getElementById('product-form').reset();
-      document.getElementById('features-list').innerHTML = '';
-      document.getElementById('packs-list').innerHTML = '';
-      document.getElementById('qa-container').innerHTML = `<div class="no-qa-message">
-      <i class="icon-help-circle"></i>
-      <p>No questions added yet. Add common questions and their answers.</p>
-    </div>`;
-      document.getElementById('seo-keywords-list').innerHTML = '';
-      document.getElementById('product-image-preview-grid').innerHTML = '';
-      document.getElementById('edit-id').value = '';
-      document.getElementById('product-modal-submit-btn').innerText = 'Create Product';
-      document.getElementById('product-modal-title').innerText = 'Add New Product';
-    }
+  const deleteModal = document.getElementById("confirm-delete-modal");
+  if (e.target === deleteModal) {
+    closeModal("confirm-delete-modal", false);
   }
+});
 
-  window.onclick = function (event) {
-    const productModal = document.getElementById('product-modal');
-    const deleteModal = document.getElementById('confirm-delete-modal');
-    if (event.target === productModal) closeModal('product-modal');
-    if (event.target === deleteModal) closeModal('confirm-delete-modal');
-  };
 
   function toggleDetails(btn) {
     const card = btn.closest('.product-card');

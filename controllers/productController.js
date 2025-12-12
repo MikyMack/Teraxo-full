@@ -119,9 +119,11 @@ exports.createProduct = async (req, res) => {
       message: "Internal server error",
     });
   }
-};
+};  
 
 exports.updateProduct = async (req, res) => {
+  console.log("Update Product Request Body:", req.body);
+
   try {
     const { id } = req.params;
 
@@ -150,22 +152,19 @@ exports.updateProduct = async (req, res) => {
       seoDescription,
       isActive,
       questionsAndAnswers,
-      appendImages
+      appendImages,
+      existingImages,          // NEW: array sent from frontend after removals
+      removedExistingImages    // NEW: array of removed image names
     } = req.body;
 
     const updateData = {};
 
+    // --- BASIC FIELDS ---
     if (title) {
-      const newSlug = slugify(title);
-      const exists = await Product.findOne({
-        slug: newSlug,
-        _id: { $ne: id }
-      });
+      const newSlug = slugify(title, { lower: true });
+      const exists = await Product.findOne({ slug: newSlug, _id: { $ne: id } });
       if (exists) {
-        return res.status(400).json({
-          success: false,
-          message: "Another product with this title already exists."
-        });
+        return res.status(400).json({ success: false, message: "Another product with this title already exists." });
       }
       updateData.title = title.trim();
       updateData.slug = newSlug;
@@ -180,10 +179,7 @@ exports.updateProduct = async (req, res) => {
     if (applicationTips) updateData.applicationTips = applicationTips;
     if (seoTitle) updateData.seoTitle = seoTitle;
     if (seoDescription) updateData.seoDescription = seoDescription;
-
-    if (typeof isActive !== "undefined") {
-      updateData.isActive = isActive === "true";
-    }
+    if (typeof isActive !== "undefined") updateData.isActive = isActive === "true";
 
     if (typeof availablePacks !== "undefined") {
       updateData.availablePacks = Array.isArray(availablePacks)
@@ -210,54 +206,49 @@ exports.updateProduct = async (req, res) => {
           : questionsAndAnswers;
     }
 
-    // HANDLE REMOVED IMAGES
-    if (req.body.removedExistingImages) {
-      let removedImages = [];
+    // --- IMAGE HANDLING ---
+    // Start with frontend's existingImages (already reflects removals)
+    let currentImages = [];
+    if (existingImages) {
       try {
-        removedImages = JSON.parse(req.body.removedExistingImages);
-      } catch {}
+        currentImages = JSON.parse(existingImages);
+      } catch { currentImages = []; }
+    }
 
-      if (Array.isArray(removedImages) && removedImages.length > 0) {
-        const fs = require("fs");
+    // Delete removed images from server
+    if (removedExistingImages) {
+      try {
+        const removedImages = JSON.parse(removedExistingImages);
         const uploadPath = path.join(__dirname, "..", "uploads");
-
         removedImages.forEach(img => {
           const filePath = path.join(uploadPath, img);
-          if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath);
-          }
+          if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
         });
-
-        updateData.images = product.images.filter(i => !removedImages.includes(i));
-      }
+      } catch {}
     }
 
-    // ADD NEW IMAGES
+    // Add new uploaded files
     if (req.files?.length > 0) {
-      const newImages = req.files.map(file => file.filename);
-
-      updateData.images =
-        appendImages === "true"
-          ? [...(product.images || []), ...newImages]
-          : newImages;
+      const newImages = req.files.map(f => f.filename);
+      updateData.images = appendImages === "true" ? [...currentImages, ...newImages] : newImages;
+    } else {
+      updateData.images = currentImages;
     }
 
-    const finalImages = updateData.images || product.images;
-    const finalAvailablePacks = updateData.availablePacks || product.availablePacks;
+    // --- FINAL VALIDATION ---
+    const finalImages = updateData.images || [];
+    const finalAvailablePacks = updateData.availablePacks || [];
 
-    if (
-      !finalImages || finalImages.length === 0 ||
-      !finalAvailablePacks || finalAvailablePacks.length === 0
-    ) {
-      return res.status(400).json({
-        success: false,
-        message: "Images and available packs are required."
-      });
+    if (!finalImages.length) {
+      return res.status(400).json({ success: false, message: "At least one product image is required." });
     }
 
-    const updatedProduct = await Product.findByIdAndUpdate(id, updateData, {
-      new: true
-    });
+    if (!finalAvailablePacks.length) {
+      return res.status(400).json({ success: false, message: "At least one available pack is required." });
+    }
+
+    // --- UPDATE PRODUCT ---
+    const updatedProduct = await Product.findByIdAndUpdate(id, updateData, { new: true });
 
     return res.status(200).json({
       success: true,
@@ -267,10 +258,7 @@ exports.updateProduct = async (req, res) => {
 
   } catch (error) {
     console.error("Error updating product:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Internal server error"
-    });
+    return res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
 
