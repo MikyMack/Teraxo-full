@@ -20412,7 +20412,7 @@ header{
   width: 100%;
   border-radius: 4px;
   height: 550px;
-  object-fit: cover;
+  object-fit: contain;
 }
 .rs-services-details-wrapper .rs-services-details-title {
   font-size: 36px;
@@ -29229,7 +29229,7 @@ a.ui-button:active {
 }
 
 .gallery-item {
-  width: calc(25% - 8px);
+  /* width: calc(25% - 8px); */
   max-width: 100px;
   border: 2px solid transparent;
   border-radius: 8px;
@@ -29288,7 +29288,7 @@ a.ui-button:active {
   height: 100%;
   border-radius: 10px;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.3s ease;
 }
 
@@ -29565,9 +29565,7 @@ a.ui-button:active {
     background: #4CAF50;
   }
   
-  .rs-services-details-wrapper .rs-services-details-thumb img{
-    height:300px
-  }
+  
 }
 
 
