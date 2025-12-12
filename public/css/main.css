@@ -3116,8 +3116,19 @@ textarea:focus {
 }
 .footer-bg{
 background: linear-gradient(90deg, #5692d2, #1f3f63);
-
 }
+
+@media only screen and (max-width: 575px) {
+  .footer-bg {
+    padding-bottom: 80px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .footer-bg {
+    padding-bottom: 80px;
+  }
+}
+
 .rs-section-subtitle.has-bg-field {
   color: var(--rs-theme-red);
   background: rgba(238, 13, 8, 0.07);
@@ -3630,8 +3641,14 @@ input[type=checkbox] ~ label:hover {
 }
 @media only screen and (max-width: 575px) {
   .backtotop-wrap {
-    bottom: 20px;
-    inset-inline-end: 20px;
+    bottom: 70px;
+    inset-inline-end: 10px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .backtotop-wrap {
+    bottom: 70px;
+    inset-inline-end: 28px;
   }
 }
 .backtotop-wrap.active-progress {
@@ -29687,7 +29704,7 @@ a.ui-button:active {
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .floating-buttons {
-        bottom: 90px;
+        bottom: 135px;
         right: 28px;
     }
 
@@ -29700,7 +29717,7 @@ a.ui-button:active {
 
 @media (max-width: 480px) {
     .floating-buttons {
-        bottom: 15px;
+        bottom: 135px;
         right: 10px;
         gap: 10px;
     }
@@ -29712,4 +29729,68 @@ a.ui-button:active {
     }
 }
 
-/*# sourceMappingURL=main.css.map */
+
+@media (max-width: 991px) {
+    .mobile-bottom-navbar {
+        position: fixed;
+        z-index: 9999;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        background: rgba(255, 255, 255, 0.96);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 3px 24px 0 rgba(0,0,0,0.06), 
+                    -2px 0 8px -4px rgba(0,0,0,0.04), 
+                    2px 0 8px -4px rgba(0,0,0,0.04);
+        padding: 0 12px;
+        height: 62px;
+        border-radius: 18px 18px 0 0;
+        animation: slideUpNav 0.8s cubic-bezier(0.46, 0.03, 0.52, 0.96) forwards;
+        font-family: 'Poppins', sans-serif;
+        box-sizing: border-box;
+    }
+    .mobile-bottom-navbar .mobile-nav-link {
+        flex: 1 1 auto;
+        text-align: center;
+        color: #000000;
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.16s;
+        position: relative;
+        padding: 0;
+    }
+    .mobile-bottom-navbar .mobile-nav-link.active,
+    .mobile-bottom-navbar .mobile-nav-link:focus,
+    .mobile-bottom-navbar .mobile-nav-link:hover {
+        color: #bb2121;
+    }
+    .mobile-bottom-navbar .mobile-nav-icon {
+        display: block;
+        font-size: 22px;
+        margin-bottom: 2px;
+        transition: transform 0.2s;
+    }
+    .mobile-bottom-navbar .mobile-nav-link.active .mobile-nav-icon {
+        color: #bb2121;
+        transform: scale(1.18);
+        text-shadow: 0 0 12px #21aebb86;
+    }
+    .mobile-bottom-navbar .mobile-nav-label {
+        font-size: 11px;
+        letter-spacing: 0.01em;
+    }
+    /* Animate in */
+    @keyframes slideUpNav {
+        0% { transform: translateY(120%); opacity:0; }
+        67% { opacity: 1;}
+        100% { transform: translateY(0); opacity:1; }
+    }
+}
+/* Hide on desktop */
+@media (min-width: 992px) {
+    .mobile-bottom-navbar {
+        display: none !important;
+    }
+}
