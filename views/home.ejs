@@ -1003,7 +1003,7 @@
                         <% }); %>
                     <% } else { %>
                         <div class="swiper-slide">
-                            <p class="text-center text-white">No products available</p>
+                            <p class="text-center text-dark">No products available</p>
                         </div>
                     <% } %>
 
@@ -1597,8 +1597,15 @@
                         </div>
                         <% } %>
                         <h5 class="rs-blog-title">
-                            <a href="/blogDetails/<%= blog.slug %>"><%= blog.title %></a>
-                        </h5>
+                                <a href="/blogDetails/<%= blog && blog.slug ? blog.slug : '' %>">
+                                    <%= blog && blog.title 
+                                        ? (blog.title.length > 80 
+                                            ? blog.title.slice(0, 80) + "..." 
+                                            : blog.title)
+                                        : "Untitled" 
+                                    %>
+                                </a>
+                            </h5>
                         <div class="rs-blog-meta">
                             <% if(blog.createdBy){ %>
                             <div class="rs-blog-meta-item">

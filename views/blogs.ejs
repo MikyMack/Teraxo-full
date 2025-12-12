@@ -394,21 +394,21 @@
 
         <div class="row g-5">
 
-            <% if (!blogs || blogs.length === 0) { %>
+            <% if (!Array.isArray(blogs) || blogs.length === 0) { %>
                 <div class="col-12 text-center">
                     <h4>No blogs found</h4>
                 </div>
             <% } %>
 
-            <% blogs.forEach(function(blog, index) { %>
+            <% (blogs || []).forEach(function(blog, index) { %>
                 <div class="col-xl-4 col-lg-4 col-md-6">
                     <div class="rs-blog-item wow fadeInUp" data-wow-delay="<%= ((index + 1) * 0.2).toFixed(1) %>s">
                         
                         <!-- Image -->
                         <div class="rs-blog-thumb">
-                            <a href="/blogDetails/<%= blog.slug %>">
-                                <img src="/uploads/<%= (blog.images && blog.images.length > 0) ? blog.images[0] : 'default.jpg' %>" 
-                                     alt="<%= blog.title || 'Blog image' %>" 
+                            <a href="/blogDetails/<%= blog && blog.slug ? blog.slug : '' %>">
+                                <img src="/uploads/<%= (blog && blog.images && blog.images.length > 0) ? blog.images[0] : 'default.jpg' %>" 
+                                     alt="<%= blog && blog.title ? blog.title : 'Blog image' %>" 
                                      style="height: 260px; object-fit: cover;">
                             </a>
                         </div>
@@ -418,15 +418,20 @@
 
                             <!-- Tag -->
                             <div class="rs-blog-tag has-theme-green">
-                                <a href="/blogDetails/<%= blog.slug %>">
-                                    <%= (blog.tags && blog.tags.length > 0) ? blog.tags[0] : "General" %>
+                                <a href="/blogDetails/<%= blog && blog.slug ? blog.slug : '' %>">
+                                    <%= (blog && blog.tags && blog.tags.length > 0) ? blog.tags[0] : "General" %>
                                 </a>
                             </div>
 
                             <!-- Title -->
                             <h5 class="rs-blog-title">
-                                <a href="/blogDetails/<%= blog.slug %>">
-                                    <%= blog.title || "Untitled" %>
+                                <a href="/blogDetails/<%= blog && blog.slug ? blog.slug : '' %>">
+                                    <%= blog && blog.title 
+                                        ? (blog.title.length > 80 
+                                            ? blog.title.slice(0, 80) + "..." 
+                                            : blog.title)
+                                        : "Untitled" 
+                                    %>
                                 </a>
                             </h5>
 
@@ -435,17 +440,20 @@
                                 <div class="rs-blog-meta-item">
                                     <span>By 
                                         <a class="rs-blog-meta-author" href="#">
-                                            <%= blog.createdBy || "Teraxo Team" %>
+                                            <%= blog && blog.createdBy ? blog.createdBy : "Teraxo Team" %>
                                         </a>
                                     </span>
                                 </div>
                                 <div class="rs-blog-meta-item">
                                     <span>
-                                        <% 
-                                            var dateToShow = blog.date || blog.createdAt;
+                                        <%
+                                            var dateToShow = blog ? (blog.date || blog.createdAt) : null;
                                             var formattedDate = "Date Not Available";
                                             try {
-                                                if (dateToShow) formattedDate = new Date(dateToShow).toDateString();
+                                                if (dateToShow) {
+                                                    var d = new Date(dateToShow);
+                                                    if (!isNaN(d.getTime())) formattedDate = d.toDateString();
+                                                }
                                             } catch(e) {}
                                         %>
                                         <%= formattedDate %>
@@ -456,10 +464,10 @@
                             <!-- Bottom -->
                             <div class="rs-blog-btn-wrapper">
                                 <span class="rs-blog-meta-text">
-                                    <%= Math.max(1, Math.ceil(((blog.description || '').length) / 350)) %> min read
+                                    <%= Math.max(1, Math.ceil(((blog && blog.description ? blog.description : '').length) / 350)) %> min read
                                 </span>
 
-                                <a class="rs-square-btn has-icon has-light-grey" href="/blogDetails/<%= blog.slug %>">
+                                <a class="rs-square-btn has-icon has-light-grey" href="/blogDetails/<%= blog && blog.slug ? blog.slug : '' %>">
                                     <span class="icon-box">
                                         <i class="ri-arrow-right-line icon-first"></i>
                                         <i class="ri-arrow-right-line icon-second"></i>
@@ -484,28 +492,30 @@
 
                             <!-- Previous -->
                             <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
-                                <a class="page-link" href="/blogs?page=<%= Math.max(1, page - 1) %>&limit=<%= limit %>">Previous</a>
+                                <a class="page-link" href="/blogs?page=<%= Math.max(1, (page || 1) - 1) %>&limit=<%= limit || 10 %>">Previous</a>
                             </li>
 
-                            <!-- Page Numbers (compact if many pages) -->
+                            <!-- Page Numbers -->
                             <% 
-                                // simple windowed pagination: show up to 7 page numbers centered on current page
-                                var start = Math.max(1, page - 3);
-                                var end = Math.min(totalPages, page + 3);
-                                if (page <= 4) { start = 1; end = Math.min(7, totalPages); }
-                                if (page > totalPages - 4) { end = totalPages; start = Math.max(1, totalPages - 6); }
+                                var safePage = page || 1;
+                                var safeLimit = limit || 10;
+                                var start = Math.max(1, safePage - 3);
+                                var end = Math.min(totalPages, safePage + 3);
+
+                                if (safePage <= 4) { start = 1; end = Math.min(7, totalPages); }
+                                if (safePage > totalPages - 4) { end = totalPages; start = Math.max(1, totalPages - 6); }
                             %>
 
                             <% if (start > 1) { %>
-                                <li class="page-item"><a class="page-link" href="/blogs?page=1&limit=<%= limit %>">1</a></li>
+                                <li class="page-item"><a class="page-link" href="/blogs?page=1&limit=<%= safeLimit %>">1</a></li>
                                 <% if (start > 2) { %>
                                     <li class="page-item disabled"><span class="page-link">…</span></li>
                                 <% } %>
                             <% } %>
 
                             <% for (var i = start; i <= end; i++) { %>
-                                <li class="page-item <%= page === i ? 'active' : '' %>">
-                                    <a class="page-link" href="/blogs?page=<%= i %>&limit=<%= limit %>"><%= i %></a>
+                                <li class="page-item <%= safePage === i ? 'active' : '' %>">
+                                    <a class="page-link" href="/blogs?page=<%= i %>&limit=<%= safeLimit %>"><%= i %></a>
                                 </li>
                             <% } %>
 
@@ -513,12 +523,12 @@
                                 <% if (end < totalPages - 1) { %>
                                     <li class="page-item disabled"><span class="page-link">…</span></li>
                                 <% } %>
-                                <li class="page-item"><a class="page-link" href="/blogs?page=<%= totalPages %>&limit=<%= limit %>"><%= totalPages %></a></li>
+                                <li class="page-item"><a class="page-link" href="/blogs?page=<%= totalPages %>&limit=<%= safeLimit %>"><%= totalPages %></a></li>
                             <% } %>
 
                             <!-- Next -->
-                            <li class="page-item <%= page >= totalPages ? 'disabled' : '' %>">
-                                <a class="page-link" href="/blogs?page=<%= Math.min(totalPages, page + 1) %>&limit=<%= limit %>">Next</a>
+                            <li class="page-item <%= safePage >= totalPages ? 'disabled' : '' %>">
+                                <a class="page-link" href="/blogs?page=<%= Math.min(totalPages, safePage + 1) %>&limit=<%= safeLimit %>">Next</a>
                             </li>
 
                         </ul>
@@ -530,6 +540,7 @@
 
     </div><!-- container -->
 </section>
+
 
 
         <!-- rs-postbox area end -->
