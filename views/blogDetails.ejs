@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/custom.css">
     <link rel="stylesheet" href="/css/floating-buttons.css">
+
 </head>
 
 <body class="rs-smoother-yes rtl">
@@ -398,31 +399,45 @@
 
                     <!-- Blog Title -->
                     <h3 class="rs-postbox-details-title">
-                        <%= blog.title %>
+                        <%= blog && blog.title ? blog.title : "Untitled Blog" %>
                     </h3>
 
                     <!-- Blog Main Image -->
                     <div class="rs-postbox-details-thumb">
                         <img class="blog-details-img" 
-                             src="/uploads/<%= blog.images && blog.images.length > 0 ? blog.images[0] : 'default.jpg' %>" 
-                             alt="<%= blog.title %>" style="max-width: 100%; height: auto; object-fit: contain;">
+                             src="/uploads/<%= (blog && blog.images && blog.images.length > 0) ? blog.images[0] : 'default.jpg' %>" 
+                             alt="<%= blog && blog.title ? blog.title : 'Blog image' %>" 
+                             style="max-width: 100%; height: auto; object-fit: contain;">
                     </div>
 
                     <!-- Meta -->
                     <div class="rs-postbox-content">
                         <div class="rs-postbox-meta-list">
+
                             <div class="rs-postbox-meta-item">
                                 <span class="rs-meta-text">By 
                                     <a class="meta-author" href="#">
-                                        <%= blog.createdBy || "Teraxo Team" %>
+                                        <%= blog && blog.createdBy ? blog.createdBy : "Teraxo Team" %>
                                     </a>
                                 </span>
                             </div>
+
                             <div class="rs-postbox-meta-item">
                                 <span class="rs-postbox-meta-text">
-                                    <%= blog.date ? blog.date.toDateString() : blog.createdAt.toDateString() %>
+                                    <%
+                                        var dateToShow = blog ? (blog.date || blog.createdAt) : null;
+                                        var formattedDate = "Date Not Available";
+                                        try {
+                                            if (dateToShow) {
+                                                var d = new Date(dateToShow);
+                                                if (!isNaN(d.getTime())) formattedDate = d.toDateString();
+                                            }
+                                        } catch(e) {}
+                                    %>
+                                    <%= formattedDate %>
                                 </span>
                             </div>
+
                         </div>
                     </div>
 
@@ -430,16 +445,16 @@
                     <div class="rs-postbox-details-content">
 
                         <!-- Description -->
-                        <% if (blog.description) { %>
+                        <% if (blog && blog.description) { %>
                             <p><%= blog.description %></p>
                         <% } %>
 
-                        <% if (blog.moreDescription) { %>
+                        <% if (blog && blog.moreDescription) { %>
                             <p><%= blog.moreDescription %></p>
                         <% } %>
 
                         <!-- Quote -->
-                        <% if (blog.quoteOfTheDay) { %>
+                        <% if (blog && blog.quoteOfTheDay) { %>
                         <div class="rs-postbox-quote quote-two">
                             <blockquote>
                                 <p>"<%= blog.quoteOfTheDay %>"</p>
@@ -449,13 +464,13 @@
                         <% } %>
 
                         <!-- Sub Title -->
-                        <% if (blog.subTitle) { %>
+                        <% if (blog && blog.subTitle) { %>
                         <h3 class="rs-postbox-details-feature-title mb-20">
                             <%= blog.subTitle %>
                         </h3>
                         <% } %>
 
-                        <% if (blog.subDescription) { %>
+                        <% if (blog && blog.subDescription) { %>
                             <p><%= blog.subDescription %></p>
                         <% } %>
 
@@ -463,11 +478,11 @@
                         <div class="rs-postbox-details-thumb-wrapper mb-30">
                             <div class="row g-5">
 
-                                <% if (blog.images && blog.images.length > 1) { %>
+                                <% if (blog && blog.images && blog.images.length > 1) { %>
                                     <% blog.images.slice(1).forEach(img => { %>
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                             <div class="rs-postbox-details-thumb">
-                                                <img src="/uploads/<%= img %>" alt="image">
+                                                <img src="/uploads/<%= img %>" alt="Blog extra image">
                                             </div>
                                         </div>
                                     <% }) %>
@@ -477,14 +492,14 @@
                         </div>
 
                         <!-- Extra Title -->
-                        <% if (blog.extraTitle) { %>
+                        <% if (blog && blog.extraTitle) { %>
                         <h3 class="rs-postbox-details-feature-title mb-20">
                             <%= blog.extraTitle %>
                         </h3>
                         <% } %>
 
                         <!-- Extra Points -->
-                        <% if (blog.extraPoints && blog.extraPoints.length > 0) { %>
+                        <% if (blog && blog.extraPoints && blog.extraPoints.length > 0) { %>
                         <div class="rs-postbox-details-feature">
                             <ul>
                                 <% blog.extraPoints.forEach(point => { %>
@@ -495,7 +510,7 @@
                         <% } %>
 
                         <!-- Tags -->
-                        <% if (blog.tags && blog.tags.length > 0) { %>
+                        <% if (blog && blog.tags && blog.tags.length > 0) { %>
                         <div class="rs-postbox-details-tags tagcloud">
                             <span>Tags:</span>
                             <% blog.tags.forEach(tag => { %>
@@ -511,6 +526,7 @@
         </div>
     </div>
 </section>
+
 
 
         <!-- rs-postbox area end -->
@@ -651,6 +667,7 @@ Door No 4,  Survey No 310, Ground Floor, Opp: Global Furnitures, Hulimangala Roa
 
     </div>
 </footer>
+
 
     <!-- back to top -->
     <!-- Backtotop start -->

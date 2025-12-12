@@ -11961,9 +11961,9 @@ header{
 }
 .rs-postbox-details-feature ul {
   display: flex;
-  align-items: center;
   gap: 20px 40px;
   flex-wrap: wrap;
+  flex-flow: column;
 }
 .rs-postbox-details-feature ul li {
   list-style: none;
