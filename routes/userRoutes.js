@@ -27,7 +27,8 @@ router.get('/', async (req, res) => {
 router.get('/company_overview', async (req, res) => {
     try {
         const testimonials = await Testimonial.find().sort({ createdAt: -1 }).limit(8);
-        res.render('company-overview', { testimonials });
+        const blogs = await Blog.find().sort({ createdAt: -1 }).limit(3);
+        res.render('company-overview', { testimonials, blogs });
     } catch (err) {
         console.error("Error loading company overview page:", err);
         res.status(500).send("Internal Server Error");
@@ -106,10 +107,10 @@ router.get('/blogs', async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 6;
 
-        const totalBlogs = await Blog.countDocuments({ isActive: true });
+        const totalBlogs = await Blog.countDocuments();
         const totalPages = Math.ceil(totalBlogs / limit);
 
-        const blogs = await Blog.find({ isActive: true })
+        const blogs = await Blog.find()
             .sort({ createdAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit);
@@ -128,7 +129,7 @@ router.get('/blogs', async (req, res) => {
 });
 router.get('/blogDetails/:slug', async (req, res) => {
     try {
-        const blog = await Blog.findOne({ slug: req.params.slug, isActive: true });
+        const blog = await Blog.findOne({ slug: req.params.slug });
         if (!blog) {
             return res.status(404).send("Blog not found");
         }

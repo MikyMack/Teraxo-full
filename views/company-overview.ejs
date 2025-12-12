@@ -1051,7 +1051,7 @@
         <!-- testimonial area start -->
 <section class="rs-testimonial-area section-space-bottom rs-testimonial-four rs-swiper">
     <div class="container has-large">
-        
+
         <!-- Subtitle -->
         <div class="row">
             <div class="col-lg-12">
@@ -1064,23 +1064,21 @@
             </div>
         </div>
 
-        <!-- Title + Button -->
+        <!-- Title -->
         <div class="row g-5 section-title-space align-items-center">
-            <div class="col-xl-12 ">
+            <div class="col-xl-12">
                 <div class="rs-section-title-wrapper">
                     <h2 class="rs-section-title has-theme-light-blue rs-split-text-enable split-in-fade">
                         What our clients say about Teraxo
                     </h2>
                 </div>
             </div>
-
-
         </div>
 
         <!-- Slider -->
         <div class="row">
             <div class="rs-testimonial-slider-wrapper">
-                
+
                 <div class="swiper"
                     data-clone-slides="false"
                     data-loop="true"
@@ -1102,7 +1100,7 @@
 
                     <div class="swiper-wrapper">
 
-                        <!-- Testimonial 1 -->
+                        <% testimonials.forEach(t => { %>
                         <div class="swiper-slide">
                             <div class="rs-testimonial-item">
 
@@ -1116,26 +1114,29 @@
                                     </svg>
                                 </div>
 
-                                <!-- Content -->
                                 <div class="rs-testimonial-content">
 
                                     <div class="rs-testimonial-top">
                                         <div class="rs-testimonial-avater-wrapper">
-                                            
+
+                                            <!-- Avatar (you can add avatar field later if needed) -->
                                             <div class="rs-testimonial-avater-thumb">
                                                 <img src="/images/teraxo/dummy.jpg" alt="avatar">
                                             </div>
 
                                             <div class="rs-testimonial-avater-info">
-                                                <h5 class="rs-testimonial-title">Excellent Quality!</h5>
+                                                <h5 class="rs-testimonial-title"><%= t.title %></h5>
 
+                                                <!-- Rating -->
                                                 <div class="rs-testimonial-rating">
                                                     <div class="rs-rating">
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-half-line"></i></span>
+                                                        <% for (let i = 1; i <= 5; i++) { %>
+                                                            <% if (i <= t.rating) { %>
+                                                                <span><i class="ri-star-fill"></i></span>
+                                                            <% } else { %>
+                                                                <span><i class="ri-star-line"></i></span>
+                                                            <% } %>
+                                                        <% } %>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1143,183 +1144,22 @@
                                         </div>
                                     </div>
 
+                                    <!-- Content -->
                                     <div class="rs-testimonial-description">
-                                        <p>
-                                            Teraxo has consistently provided top-notch materials. Their reliability and product performance are unmatched.
-                                        </p>
+                                        <p><%= t.content %></p>
                                     </div>
 
+                                    <!-- Name + Designation -->
                                     <div class="rs-testimonial-desig-info">
-                                        <h6 class="rs-testimonial-avater-title">Rahul Verma</h6>
+                                        <h6 class="rs-testimonial-avater-title"><%= t.name %></h6>
                                         <div class="rs-testimonial-separator">/</div>
-                                        <span class="rs-testimonial-avater-designation">Procurement Manager</span>
+                                        <span class="rs-testimonial-avater-designation"><%= t.designation %></span>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Testimonial 2 -->
-                        <div class="swiper-slide">
-                            <div class="rs-testimonial-item">
-
-                                <div class="rs-testimonial-quote">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="96" height="39" viewBox="0 0 96 39" fill="none">
-                                        <g opacity="0.06">
-                                            <path d="M0 29.2815H21.4286L7.14275 0.190567H28.5713L42.8572 29.2815V72.918H0V29.2815Z" fill="#023B4A"></path>
-                                            <path d="M52.8574 72.918V29.2815H74.286L60.0002 0.190567H81.4288L95.7146 29.2815V72.918H52.8574Z" fill="#023B4A"></path>
-                                        </g>
-                                    </svg>
-                                </div>
-
-                                <div class="rs-testimonial-content">
-
-                                    <div class="rs-testimonial-top">
-                                        <div class="rs-testimonial-avater-wrapper">
-
-                                            <div class="rs-testimonial-avater-thumb">
-                                                <img src="/images/teraxo/dummy.jpg" alt="avatar">
-                                            </div>
-
-                                            <div class="rs-testimonial-avater-info">
-                                                <h5 class="rs-testimonial-title">Reliable Partner</h5>
-                                                <div class="rs-testimonial-rating">
-                                                    <div class="rs-rating">
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-half-line"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="rs-testimonial-description">
-                                        <p>
-                                            Their customer service and timely delivery have made a huge difference in our supply chain.
-                                        </p>
-                                    </div>
-
-                                    <div class="rs-testimonial-desig-info">
-                                        <h6 class="rs-testimonial-avater-title">Sneha Patil</h6>
-                                        <div class="rs-testimonial-separator">/</div>
-                                        <span class="rs-testimonial-avater-designation">Operations Head</span>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Testimonial 3 -->
-                        <div class="swiper-slide">
-                            <div class="rs-testimonial-item">
-
-                                <div class="rs-testimonial-quote">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="96" height="39" viewBox="0 0 96 39" fill="none">
-                                        <g opacity="0.06">
-                                            <path d="M0 29.2815H21.4286L7.14275 0.190567H28.5713L42.8572 29.2815V72.918H0V29.2815Z" fill="#023B4A"></path>
-                                            <path d="M52.8574 72.918V29.2815H74.286L60.0002 0.190567H81.4288L95.7146 29.2815V72.918H52.8574Z" fill="#023B4A"></path>
-                                        </g>
-                                    </svg>
-                                </div>
-
-                                <div class="rs-testimonial-content">
-
-                                    <div class="rs-testimonial-top">
-                                        <div class="rs-testimonial-avater-wrapper">
-
-                                            <div class="rs-testimonial-avater-thumb">
-                                                <img src="/images/teraxo/dummy.jpg" alt="avatar">
-                                            </div>
-
-                                            <div class="rs-testimonial-avater-info">
-                                                <h5 class="rs-testimonial-title">Highly Recommended</h5>
-                                                <div class="rs-testimonial-rating">
-                                                    <div class="rs-rating">
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-half-line"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="rs-testimonial-description">
-                                        <p>
-                                            Their products improved our production efficiency. Very durable and affordable.
-                                        </p>
-                                    </div>
-
-                                    <div class="rs-testimonial-desig-info">
-                                        <h6 class="rs-testimonial-avater-title">Arjun Mehta</h6>
-                                        <div class="rs-testimonial-separator">/</div>
-                                        <span class="rs-testimonial-avater-designation">Senior Technician</span>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Testimonial 4 -->
-                        <div class="swiper-slide">
-                            <div class="rs-testimonial-item">
-
-                                <div class="rs-testimonial-quote">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="96" height="39" viewBox="0 0 96 39" fill="none">
-                                        <g opacity="0.06">
-                                            <path d="M0 29.2815H21.4286L7.14275 0.190567H28.5713L42.8572 29.2815V72.918H0V29.2815Z" fill="#023B4A"></path>
-                                            <path d="M52.8574 72.918V29.2815H74.286L60.0002 0.190567H81.4288L95.7146 29.2815V72.918H52.8574Z" fill="#023B4A"></path>
-                                        </g>
-                                    </svg>
-                                </div>
-
-                                <div class="rs-testimonial-content">
-
-                                    <div class="rs-testimonial-top">
-                                        <div class="rs-testimonial-avater-wrapper">
-
-                                            <div class="rs-testimonial-avater-thumb">
-                                                <img src="/images/teraxo/dummy.jpg" alt="avatar">
-                                            </div>
-
-                                            <div class="rs-testimonial-avater-info">
-                                                <h5 class="rs-testimonial-title">Outstanding Service!</h5>
-                                                <div class="rs-testimonial-rating">
-                                                    <div class="rs-rating">
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-half-line"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="rs-testimonial-description">
-                                        <p>
-                                            We trust Teraxo for all major orders because they always deliver on time with excellent product quality.
-                                        </p>
-                                    </div>
-
-                                    <div class="rs-testimonial-desig-info">
-                                        <h6 class="rs-testimonial-avater-title">Kavita Sharma</h6>
-                                        <div class="rs-testimonial-separator">/</div>
-                                        <span class="rs-testimonial-avater-designation">Business Owner</span>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
+                        <% }) %>
 
                     </div> <!-- swiper-wrapper end -->
 
@@ -1559,8 +1399,8 @@
 
 
         <!-- blog area start -->
-    <section class="rs-blog-area section-space-bottom rs-blog-two has-theme-green">
-    <div class="container">
+<section class="rs-blog-area section-space-bottom rs-blog-two has-theme-green">
+    <div class="container" style="position: relative; z-index: 2;">
         <div class="row justify-content-center align-items-center">
             <div class="col-xl-8 col-lg-9">
                 <div class="rs-section-title-wrapper text-center section-title-space">
@@ -1582,34 +1422,44 @@
 
         <div class="row g-5">
 
-            <!-- Blog 1 -->
+            <% blogs.forEach(blog => { %>
             <div class="col-xl-4 col-lg-4 col-md-6">
                 <div class="rs-blog-item wow fadeInUp" data-wow-delay=".3s">
                     <div class="rs-blog-thumb">
-                        <a href="blog-details.html">
-                            <img src="/images/teraxo/blog-1.jpg" alt="Choosing Adhesive">
+                        <a href="/blogDetails/<%= blog.slug %>">
+                            <% if (blog.images && blog.images.length > 0) { %>
+                                <img src="/uploads/<%= blog.images[0] %>" alt="<%= blog.title %>">
+                            <% } else { %>
+                                <img src="/images/teraxo/blog-1.jpg" alt="<%= blog.title %>">
+                            <% } %>
                         </a>
                     </div>
                     <div class="rs-blog-content">
+                        <% if(blog.subTitle){ %>
                         <div class="rs-blog-tag has-theme-green">
-                            <a href="blog-details.html">Adhesives</a>
+                            <a href="/blogDetails/<%= blog.slug %>"><%= blog.subTitle %></a>
                         </div>
+                        <% } %>
                         <h5 class="rs-blog-title">
-                            <a href="blog-details.html">How to Choose the Right Instant Adhesive for Your Industry</a>
+                            <a href="/blogDetails/<%= blog.slug %>"><%= blog.title %></a>
                         </h5>
                         <div class="rs-blog-meta">
+                            <% if(blog.createdBy){ %>
                             <div class="rs-blog-meta-item">
                                 <span>By
-                                    <a class="rs-blog-meta-author" href="#">Teraxo Team</a>
+                                    <a class="rs-blog-meta-author" href="#"><%= blog.createdBy %></a>
                                 </span>
                             </div>
+                            <% } %>
+                            <% if(blog.date){ %>
                             <div class="rs-blog-meta-item">
-                                <span>Jan 12, 2025</span>
+                                <span><%= blog.date.toDateString() %></span>
                             </div>
+                            <% } %>
                         </div>
                         <div class="rs-blog-btn-wrapper">
                             <span class="rs-blog-meta-text">5 min read</span>
-                            <a class="rs-square-btn has-icon has-light-grey" href="blog-details.html">
+                            <a class="rs-square-btn has-icon has-light-grey" href="/blogDetails/<%= blog.slug %>">
                                 <span class="icon-box">
                                     <i class="ri-arrow-right-line icon-first"></i>
                                     <i class="ri-arrow-right-line icon-second"></i>
@@ -1619,82 +1469,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Blog 2 -->
-            <div class="col-xl-4 col-lg-4 col-md-6">
-                <div class="rs-blog-item wow fadeInUp" data-wow-delay=".5s">
-                    <div class="rs-blog-thumb">
-                        <a href="blog-details.html">
-                            <img src="/images/teraxo/blog-1.jpg" alt="FX40 bonding">
-                        </a>
-                    </div>
-                    <div class="rs-blog-content">
-                        <div class="rs-blog-tag has-theme-green">
-                            <a href="blog-details.html">Interiors & PVC</a>
-                        </div>
-                        <h5 class="rs-blog-title">
-                            <a href="blog-details.html">Why FX40 is the Best Adhesive for PVC, Acrylic & Interior Sheets</a>
-                        </h5>
-                        <div class="rs-blog-meta">
-                            <div class="rs-blog-meta-item">
-                                <span>By
-                                    <a class="rs-blog-meta-author" href="#">Teraxo Technical Desk</a>
-                                </span>
-                            </div>
-                            <div class="rs-blog-meta-item">
-                                <span>Jan 8, 2025</span>
-                            </div>
-                        </div>
-                        <div class="rs-blog-btn-wrapper">
-                            <span class="rs-blog-meta-text">4 min read</span>
-                            <a class="rs-square-btn has-icon has-light-grey" href="blog-details.html">
-                                <span class="icon-box">
-                                    <i class="ri-arrow-right-line icon-first"></i>
-                                    <i class="ri-arrow-right-line icon-second"></i>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Blog 3 -->
-            <div class="col-xl-4 col-lg-4 col-md-6">
-                <div class="rs-blog-item wow fadeInUp" data-wow-delay=".7s">
-                    <div class="rs-blog-thumb">
-                        <a href="blog-details.html">
-                            <img src="/images/teraxo/blog-1.jpg" alt="Footwear adhesive">
-                        </a>
-                    </div>
-                    <div class="rs-blog-content">
-                        <div class="rs-blog-tag has-theme-green">
-                            <a href="blog-details.html">Footwear</a>
-                        </div>
-                        <h5 class="rs-blog-title">
-                            <a href="blog-details.html">F40 vs Elite40 – Which Adhesive is Best for Footwear Production?</a>
-                        </h5>
-                        <div class="rs-blog-meta">
-                            <div class="rs-blog-meta-item">
-                                <span>By
-                                    <a class="rs-blog-meta-author" href="#">Teraxo Experts</a>
-                                </span>
-                            </div>
-                            <div class="rs-blog-meta-item">
-                                <span>Jan 5, 2025</span>
-                            </div>
-                        </div>
-                        <div class="rs-blog-btn-wrapper">
-                            <span class="rs-blog-meta-text">6 min read</span>
-                            <a class="rs-square-btn has-icon has-light-grey" href="blog-details.html">
-                                <span class="icon-box">
-                                    <i class="ri-arrow-right-line icon-first"></i>
-                                    <i class="ri-arrow-right-line icon-second"></i>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <% }) %>
 
         </div><!-- row end -->
     </div><!-- container -->

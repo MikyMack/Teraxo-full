@@ -391,127 +391,147 @@
         <!-- postbox area start -->
 <section class="rs-blog-area section-space-bottom mt-100 rs-blog-two has-theme-green">
     <div class="container">
-    
 
         <div class="row g-5">
 
-            <!-- Blog 1 -->
-            <div class="col-xl-4 col-lg-4 col-md-6">
-                <div class="rs-blog-item wow fadeInUp" data-wow-delay=".3s">
-                    <div class="rs-blog-thumb">
-                        <a href="blog-details.html">
-                            <img src="/images/teraxo/blog-1.jpg" alt="Choosing Adhesive">
-                        </a>
-                    </div>
-                    <div class="rs-blog-content">
-                        <div class="rs-blog-tag has-theme-green">
-                            <a href="blog-details.html">Adhesives</a>
-                        </div>
-                        <h5 class="rs-blog-title">
-                            <a href="blog-details.html">How to Choose the Right Instant Adhesive for Your Industry</a>
-                        </h5>
-                        <div class="rs-blog-meta">
-                            <div class="rs-blog-meta-item">
-                                <span>By
-                                    <a class="rs-blog-meta-author" href="#">Teraxo Team</a>
-                                </span>
-                            </div>
-                            <div class="rs-blog-meta-item">
-                                <span>Jan 12, 2025</span>
-                            </div>
-                        </div>
-                        <div class="rs-blog-btn-wrapper">
-                            <span class="rs-blog-meta-text">5 min read</span>
-                            <a class="rs-square-btn has-icon has-light-grey" href="blog-details.html">
-                                <span class="icon-box">
-                                    <i class="ri-arrow-right-line icon-first"></i>
-                                    <i class="ri-arrow-right-line icon-second"></i>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
+            <% if (!blogs || blogs.length === 0) { %>
+                <div class="col-12 text-center">
+                    <h4>No blogs found</h4>
                 </div>
-            </div>
+            <% } %>
 
-            <!-- Blog 2 -->
-            <div class="col-xl-4 col-lg-4 col-md-6">
-                <div class="rs-blog-item wow fadeInUp" data-wow-delay=".5s">
-                    <div class="rs-blog-thumb">
-                        <a href="blog-details.html">
-                            <img src="/images/teraxo/blog-1.jpg" alt="FX40 bonding">
-                        </a>
-                    </div>
-                    <div class="rs-blog-content">
-                        <div class="rs-blog-tag has-theme-green">
-                            <a href="blog-details.html">Interiors & PVC</a>
-                        </div>
-                        <h5 class="rs-blog-title">
-                            <a href="blog-details.html">Why FX40 is the Best Adhesive for PVC, Acrylic & Interior Sheets</a>
-                        </h5>
-                        <div class="rs-blog-meta">
-                            <div class="rs-blog-meta-item">
-                                <span>By
-                                    <a class="rs-blog-meta-author" href="#">Teraxo Technical Desk</a>
-                                </span>
-                            </div>
-                            <div class="rs-blog-meta-item">
-                                <span>Jan 8, 2025</span>
-                            </div>
-                        </div>
-                        <div class="rs-blog-btn-wrapper">
-                            <span class="rs-blog-meta-text">4 min read</span>
-                            <a class="rs-square-btn has-icon has-light-grey" href="blog-details.html">
-                                <span class="icon-box">
-                                    <i class="ri-arrow-right-line icon-first"></i>
-                                    <i class="ri-arrow-right-line icon-second"></i>
-                                </span>
+            <% blogs.forEach(function(blog, index) { %>
+                <div class="col-xl-4 col-lg-4 col-md-6">
+                    <div class="rs-blog-item wow fadeInUp" data-wow-delay="<%= ((index + 1) * 0.2).toFixed(1) %>s">
+                        
+                        <!-- Image -->
+                        <div class="rs-blog-thumb">
+                            <a href="/blogDetails/<%= blog.slug %>">
+                                <img src="/uploads/<%= (blog.images && blog.images.length > 0) ? blog.images[0] : 'default.jpg' %>" 
+                                     alt="<%= blog.title || 'Blog image' %>" 
+                                     style="height: 260px; object-fit: cover;">
                             </a>
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Blog 3 -->
-            <div class="col-xl-4 col-lg-4 col-md-6">
-                <div class="rs-blog-item wow fadeInUp" data-wow-delay=".7s">
-                    <div class="rs-blog-thumb">
-                        <a href="blog-details.html">
-                            <img src="/images/teraxo/blog-1.jpg" alt="Footwear adhesive">
-                        </a>
-                    </div>
-                    <div class="rs-blog-content">
-                        <div class="rs-blog-tag has-theme-green">
-                            <a href="blog-details.html">Footwear</a>
-                        </div>
-                        <h5 class="rs-blog-title">
-                            <a href="blog-details.html">F40 vs Elite40 – Which Adhesive is Best for Footwear Production?</a>
-                        </h5>
-                        <div class="rs-blog-meta">
-                            <div class="rs-blog-meta-item">
-                                <span>By
-                                    <a class="rs-blog-meta-author" href="#">Teraxo Experts</a>
-                                </span>
+                        <!-- Content -->
+                        <div class="rs-blog-content">
+
+                            <!-- Tag -->
+                            <div class="rs-blog-tag has-theme-green">
+                                <a href="/blogDetails/<%= blog.slug %>">
+                                    <%= (blog.tags && blog.tags.length > 0) ? blog.tags[0] : "General" %>
+                                </a>
                             </div>
-                            <div class="rs-blog-meta-item">
-                                <span>Jan 5, 2025</span>
+
+                            <!-- Title -->
+                            <h5 class="rs-blog-title">
+                                <a href="/blogDetails/<%= blog.slug %>">
+                                    <%= blog.title || "Untitled" %>
+                                </a>
+                            </h5>
+
+                            <!-- Meta -->
+                            <div class="rs-blog-meta">
+                                <div class="rs-blog-meta-item">
+                                    <span>By 
+                                        <a class="rs-blog-meta-author" href="#">
+                                            <%= blog.createdBy || "Teraxo Team" %>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div class="rs-blog-meta-item">
+                                    <span>
+                                        <% 
+                                            var dateToShow = blog.date || blog.createdAt;
+                                            var formattedDate = "Date Not Available";
+                                            try {
+                                                if (dateToShow) formattedDate = new Date(dateToShow).toDateString();
+                                            } catch(e) {}
+                                        %>
+                                        <%= formattedDate %>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="rs-blog-btn-wrapper">
-                            <span class="rs-blog-meta-text">6 min read</span>
-                            <a class="rs-square-btn has-icon has-light-grey" href="blog-details.html">
-                                <span class="icon-box">
-                                    <i class="ri-arrow-right-line icon-first"></i>
-                                    <i class="ri-arrow-right-line icon-second"></i>
+
+                            <!-- Bottom -->
+                            <div class="rs-blog-btn-wrapper">
+                                <span class="rs-blog-meta-text">
+                                    <%= Math.max(1, Math.ceil(((blog.description || '').length) / 350)) %> min read
                                 </span>
-                            </a>
+
+                                <a class="rs-square-btn has-icon has-light-grey" href="/blogDetails/<%= blog.slug %>">
+                                    <span class="icon-box">
+                                        <i class="ri-arrow-right-line icon-first"></i>
+                                        <i class="ri-arrow-right-line icon-second"></i>
+                                    </span>
+                                </a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-            </div>
+            <% }); %>
 
         </div><!-- row end -->
+
+        <!-- PAGINATION -->
+        <% if (typeof totalPages !== 'undefined' && totalPages > 1) { %>
+            <div class="row mt-5">
+                <div class="col-12 d-flex justify-content-center">
+
+                    <nav aria-label="Blog pagination">
+                        <ul class="pagination">
+
+                            <!-- Previous -->
+                            <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
+                                <a class="page-link" href="/blogs?page=<%= Math.max(1, page - 1) %>&limit=<%= limit %>">Previous</a>
+                            </li>
+
+                            <!-- Page Numbers (compact if many pages) -->
+                            <% 
+                                // simple windowed pagination: show up to 7 page numbers centered on current page
+                                var start = Math.max(1, page - 3);
+                                var end = Math.min(totalPages, page + 3);
+                                if (page <= 4) { start = 1; end = Math.min(7, totalPages); }
+                                if (page > totalPages - 4) { end = totalPages; start = Math.max(1, totalPages - 6); }
+                            %>
+
+                            <% if (start > 1) { %>
+                                <li class="page-item"><a class="page-link" href="/blogs?page=1&limit=<%= limit %>">1</a></li>
+                                <% if (start > 2) { %>
+                                    <li class="page-item disabled"><span class="page-link">…</span></li>
+                                <% } %>
+                            <% } %>
+
+                            <% for (var i = start; i <= end; i++) { %>
+                                <li class="page-item <%= page === i ? 'active' : '' %>">
+                                    <a class="page-link" href="/blogs?page=<%= i %>&limit=<%= limit %>"><%= i %></a>
+                                </li>
+                            <% } %>
+
+                            <% if (end < totalPages) { %>
+                                <% if (end < totalPages - 1) { %>
+                                    <li class="page-item disabled"><span class="page-link">…</span></li>
+                                <% } %>
+                                <li class="page-item"><a class="page-link" href="/blogs?page=<%= totalPages %>&limit=<%= limit %>"><%= totalPages %></a></li>
+                            <% } %>
+
+                            <!-- Next -->
+                            <li class="page-item <%= page >= totalPages ? 'disabled' : '' %>">
+                                <a class="page-link" href="/blogs?page=<%= Math.min(totalPages, page + 1) %>&limit=<%= limit %>">Next</a>
+                            </li>
+
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+        <% } %>
+
     </div><!-- container -->
 </section>
+
+
         <!-- rs-postbox area end -->
 
     </main>
