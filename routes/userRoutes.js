@@ -173,12 +173,12 @@ router.get("/sitemap.xml", async (req, res) => {
 
         const staticLinks = staticUrls
             .map(url => `
-                <url>
-                    <loc>${domain}${url}</loc>
-                    <changefreq>weekly</changefreq>
-                    <priority>0.8</priority>
-                </url>
-            `)
+        <url>
+            <loc>${domain}${url}</loc>
+            <changefreq>weekly</changefreq>
+            <priority>0.8</priority>
+        </url>
+        `)
             .join("");
 
         const products = await Product.find({ isActive: true }).select("slug updatedAt");
@@ -186,36 +186,33 @@ router.get("/sitemap.xml", async (req, res) => {
 
         const productLinks = products
             .map(p => `
-                <url>
-                    <loc>${domain}/productDetails/${p.slug}</loc>
-                    <lastmod>${p.updatedAt.toISOString()}</lastmod>
-                    <changefreq>monthly</changefreq>
-                    <priority>0.9</priority>
-                </url>
-            `)
+        <url>
+            <loc>${domain}/productDetails/${p.slug}</loc>
+            <lastmod>${p.updatedAt.toISOString()}</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>0.9</priority>
+        </url>
+        `)
             .join("");
 
         const blogLinks = blogs
             .map(b => `
-                <url>
-                    <loc>${domain}/blogDetails/${b.slug}</loc>
-                    <lastmod>${b.updatedAt.toISOString()}</lastmod>
-                    <changefreq>monthly</changefreq>
-                    <priority>0.7</priority>
-                </url>
-            `)
+        <url>
+            <loc>${domain}/blogDetails/${b.slug}</loc>
+            <lastmod>${b.updatedAt.toISOString()}</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>0.7</priority>
+        </url>
+        `)
             .join("");
 
-        const sitemap = `
-            <?xml version="1.0" encoding="UTF-8"?>
-            <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-                ${staticLinks}
-                ${productLinks}
-                ${blogLinks}
-
-            </urlset>
-        `;
+        // Remove any leading whitespace/newlines so the XML declaration is the first bytes sent
+        const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${staticLinks}
+${productLinks}
+${blogLinks}
+</urlset>`;
 
         res.header("Content-Type", "application/xml");
         res.send(sitemap);
@@ -243,17 +240,17 @@ router.get("/rss.xml", async (req, res) => {
             </item>
         `).join("");
 
-        const rssFeed = `
-            <?xml version="1.0" encoding="UTF-8" ?>
-            <rss version="2.0">
-                <channel>
-                    <title>Teraxo Blogs</title>
-                    <link>${domain}</link>
-                    <description>Latest updates and blogs from Teraxo Adhesive</description>
-                    ${feedItems}
-                </channel>
-            </rss>
-        `;
+        // Remove leading whitespace/newlines so XML declaration is the very first thing sent
+        const rssFeed =
+`<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Teraxo Blogs</title>
+        <link>${domain}</link>
+        <description>Latest updates and blogs from Teraxo Adhesive</description>
+        ${feedItems}
+    </channel>
+</rss>`;
 
         res.set("Content-Type", "application/xml");
         res.send(rssFeed);
@@ -280,31 +277,30 @@ router.get("/product-feed.xml", async (req, res) => {
                 : `${domain}/images/default-product.jpg`;
 
             return `
-                <item>
-                    <title><![CDATA[${product.title}]]></title>
-                    <link>${productUrl}</link>
-                    <guid>${productUrl}</guid>
-                    <description><![CDATA[
-                        ${product.subDescription || product.description || ""}
-                        ${product.keyFeatures ? "<br><strong>Key Features:</strong><ul>" + product.keyFeatures.map(f => `<li>${f}</li>`).join("") + "</ul>" : ""}
-                    ]]></description>
-                    <enclosure url="${imageUrl}" type="image/jpeg" />
-                    <pubDate>${new Date(product.updatedAt).toUTCString()}</pubDate>
-                </item>
+    <item>
+        <title><![CDATA[${product.title}]]></title>
+        <link>${productUrl}</link>
+        <guid>${productUrl}</guid>
+        <description><![CDATA[
+            ${product.subDescription || product.description || ""}
+            ${product.keyFeatures ? "<br><strong>Key Features:</strong><ul>" + product.keyFeatures.map(f => `<li>${f}</li>`).join("") + "</ul>" : ""}
+        ]]></description>
+        <enclosure url="${imageUrl}" type="image/jpeg" />
+        <pubDate>${new Date(product.updatedAt).toUTCString()}</pubDate>
+    </item>
             `;
         }).join("");
 
-        const rssFeed = `
-            <?xml version="1.0" encoding="UTF-8"?>
-            <rss version="2.0">
-                <channel>
-                    <title>Teraxo Products Feed</title>
-                    <link>${domain}</link>
-                    <description>Latest product updates from Teraxo Adhesive</description>
-                    ${items}
-                </channel>
-            </rss>
-        `;
+        // Ensure the XML declaration is at the absolute start of the response (no leading whitespace)
+        const rssFeed = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Teraxo Products Feed</title>
+        <link>${domain}</link>
+        <description>Latest product updates from Teraxo Adhesive</description>
+        ${items}
+    </channel>
+</rss>`;
 
         res.set("Content-Type", "application/xml");
         res.send(rssFeed);
