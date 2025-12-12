@@ -122,7 +122,6 @@ exports.createProduct = async (req, res) => {
 };  
 
 exports.updateProduct = async (req, res) => {
-  console.log("Update Product Request Body:", req.body);
 
   try {
     const { id } = req.params;
