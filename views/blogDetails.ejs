@@ -7,8 +7,11 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="template-version" content="1.0.3">
-    <title>TERAXO | BLOG DETAILS</title>
-    <meta name="description" content="">
+    <title><%= blog && blog.seoTitle ? blog.seoTitle : (blog && blog.title ? blog.title + ' | TERAXO' : 'TERAXO | BLOG DETAILS') %></title>
+    <meta name="description" content="<%= blog && blog.seoDescription ? blog.seoDescription : (blog && blog.summary ? blog.summary : '') %>">
+    <% if (blog && blog.seoKeywords && blog.seoKeywords.length > 0) { %>
+      <meta name="keywords" content="<%= blog.seoKeywords.join(', ') %>">
+    <% } %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Place favicon.ico in the root directory -->
     <link rel="shortcut icon" type="image/x-icon" href="/images/teraxo/logo.png">

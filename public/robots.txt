@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://teraxo.co.in/sitemap.xml
+RSS: https://teraxo.co.in/rss.xml
+Product-Feed: https://teraxo.co.in/product-feed.xml

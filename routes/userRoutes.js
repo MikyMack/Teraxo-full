@@ -148,4 +148,171 @@ router.get('/privacy', (req, res) => {
 router.get('/terms', (req, res) => {
     res.render('terms');
 });
+router.get("/sitemap.xml", async (req, res) => {
+    try {
+        const domain = "https://teraxo.co.in";
+
+        const staticUrls = [
+            "",
+            "/company_overview",
+            "/why_choose_us",
+            "/products",
+            "/blogs",
+            "/contact",
+            "/privacy",
+            "/terms",
+            "/footwear_industry",
+            "/industry_signage",
+            "/industry_furniture",
+            "/industry_interiors",
+            "/industry_automotive",
+            "/industry_pvc",
+            "/industry_packaging",
+            "/industry_handicrafts",
+        ];
+
+        const staticLinks = staticUrls
+            .map(url => `
+                <url>
+                    <loc>${domain}${url}</loc>
+                    <changefreq>weekly</changefreq>
+                    <priority>0.8</priority>
+                </url>
+            `)
+            .join("");
+
+        const products = await Product.find({ isActive: true }).select("slug updatedAt");
+        const blogs = await Blog.find().select("slug updatedAt");
+
+        const productLinks = products
+            .map(p => `
+                <url>
+                    <loc>${domain}/productDetails/${p.slug}</loc>
+                    <lastmod>${p.updatedAt.toISOString()}</lastmod>
+                    <changefreq>monthly</changefreq>
+                    <priority>0.9</priority>
+                </url>
+            `)
+            .join("");
+
+        const blogLinks = blogs
+            .map(b => `
+                <url>
+                    <loc>${domain}/blogDetails/${b.slug}</loc>
+                    <lastmod>${b.updatedAt.toISOString()}</lastmod>
+                    <changefreq>monthly</changefreq>
+                    <priority>0.7</priority>
+                </url>
+            `)
+            .join("");
+
+        const sitemap = `
+            <?xml version="1.0" encoding="UTF-8"?>
+            <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+                ${staticLinks}
+                ${productLinks}
+                ${blogLinks}
+
+            </urlset>
+        `;
+
+        res.header("Content-Type", "application/xml");
+        res.send(sitemap);
+
+    } catch (error) {
+        console.error("Error generating sitemap:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+router.get("/rss.xml", async (req, res) => {
+    try {
+        const domain = "https://teraxo.co.in";
+
+        const blogs = await Blog.find()
+            .sort({ createdAt: -1 })
+            .limit(20); // latest 20 blogs
+
+        let feedItems = blogs.map(blog => `
+            <item>
+                <title><![CDATA[${blog.title}]]></title>
+                <link>${domain}/blogDetails/${blog.slug}</link>
+                <description><![CDATA[${blog.shortDescription || blog.description.slice(0, 150)}]]></description>
+                <pubDate>${new Date(blog.createdAt).toUTCString()}</pubDate>
+            </item>
+        `).join("");
+
+        const rssFeed = `
+            <?xml version="1.0" encoding="UTF-8" ?>
+            <rss version="2.0">
+                <channel>
+                    <title>Teraxo Blogs</title>
+                    <link>${domain}</link>
+                    <description>Latest updates and blogs from Teraxo Adhesive</description>
+                    ${feedItems}
+                </channel>
+            </rss>
+        `;
+
+        res.set("Content-Type", "application/xml");
+        res.send(rssFeed);
+
+    } catch (err) {
+        console.error("Error generating RSS feed:", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+router.get("/product-feed.xml", async (req, res) => {
+    try {
+        const domain = "https://teraxo.co.in";
+
+        // Fetch only active products
+        const products = await Product.find({ isActive: true })
+            .sort({ updatedAt: -1 })
+            .select("title slug description images updatedAt subDescription keyFeatures");
+
+        const items = products.map(product => {
+            const productUrl = `${domain}/productDetails/${product.slug}`;
+            const imageUrl = product.images && product.images.length > 0 
+                ? `${domain}/uploads/${product.images[0]}`
+                : `${domain}/images/default-product.jpg`;
+
+            return `
+                <item>
+                    <title><![CDATA[${product.title}]]></title>
+                    <link>${productUrl}</link>
+                    <guid>${productUrl}</guid>
+                    <description><![CDATA[
+                        ${product.subDescription || product.description || ""}
+                        ${product.keyFeatures ? "<br><strong>Key Features:</strong><ul>" + product.keyFeatures.map(f => `<li>${f}</li>`).join("") + "</ul>" : ""}
+                    ]]></description>
+                    <enclosure url="${imageUrl}" type="image/jpeg" />
+                    <pubDate>${new Date(product.updatedAt).toUTCString()}</pubDate>
+                </item>
+            `;
+        }).join("");
+
+        const rssFeed = `
+            <?xml version="1.0" encoding="UTF-8"?>
+            <rss version="2.0">
+                <channel>
+                    <title>Teraxo Products Feed</title>
+                    <link>${domain}</link>
+                    <description>Latest product updates from Teraxo Adhesive</description>
+                    ${items}
+                </channel>
+            </rss>
+        `;
+
+        res.set("Content-Type", "application/xml");
+        res.send(rssFeed);
+
+    } catch (error) {
+        console.error("Error generating product feed:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 module.exports = router;
