@@ -37,7 +37,39 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/custom.css">
   <link rel="stylesheet" href="/css/floating-buttons.css">
+<style>
+  .product-gallery {
+  width: 100%;
+  max-width: 600px; /* adjust as needed */
+  margin: auto;
+}
 
+.product-gallery .swiper {
+  width: 100%;
+  height: auto; /* let height adjust to image */
+}
+
+.product-gallery .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-gallery .swiper-slide img {
+  width: 100%;       /* makes image responsive */
+  max-height: 400px; /* optional: limit max height */
+  object-fit: contain; /* keeps image aspect ratio intact */
+  border-radius: 8px;  /* optional: for nicer border look */
+}
+.product-gallery .swiper-slide {
+  margin-right: 15px;
+}
+.product-gallery .swiper{
+  padding: 10px;
+}
+
+
+</style>
 </head>
 
 <body class="rs-smoother-yes rtl">
